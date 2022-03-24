@@ -155,13 +155,13 @@
         
         
         <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <section class="py-5" >
+            <div class="container px-4 px-lg-8 mt-5" >
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" style="margin-bottom:7%; border: 2px solid black;">
 					<table>
 						<tr>
 							<td>
-								<img src="${root }images/product/${repProduct.product_id }.png" style="width: 800px; height:800px;" />
+								<img src="${root }images/product/${repProduct.product_id }.png" style="position: relative; right:20%; width: 700px; height:800px;" />
 							</td>
 							<td>
 								<table>

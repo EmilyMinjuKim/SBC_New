@@ -19,7 +19,7 @@ import kr.co.soft.bean.CartBean;
 import kr.co.soft.bean.OrderDetailBean;
 import kr.co.soft.bean.OrderDetailListBean;
 import kr.co.soft.bean.OrderListBean;
-import kr.co.soft.bean.UserBean;
+import kr.co.soft.bean.UserlistBean;
 import kr.co.soft.service.CartService;
 import kr.co.soft.service.OrderService;
 
@@ -34,7 +34,7 @@ public class OrderController {
 	OrderService orderService;
 	
 	@Resource(name="loginUserBean")
-	UserBean loginUserBean;
+	UserlistBean loginUserBean;
 	
 	@PostMapping("/orderform")
 	public String order(OrderDetailListBean orderDetailList,

@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -17,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import kr.co.soft.mapper.CartMapper;
 import kr.co.soft.mapper.OrderMapper;
 import kr.co.soft.mapper.ProductMapper;
-
+import kr.co.soft.mapper.UserMapper;
 
 @Configuration	//<annotation-driven/>와 같음
 @EnableWebMvc //controller어노테이션이 셋팅되어 있는 클래스 로드
@@ -98,5 +100,28 @@ public class ServletAppContext implements WebMvcConfigurer{
     	factoryBean.setSqlSessionFactory(factory);
     	return factoryBean;	
     }
+
+    
+	@Bean // 쿼리문 실행을 위한 객체 (Mapper)
+	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception {
+		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+
+		return factoryBean;
+	}
+	
+    
+    @Bean //에러메시지 등록
+	public ReloadableResourceBundleMessageSource messageSource() {
+		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
+		res.setBasenames("/WEB-INF/properties/error_message");
+		return res;
+	}
+
+	// @PropertySource와 메시지 충돌 => 분리하는 코드. 
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer PropertySourcesPlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 
 }
