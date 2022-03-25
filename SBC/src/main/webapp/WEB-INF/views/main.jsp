@@ -12,7 +12,8 @@
 <a href="resource/mypagetest.jsp">마이페이지(관심동물, 관심글, 
 내가쓴글, 내정보, 내주문정보)</a><br/>
 <a href="member/modify">회원정보수정</a><br/>
-<a href="member/maintest">메인디자인 테스트</a>
+<a href="member/maintest">메인디자인 테스트</a><br />
+<a href="notice/noticemain">공지사항</a>
 
 </body>
 </html>

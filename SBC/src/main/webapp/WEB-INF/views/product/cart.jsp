@@ -345,7 +345,6 @@
 					<table>
 						<tr>
 							<th><input type="checkbox" id="chk_all" onclick="checkAll()" /></th>
-		                    <th>&nbsp;</th>
 		                    <th>ITEM</th>
 		                    <th>PRICE</th>
 		                    <th>QUA</th>
@@ -362,7 +361,6 @@
 	                		</div>
 	                		<tr>
 	                			<td><input type="checkbox" class="chk" idx="${vs.index }" product_id="${list.product_id }" /></td>
-	                			<td>image</td>
 	                			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
 	                			<td>${list.price }원</td>
 	                			<td>
@@ -375,13 +373,13 @@
 	                		</tr>
                 		</c:forEach>
                 		<tr>
-                			<td colspan="8" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
+                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
                 		</tr>
                 		<tr class="no-bottom-border">
-                			<td colspan="7" style="text-align: left">
+                			<td colspan="6" style="text-align: left">
                 				선택한 상품을 <button type="button" onclick="deleteSelected()">삭제하기</button>
                 			</td>
-                			<td colspan="1" style="text-align: right">
+                			<td style="text-align: right">
                 				<button type="button" onclick="deleteAll()">장바구니 비우기</button>
                 			</td>
                 		</tr>

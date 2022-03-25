@@ -23,6 +23,7 @@ import org.springframework.web.util.WebUtils;
 import kr.co.soft.bean.CartBean;
 import kr.co.soft.bean.CartDetailListBean;
 import kr.co.soft.bean.CartListBean;
+import kr.co.soft.bean.OrderDetailListBean;
 import kr.co.soft.bean.ProductBean;
 import kr.co.soft.bean.UserlistBean;
 import kr.co.soft.service.CartService;

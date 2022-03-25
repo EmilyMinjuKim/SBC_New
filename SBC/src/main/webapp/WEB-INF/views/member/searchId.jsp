@@ -17,7 +17,7 @@
 </head>
 <body>
 <!-- 상단메뉴 분리 해서넣어줌  -->
-<%-- <c:import url="/WEB-INF/views/include/header_menu2.jsp"/> --%>
+<c:import url="/WEB-INF/views/include/header_menu2.jsp"/>
 
 <div class="container" style="margin-top:100px">
 	<div class="row">
@@ -51,9 +51,9 @@
 	</div>
 </div>
 
-<%-- <!-- 하단메뉴 분리 해서넣어줌  -->
+<!-- 하단메뉴 분리 해서넣어줌  -->
 <c:import url="/WEB-INF/views/include/footer_menu2.jsp"/>
- --%>
+
 </body>
 </html>
 

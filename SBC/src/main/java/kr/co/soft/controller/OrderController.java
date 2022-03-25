@@ -45,9 +45,8 @@ public class OrderController {
 		for(OrderDetailBean order : orderDetailList.getOrderDetailList()) {
 			if(order.getProduct_id()!=null) {
 				list.add(order);
-			} else {
-				continue;
-			}
+			} 
+				
 		}
 
 		//넘기기

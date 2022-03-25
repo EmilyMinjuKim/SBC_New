@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.soft.mapper.CartMapper;
+import kr.co.soft.mapper.NoticeMapper;
 import kr.co.soft.mapper.OrderMapper;
 import kr.co.soft.mapper.ProductMapper;
 import kr.co.soft.mapper.UserMapper;
@@ -82,6 +83,15 @@ public class ServletAppContext implements WebMvcConfigurer{
     	factoryBean.setSqlSessionFactory(factory);
     	return factoryBean;
     }
+    
+    @Bean
+	public MapperFactoryBean<NoticeMapper> Notice_Mapper(SqlSessionFactory factory) throws Exception {
+		MapperFactoryBean<NoticeMapper> factoryBean = new MapperFactoryBean<NoticeMapper>(NoticeMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+
+		return factoryBean;
+	}
+    
     @Bean
     public MapperFactoryBean<CartMapper> cart_mapper(SqlSessionFactory factory) 
     		throws Exception{

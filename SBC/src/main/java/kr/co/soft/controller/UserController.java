@@ -44,7 +44,7 @@ public class UserController {
 	// String값일경우 return(PostMapping값은 임의의 값을 넣어도 가능)
 	// 유효성 검사(login_load로 줘야할듯)
 	@PostMapping("/login_load")
-	public String login_load(@Valid @ModelAttribute("tempLoginUserBeanT") UserlistBean tempLoginUserBeanT,
+	public String login_load(@ModelAttribute("tempLoginUserBeanT") UserlistBean tempLoginUserBeanT,
 			BindingResult result) {
 
 		if (result.hasErrors()) {
