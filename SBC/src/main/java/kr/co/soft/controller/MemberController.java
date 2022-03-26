@@ -49,7 +49,7 @@ public class MemberController {
 	// 유효성 검사(login_load로 줘야할듯)
 	@PostMapping("/login_load")
 	public String login_load(@Valid @ModelAttribute("tempLoginUserBeanT") UserBean tempLoginUserBeanT,
-			BindingResult result, Model m) {
+			BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
 			System.out.println(result);
@@ -62,7 +62,8 @@ public class MemberController {
 
 			System.out.println("세션 저장값 확인" + loginUserBean.isUserLogin());
 			System.out.println("세션 아이디 확인" + loginUserBean.getUser_id());
-			m.addAttribute("user", loginUserBean);
+			
+			model.addAttribute("loginUserBean", loginUserBean);
 			return "member/login_success";
 		}
 
