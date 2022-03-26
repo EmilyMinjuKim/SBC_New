@@ -25,7 +25,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.soft.bean.UserBean;
 import kr.co.soft.interceptor.CheckloginInterceptor;
-import kr.co.soft.interceptor.TopMenuInterceptor;
 import kr.co.soft.mapper.BoardMapper;
 import kr.co.soft.mapper.CartMapper;
 import kr.co.soft.mapper.NoticeMapper;
@@ -164,12 +163,6 @@ public class ServletAppContext implements WebMvcConfigurer, TransactionManagemen
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addInterceptors(registry);
 
-		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
-
-		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
-
-		reg1.addPathPatterns("/**"); // 모든 요청 주소에 AOP 등록
-
 		// --------------------------------------------
 
 		CheckloginInterceptor checkLoginInterceptor = new CheckloginInterceptor(loginUserBean);
@@ -185,13 +178,13 @@ public class ServletAppContext implements WebMvcConfigurer, TransactionManagemen
 	// 트랙잭션 매니저
 
 	@Bean
-	public PlatformTransactionManager transactionManager() {
-		return new DataSourceTransactionManager(dataSource());
-	}
+		public PlatformTransactionManager transactionManager() {
+			return new DataSourceTransactionManager(dataSource());
+		}
 
 	@Override
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		return transactionManager();
-	}
+		public PlatformTransactionManager annotationDrivenTransactionManager() {
+			return transactionManager();
+		}
 
 }

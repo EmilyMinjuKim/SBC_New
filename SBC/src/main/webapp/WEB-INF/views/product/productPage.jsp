@@ -89,7 +89,7 @@
 		var pid = $("#opt option:selected").attr("pid");
 
 		$("#opt_detail").append( 
-			"<table>"+
+			"<table id='opt_"+idx+"'>"+
 				"<tr>"+
 					"<td>"+
 						"${repProduct.product_name }<br />"+optVal+
@@ -98,7 +98,7 @@
 						"<input type='text' class='spinner spinner"+idx+"' style='width: 50px' value='1' />"+
 					"</td>"+
 					"<td>"+
-						"<a href='#none' class='delete'><img src='//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif' id='option_box1_del' class='option_box_del'></a>"+
+						"<img src='//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif' id='option_box1_del' onclick='optDel("+idx+")'/>"+
 					"</td>"+
 					"<td>${repProduct.price}원</td>"+
 				"</tr>"+
@@ -134,6 +134,11 @@
 			$("#q"+idx).attr('value', $(cnt).val());
 		}
 
+	//option box delete
+	function optDel(type) {
+		console.log(type);
+		//#("opt_"+type).remove();
+	}
  
 	
 	//옵션 null check 

@@ -23,7 +23,7 @@
 <!-- Custom styles for this template -->
 <link href="${root }css/style.css" rel="stylesheet">
 
-<title>Main</title>
+<title>MainTest</title>
 <!-- header -->
 <c:import url='/WEB-INF/views/include/header_menu2.jsp' />
 
