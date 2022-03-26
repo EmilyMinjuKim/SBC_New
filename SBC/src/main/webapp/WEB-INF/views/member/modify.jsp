@@ -44,7 +44,7 @@
 <body>
 
 <!-- header -->
-<c:import url='/WEB-INF/views/include/header_menu.jsp'/>
+<c:import url='/WEB-INF/views/include/header_menu2.jsp'/>
 
 <div class="limiter">
 
@@ -58,7 +58,7 @@
 			<div class="card shadow">
 				<div class="card-body">
 					<!-- 절대 경로 -->
-					<form action="${root }member/modify_load" method="get">
+					<form action="${root }views/main" method="get">
 					
 						<span class="login100-form-title p-b-40">
 							Modify
@@ -134,7 +134,7 @@
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button type="submit" class="login100-form-btn"
-							onclick="${root }member/modify">
+							onclick="${root }views/main">
 								Modify
 							</button>
 						</div> 		

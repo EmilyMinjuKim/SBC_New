@@ -19,7 +19,7 @@ import kr.co.soft.bean.CartBean;
 import kr.co.soft.bean.OrderDetailBean;
 import kr.co.soft.bean.OrderDetailListBean;
 import kr.co.soft.bean.OrderListBean;
-import kr.co.soft.bean.UserlistBean;
+import kr.co.soft.bean.UserBean;
 import kr.co.soft.service.CartService;
 import kr.co.soft.service.OrderService;
 
@@ -34,7 +34,7 @@ public class OrderController {
 	OrderService orderService;
 	
 	@Resource(name="loginUserBean")
-	UserlistBean loginUserBean;
+	UserBean loginUserBean;
 	
 	@PostMapping("/orderform")
 	public String order(OrderDetailListBean orderDetailList,
@@ -45,9 +45,8 @@ public class OrderController {
 		for(OrderDetailBean order : orderDetailList.getOrderDetailList()) {
 			if(order.getProduct_id()!=null) {
 				list.add(order);
-			} else {
-				continue;
-			}
+			} 
+				
 		}
 
 		//넘기기

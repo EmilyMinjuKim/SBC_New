@@ -67,7 +67,6 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">애견 용품</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                 </div>
             </div>
         </header>
@@ -83,7 +82,7 @@
 	                    <div class="col mb-5">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
-	                            <img class="card-img-top" src="${root }images/product/${list.product_id}.png" width="450" height="300" onclick="formSubmit(${vs.index})" />
+	                            <img class="card-img-top" src="${root }images/product/${list.product_id}.jpg" width="450" height="300" onclick="formSubmit(${vs.index})" />
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
@@ -109,8 +108,6 @@
 
         <!-- Bootstrap core JS-->     
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Modal -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="${root }js/bootstrap.min.js"></script>
         <!-- Core theme JS-->
         <script src="${root }js/shop-scripts.js"></script>

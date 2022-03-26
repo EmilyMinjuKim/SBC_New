@@ -109,7 +109,7 @@ $(document).ready(function() {
 function btnClicked() {
 	
 	var result = txtFieldCheck() == true?true:false;
-	
+
 	//email, phone -> form 넘기기 전에 value 정리 
 	$('input[name=email]').attr('value', $('input[name=email1]').val()+"@"+$('input[name=email2]').val());
 	$('input[name=order_phone]').attr('value', $('select[id=tel1]').val()+"-"+$('input[id=order_phone1]').val()+"-"+$('input[id=order_phone2]').val());
@@ -173,18 +173,20 @@ function btnClicked() {
 function txtFieldCheck() {
 	
 	var txtEle = $("#frm input[class=nullCheck]");
-	
+	var nullCnt = 0;
 	for(var i=0;i<txtEle.length;i++){
 		if(""==$(txtEle[i]).val() || null==$(txtEle[i]).val()){
 			var ele_id = $(txtEle[i]).attr('id');
 			var label_txt = $("label[for="+ele_id+"]").text();
 			showAlert(ele_id, label_txt);
-			
+			$(txtEle[i]).focus();
 			return false;
-		} else if(""!=$(txtEle[i]).val() || null!=$(txtEle[i]).val()){
-			return true;
+		} else {
+			nullCnt = nullCnt + 1;
 		}
-		
+	}
+	if(nullCnt = txtEle.length){
+		return true;
 	}
 
 }
@@ -402,7 +404,6 @@ $(document).ready(function() {
                 	<table>
                 		<thead>
 						<tr>
-		                    <th>&nbsp;</th>
 		                    <th>ITEM</th>
 		                    <th>PRICE</th>
 		                    <th>QUA</th>
@@ -420,7 +421,6 @@ $(document).ready(function() {
                 		</div>
                 		<tbody>
                 		<tr>
-                			<td>image</td>
                 			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
                 			<td>${list.price }원</td>
                 			<td>${list.quantity }</td>
@@ -429,7 +429,7 @@ $(document).ready(function() {
                 		</tr>
                 		</c:forEach>
                 		<tr class="no-bottom-border">
-                			<td colspan="8" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
+                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
                 		</tr>
                 		</tbody>
 					</table>

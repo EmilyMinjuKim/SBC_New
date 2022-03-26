@@ -10,14 +10,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>아이디 찾기</title>
 <!-- Bootstrap CDN -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!-- 상단메뉴 분리 해서넣어줌  -->
-<%-- <c:import url="/WEB-INF/views/include/header_menu2.jsp"/> --%>
+<c:import url="/WEB-INF/views/include/header_menu2.jsp"/>
 
 <div class="container" style="margin-top:100px">
 	<div class="row">
@@ -29,7 +29,7 @@
 							<div class="form-group">
 								<label>등록시 사용한 이메일을 입력하세요</label> <input name="email" id="email"
 									class="form-control" />
-								<spring:hasBindErrors name="usermembershipBean" >
+								<spring:hasBindErrors name="userlistBean" >
 									<!-- dataBean1에 error를 감지하기 위한 설정(result담겨져 있는 메시지) -->
 									<c:if test="${errors.hasFieldErrors('email') }">
 				<font color="red">${errors.getFieldError('email').defaultMessage }</font><br>
@@ -51,9 +51,9 @@
 	</div>
 </div>
 
-<%-- <!-- 하단메뉴 분리 해서넣어줌  -->
+<!-- 하단메뉴 분리 해서넣어줌  -->
 <c:import url="/WEB-INF/views/include/footer_menu2.jsp"/>
- --%>
+
 </body>
 </html>
 

@@ -18,6 +18,35 @@
 <!-- Spinner CSS -->
 <link rel="stylesheet" href="${root }jquery-ui-1.11.4/jquery-ui.css" />
 
+<style type="text/css">
+	th {
+		text-align: center;
+		font-size: 20pt;
+		font-style: bold;
+		padding: 10px;
+	}
+	tr, td{
+		padding: 8px;
+	}
+	
+	.btnCart{
+  		transition-duration: 0.4s;
+  		background-color: white;
+  		color: black;
+  		border: 2px solid #555555;
+  		width: 320px;
+	}
+
+	.btnCart:hover {
+	  background-color: #555555; /* Green */
+	  color: white;
+	}
+	
+	#t1{
+		
+	}
+</style>
+
 <script>
 	function addToCart() {
 		var form = $("#frm").serializeArray();
@@ -87,12 +116,12 @@
 		
 	}
 	
+	//최소, 최대 수량 설정
 	function maxMin(){
-		//최소, 최대 수량 설정 
-		for(var i=0;i<${productList.size()};i++){
-						
+			var idx = $("#opt option:selected").attr("idx");
+		
 			//이름 설정 
-			var cnt = ".spinner"+i;
+			var cnt = ".spinner"+idx;
 			
 			//최소, 최대 주문 수량 설정
 			if($(cnt).val() < 1){
@@ -102,9 +131,9 @@
 				alert("구매할 수 있는 최대 수량은 10입니다.");
 			}
 			
-			$("#q"+i).attr('value', $(cnt).val());
+			$("#q"+idx).attr('value', $(cnt).val());
 		}
-	}
+
  
 	
 	//옵션 null check 
@@ -148,7 +177,6 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">애견 용품</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                 </div>
             </div>
         </header>
@@ -157,17 +185,19 @@
         <!-- Section-->
         <section class="py-5" >
             <div class="container px-4 px-lg-8 mt-5" >
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" style="margin-bottom:7%; border: 2px solid black;">
-					<table>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" style="margin-bottom:7%">
+					<table id="t1">
 						<tr>
 							<td>
-								<img src="${root }images/product/${repProduct.product_id }.png" style="position: relative; right:20%; width: 700px; height:800px;" />
+								<img src="${root }images/product/${repProduct.product_id }.jpg" style="position: relative; right:20%; width: 550px; height:600px;" />
 							</td>
-							<td>
-								<table>
+							<td style="width: 700px">
+								<table id="t2" style="width: 100%">
+									<thead>
 									<tr>
-										<td colspan="2" style="text-align: center">${repProduct.product_name }</td>
+										<th colspan="2">${repProduct.product_name }</th>
 									</tr>
+									</thead>
 									<tr>
 										<td>PRICE</td>
 										<td>${repProduct.price }원</td>
@@ -191,14 +221,16 @@
 									</tr>
 									<tr>
 										<td colspan="2" style="text-align: center">
-											<button type="button" onclick="hello()">BUY IT NOW</button><br />
-											<button type="button" onclick="addToCart()">ADD TO CART</button>
+											<button type="button" onclick="addToCart()" class="btnCart">ADD TO CART</button>
 										</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 					</table>
+                </div>
+                <div style="text-align: center">
+                	<img src="${root }images/product/${repProduct.product_id }-des.jpg">
                 </div>
             </div>
         </section>
@@ -217,8 +249,6 @@
 
         <!-- Bootstrap core JS-->     
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Modal -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="${root }js/bootstrap.min.js"></script>
         <!-- Core theme JS-->
         <script src="${root }js/shop-scripts.js"></script>

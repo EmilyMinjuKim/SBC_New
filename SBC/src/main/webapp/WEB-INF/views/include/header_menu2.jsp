@@ -72,7 +72,10 @@
                      <a class="page-scroll" href="${root }member/lpdogs">Lost&Protect</a> <!-- 향원언니랑 동현님 실종&보호 경로 -->
                   </li>
                   <li class="nav-item">
-                     <a class="page-scroll" href="${root }member/shoppingmall">Shopping</a> <!-- 민주언니 쇼핑몰 경로 -->
+                     <a class="page-scroll" href="${root }product/main">Shopping</a> <!-- 민주언니 쇼핑몰 경로 -->
+                  </li>
+                   <li class="nav-item">
+                     <a class="page-scroll" href="${root }member/shoppingmall">${user.user_id}</a> <!-- 민주언니 쇼핑몰 경로 -->
                   </li>
                </ul> 
    
@@ -82,9 +85,9 @@
                      <a href="#page-top"></a>
                   </li> -->
                <c:choose> 
-                  <c:when test="${loginUserBean.userLogin == true}">
+                  <c:when test="${user.user_id != null}">
                      <li class="nav-item">
-                        <a class="page-scroll" href="${root }resource/mypagetest.jsp">Mypage</a> <!-- 내 정보 볼 수 있는 Mypage -->
+                        <a class="page-scroll" href="${root }member/mypage">Mypage</a> <!-- 내 정보 볼 수 있는 Mypage -->
                      </li>
                      <li class="nav-item">
                         <a class="page-scroll" href="${root }member/logout">Logout</a> <!-- Login후에 Logout으로 변경 -->
