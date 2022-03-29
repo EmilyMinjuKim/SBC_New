@@ -547,6 +547,7 @@ text-shadow: 2px 2px 2px black;
                                  <form:option value="치와와">치와와</form:option>
                                  <form:option value="코카스파니엘">코카스파니엘</form:option>
                                  <form:option value="퍼그">퍼그</form:option>
+                                 <form:option value="푸들">푸들</form:option>
                                  <form:option value="풍산견">풍산견</form:option>
                                  <form:option value="포메라니안">포메라니안</form:option>
                                  <form:option value="프렌치불독">프렌치불독</form:option>
@@ -722,7 +723,7 @@ if ($('#chip_num_ck').is(":checked")){
                    return false;
             }
          }
-          return true;
+          return confirm("수정 완료 하시겠습니까?");
       }
     
      

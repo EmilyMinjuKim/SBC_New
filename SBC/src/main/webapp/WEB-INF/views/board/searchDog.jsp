@@ -14,10 +14,10 @@
 <link rel="icon" href="favicon.ico">
 <title>유기동물 조회</title>
 <!-- Bootstrap core CSS -->
-<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="${root }css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <!-- Custom styles for this template -->
-<link href="../css/style.css" rel="stylesheet">
+<link href="${root }css/style.css" rel="stylesheet">
 
 <!-- 달력  -->
 <!-- <link rel="stylesheet" href="/css/jquery-ui.min.css">-->
@@ -535,7 +535,7 @@ thead tr:nth-child(3) th {
                                                                //console .log(isNan())
 
                                                                html += "<div class='col-lg-2 col-md-5 '><div class='team-item size cl shadow'><div class='ot-portfolio-item'><figure class='effect-bubba'>"
-                                                                     + "<img src='"+dogInfo.popfile+"' alt=img01 class='img-responsive'/><figcaption><h2>"
+                                                                     + "<img src='"+dogInfo.popfile+"' class='img-responsive'/><figcaption><h2>"
                                                                      + dogInfo.kindCd
                                                                      + "</h2><p>"
                                                                      + dogInfo.careNm
@@ -560,9 +560,9 @@ thead tr:nth-child(3) th {
                                                                html1 += "<div class='modal fade' id='"+ modalId +"'tabindex='-1' role='dialog' aria-labelledby='"+labelledby+"'><div class='modal-dialog' role='document'>"
                                                                      + "<div class='modal-content center'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
                                                                      + "<h4 class='modal-title' id='"+labelledby+"'>"
-                                                                     + "<img src='${root}img/SBC_LOGO.jpg'/>"
+                                                                     + "<img src='${root}img/logo_sbc.jpg'/>"
                                                                      + "</h4></div><div class='modal-body'>"
-                                                                     + "<img src='"+dogInfo.popfile+"' alt=img01 class='img-responsive-1'/>"
+                                                                     + "<img src='"+dogInfo.popfile+"' class='img-responsive-1'/>"
                                                                      + "<div class='modal-works'><span>"
                                                                      + dogInfo.kindCd
                                                                      + "</span><span>"+dogInfo.processState+"</span><span>"+dogInfo.age+"살</span><span>"+dogInfo.processState+"</span><span>"+dogInfo.weight+"kg</span><span>"+key+"kg</span></div><p>"
@@ -742,7 +742,7 @@ thead tr:nth-child(3) th {
       <footer>
          <div class="container text-center">
             <p>
-               <a href="http://localhost:9000/NewSBCDog"><span>SBC DOG</span>유기견 입양 홈페이지</a>
+               <a href="${root }"><span>SBC DOG</span>유기견 입양 홈페이지</a>
             </p>
          </div>
       </footer>
@@ -753,9 +753,9 @@ thead tr:nth-child(3) th {
          ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-      <script src="../js/bootstrap.min.js"></script>
-      <script src="../js/SmoothScroll.js"></script>
-      <script src="../js/theme-scripts.js"></script>
+      <script src="${root }js/bootstrap.min.js"></script>
+      <script src="${root }js/SmoothScroll.js"></script>
+      <script src="${root }js/theme-scripts.js"></script>
 
       <!-- 달력  -->
       <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>

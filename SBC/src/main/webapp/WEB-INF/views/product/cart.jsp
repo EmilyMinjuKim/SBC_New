@@ -45,6 +45,20 @@
 	tr.no-bottom-border td {
 	  border-bottom: none;
 	}
+	
+	#price1 {
+		font-size: 16pt;
+		font-style: bold;
+	}
+	
+	.p_bottom {
+		font-size: 20pt;
+		font-style: bold;
+	}
+	#priceBottom {
+		font-size: 20pt;
+		font-style: bold;
+	}
 
 </style>
 <script>
@@ -59,7 +73,12 @@
 		
 	//전체 상품 버튼으로 한 번에 삭제하기
 	function deleteAll() {
-		confirm("장바구니를 모두 비우시겠습니까?");
+		var confirmation = confirm("장바구니를 모두 비우시겠습니까?");
+		
+		if(confirmation==false){
+			return;
+		}
+		
  		$.ajax({
 			type : "delete",
 			url : "${root}product/deleteAll",
@@ -84,7 +103,19 @@
 	
 	//체크박스 선택한 상품 삭제하기
 	function deleteSelected() {
-			confirm("선택한 상품을 삭제하시겠습니까?");
+		
+			//null check
+			if($("input[class='chk']:checked").val()==null){
+				alert("삭제하실 상품을 선택해주세요.");
+				return;
+			}
+		
+			var confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
+			
+			if(confirmation==false){
+				return;
+			}
+			
 		  	var checkArr = new Array();
 		   
 		    $("input[class='chk']:checked").each(function(){
@@ -118,7 +149,11 @@
 	function deleteEach(type) {
 		var each = type;
 		
-		confirm("선택한 상품을 삭제하시겠습니까?");
+		var confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
+		
+		if(confirmation==false){
+			return;
+		}
 		
 	  	var checkArr = new Array();
 	  	checkArr.push(each);
@@ -149,6 +184,13 @@
 	//체크박스 선택한 제품만 form submit
 	function orderSelected() {
 		
+		//null check
+		if($("input[class='chk']:checked").val()==null){
+			alert("주문하실 상품을 선택해주세요.");
+			return;
+		}
+		
+
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "post");  //Post 방식
@@ -201,6 +243,7 @@
         document.body.appendChild(form);
         form.submit();
         document.getElementById("form").remove();
+        
 	}
 	
 	function orderAll() {
@@ -305,27 +348,7 @@
 </head>    
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <c:import url="/WEB-INF/views/include/header_menu3.jsp" />
         
         
         <!-- Header-->
@@ -362,45 +385,45 @@
 	                		<tr>
 	                			<td><input type="checkbox" class="chk" idx="${vs.index }" product_id="${list.product_id }" /></td>
 	                			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
-	                			<td>${list.price }원</td>
+	                			<td> ${list.price }원</td>
 	                			<td>
 	                				<input type="text" name="orderDetailList[${vs.index }].quantity" class="spinner spinner${vs.index }" style="width: 50px" value="${list.quantity }" />
-	                				<button type="button" onclick="changeCntConfirm(${vs.index }, '${list.product_id }')">확인</button>
+	                				<button type="button" class="btn btn-outline-dark" onclick="changeCntConfirm(${vs.index }, '${list.product_id }')">확인</button>
 	                			</td>
 	                			<td><span class="delivery"></span>원</td>
 	                			<td><span class="eachTotalSpan${vs.index }">${list.total }</span>원</td>
-	                			<td><button type="button" onclick="deleteEach('${list.product_id }')" product_id="${list.product_id }">삭제</button></td>
+	                			<td><button type="button" class="btn btn-outline-dark" onclick="deleteEach('${list.product_id }')" product_id="${list.product_id }">삭제</button></td>
 	                		</tr>
                 		</c:forEach>
                 		<tr>
-                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
+                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계:&nbsp;&nbsp;&nbsp;<span class="finalTotalPrice" id="price1"></span>원</td>
                 		</tr>
                 		<tr class="no-bottom-border">
                 			<td colspan="6" style="text-align: left">
-                				선택한 상품을 <button type="button" onclick="deleteSelected()">삭제하기</button>
+                				선택한 상품을 <button type="button" class="btn btn-outline-dark" onclick="deleteSelected()">삭제하기</button>
                 			</td>
                 			<td style="text-align: right">
-                				<button type="button" onclick="deleteAll()">장바구니 비우기</button>
+                				<button type="button" class="btn btn-outline-dark" onclick="deleteAll()">장바구니 비우기</button>
                 			</td>
                 		</tr>
 					</table>
 					<br /><br />
-					<table id="total">
+					<table>
 						<tr>
-							<th>총 상품금액</th>
-							<th>총 배송비</th>
-							<th>결제예정금액</th>
+							<td>총 상품금액</td>
+							<td>총 배송비</td>
+							<td>결제예정금액</td>
 						</tr>
-						<tr>
-							<td><span class="totalPrice"></span>원</td>
-							<td><span class="delivery"></span>원</td>
-							<td><span class="finalTotalPrice"></span>원</td>
+						<tr id="priceBottom">
+							<td><span class="totalPrice p_bottom"></span>원</td>
+							<td><span class="delivery p_bottom"></span>원</td>
+							<td><span class="finalTotalPrice p_bottom"></span>원</td>
 						</tr>
 					</table>
 					<br />
-					<button type="button" onclick="orderSelected()">SELECT ORDER</button>
-					<button type="button" onclick="orderAll()">ORDER</button>
-					<button type="button" onclick="history.go(-1)">쇼핑계속하기</button>
+					<button type="button" class="btn btn-outline-dark" onclick="orderSelected()">SELECT ORDER</button>
+					<button type="button" class="btn btn-outline-dark" onclick="orderAll()">ORDER</button>
+					<button type="button" class="btn btn-outline-dark" onclick="history.go(-1)">쇼핑계속하기</button>
                 </div>
             </div>
         </section>

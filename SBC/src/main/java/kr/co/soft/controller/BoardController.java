@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.json.XML;
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+import kr.co.soft.bean.LikeBoardBean;
+import kr.co.soft.bean.PageBean;
+import kr.co.soft.bean.UserBean;
 import kr.co.soft.domain.BoardDTO;
 import kr.co.soft.domain.BoardListDTO;
 import kr.co.soft.domain.BoardSearchDogHandler;
@@ -53,29 +54,63 @@ public class BoardController {
 	private BoardMapper boardMapper;
 
 	@Resource(name = "loginUserBean")
-	private UserlistBean loginUserBean;
+	private UserBean loginUserBean;
 
-	@ResponseBody
-	@GetMapping("/category/{category}")
-	private String changeCategory(@PathVariable("category") String category) {
+	@GetMapping("/myAnimalContent")
+	private String myAnimalContent() {
 
-		return "";
-
+		return "board/likeAnimal";
 	}
 
-	@GetMapping("/boardList") // 내가 좋아요 한 글인지 표시하기 위해 좋아요 테이블도 함께 갖고 와야함.
-	public String boardList(@RequestParam(value = "page", defaultValue = "1") int page, Model m) {
+	// 관심 동물 갖고오기
+	@GetMapping("/myAnimal")
+	private String myAnimal(Model m) {
+		List<Map<String, Object>> list = boardService.getAnimalList(loginUserBean.getUser_id());
+		m.addAttribute("list", list);
+		return "board/likeAnimalList";
+	}
 
+	@ResponseBody // 관심 글 체크
+	@GetMapping("/likeCheck/{likeIdx}")
+	public String likeCheck(@PathVariable("likeIdx") int likeIdx) {
+		System.out.println("들어오는 숫자?" + likeIdx);
+
+		return boardService.likeCheck(likeIdx);
+	}
+
+	// 관심글 리스트 갖고오기
+	@GetMapping("/myBoard")
+	private String myBoard(Model m) {
+		List<BoardListDTO> list = boardMapper.getMyBoardList(loginUserBean.getUser_id());
+		m.addAttribute("list", list);
+		System.out.println("나의 관심 글"+list);
+		return "board/likeBoardList";
+	}
+
+	@GetMapping("/boardList")
+	public String boardList(@RequestParam("board_category") String board_category,
+			@RequestParam(value = "page", defaultValue = "1") int page, Model m) {
 		try {
-			List<BoardListDTO> list = boardService.getBoardList(page);
-			PageBean pageBean = boardService.getContentCnt(page);
-			m.addAttribute("list", list);
-			// m.addAttribute("board_info_idx", board_info_idx); // 게시판 번호 식별
-			// m.addAttribute("boardInfoName", boardInfoName); // 게시판 이름 식별
-			m.addAttribute("contentList", list); // 목록 보기
-			m.addAttribute("pageBean", pageBean);// 전체 글의 갯수
-			m.addAttribute("page", page);
 
+			if (board_category.equals("all")) {
+				List<BoardListDTO> list = boardService.getBoardList(page);
+				boardService.getBoardList(list, boardMapper.getLikeBoardList(loginUserBean.getUser_id()));
+
+				PageBean pageBean = boardService.getContentCnt(page);
+				m.addAttribute("list", list);
+				m.addAttribute("pageBean", pageBean);// 전체 글의 갯수
+				m.addAttribute("page", page);
+				m.addAttribute("category", board_category);
+			} else {
+				List<BoardListDTO> list = boardService.getCategoryList(board_category, page);
+				boardService.getBoardList(list, boardMapper.getLikeBoardList(loginUserBean.getUser_id()));
+				PageBean pageBean = boardService.getCategoryCnt(board_category, page);
+				m.addAttribute("list", list);
+				m.addAttribute("board_category", board_category); // 게시판 번호 식별
+				m.addAttribute("pageBean", pageBean);// 전체 글의 갯수
+				m.addAttribute("page", page);
+				m.addAttribute("category", board_category);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -154,34 +189,32 @@ public class BoardController {
 	}
 
 	@GetMapping("/delete")
-	public String deleteBoard(@RequestParam("b_no") int board_no, @RequestParam("page") int page, String chip,
-			Model m) {
+	public String deleteBoard(@RequestParam("b_no") int board_no, @RequestParam("page") int page,
+			@RequestParam("chip_num") String chip, Model m) {
 		System.out.println("넘어오는 칩의 정보??" + chip);
 
 		try {
 			int rowCnt;
 
-			if (chip != null) {
-				rowCnt = boardMapper.deleteChip(chip);
-			} else {
+			if ("".equals(chip)) {
 				rowCnt = boardMapper.deleteBoardContent(board_no);
-
+			} else {
+				rowCnt = boardMapper.deleteChip(chip);
+				System.out.println(board_no + "보드넘버??");
 			}
 
-			// 나중에 로그인 정보에서 로그인 아이디 뽑아서 넘겨야 함.
 			m.addAttribute("page", page);
 			// boardMapper.deleteBoardContent(board_no, user_id);
 			m.addAttribute("msg", "success");
-			System.out.println("rcnt?" + rowCnt);
 			if (rowCnt == 1) {
-				return "redirect:/board/boardList";
+				return "redirect:/board/boardList?board_category=all";
 			}
 		} catch (Exception e) {
 			System.out.println("페일인가요?");
 			m.addAttribute("msg", "fail");
 		}
 
-		return "redirect:/board/boardList";
+		return "redirect:/board/boardList?board_category=all";
 	}
 
 	@GetMapping("/read")
@@ -189,8 +222,10 @@ public class BoardController {
 			Model m) {
 
 		try {
+
 			BoardListDTO readContentBean = boardMapper.getContentInfo(board_no);
-			// m.addAttribute(readContentBean)
+			boardService.updateReadcount(board_no, readContentBean.getUser_id());
+			// readContentBean.setReadcount()
 			m.addAttribute("readContent", readContentBean);
 			m.addAttribute("b_no", board_no);
 			m.addAttribute("page", page);
@@ -220,21 +255,15 @@ public class BoardController {
 
 	@PostMapping("/write")
 	public String write_pro(@Valid @ModelAttribute("db") BoardDTO db, BindingResult result) {
-		System.out.println(db);
 
 		if (result.hasErrors()) {
 			System.out.println(result);
 
 			return "board/write";
+
 		}
 		boardService.addContentInfo(db);
-		return "redirect:/";
-	}
-
-	@ResponseBody // 관심 글 체크
-	@GetMapping("/likeCheck/{likeIdx}")
-	public String likeCheck(@PathVariable("likeIdx") int likeIdx) {
-		return boardService.likeCheck(likeIdx);
+		return "redirect:/board/boardList?board_category=all";
 	}
 
 	@ResponseBody // 관심동물 등록
@@ -242,15 +271,6 @@ public class BoardController {
 	public String addAnimal(@PathVariable("animal_code") String animal_code) {
 		return boardService.addAnimal(animal_code);
 
-	}
-
-	// 관심 동물 갖고오기
-	@GetMapping("/myAnimal")
-	private String myAnimal(Model m) {
-		List<Map<String, Object>> list = boardService.getAnimalList("boardTest1");
-		//System.out.println(list);
-		m.addAttribute("list", list);
-		return "board/likeAnimalList";
 	}
 
 	@GetMapping("/searchDog")

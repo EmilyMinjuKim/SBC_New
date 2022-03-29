@@ -5,95 +5,38 @@
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-	<!-- Bootstrap CDN -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="icon" href="favicon.ico">
-		
-		<!-- Bootstrap core CSS -->
-		<link href="${root }css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-		<!-- Custom styles for this template -->
-		<link href="${root }css/style.css" rel="stylesheet">
-<style>
-	.rw{
-		margin-top: 2%;
-	}
-</style>
- </head>
- 
-<!--  <body id="page-top"> -->
 
-<!-- Navigation -->
-		<nav class="navbar navbar-default fixed-top white border">
-			<div class="container">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header page-scroll">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					</button>
-				<a class="navbar-brand page-scroll" href="${root }#page-top">
-					<img src="../images/logo_sbc.JPG"></a>
-					
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse rw" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav navbar-right ml-auto">
-						<li class="hidden">
-							<a href="#page-top"></a>
-						</li>
-						<li class="nav-item">
-							<a class="page-scroll" href="${root }member/maintest">Home</a> <!-- Main경로 -->
-						</li>
-						<li class="nav-item">
-							<a class="page-scroll" href="${root }member/notice">Notice</a> <!-- 동현님이 만드실 공지사항 경로 -->
-						</li>
-						<li class="nav-item">
-							<a class="page-scroll" href="${root }member/adogs">Abandoned dogs</a> <!-- 향원언니 유기견 조회 경로 -->
-						</li>
-						<li class="nav-item">
-							<a class="page-scroll" href="${root }member/lpdogs">Lost&Protect</a> <!-- 향원언니랑 동현님 실종&보호 경로 -->
-						</li>
-						<li class="nav-item">
-							<a class="page-scroll" href="${root }member/shoppingmall">Shopping</a> <!-- 민주언니 쇼핑몰 경로 -->
-						</li>
-						<li class="nav-item">
-							<a class="page-scroll" href="${root }member/login">Login</a> <!-- Login후에 Logout으로 변경 -->
-						</li>
-						<!-- 로그인 후 보이는 상단바 메뉴
-						<li>
-							<a class="page-scroll" href="${root }member/MyPage">MyPage</a>
-						</li>
-						<li>
-							<a class="page-scroll" href="${root }member/Logout">Logout</a>
-						</li>
-						-->
-					</ul>
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
-
-		<!-- Bootstrap core JavaScript
-			================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="${root }js/bootstrap.min.js"></script>
-		<script src="${root }js/SmoothScroll.js"></script>
-		<script src="${root }js/theme-scripts.js"></script>
-
-<!--  </body> -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="${root }"><img src="${root }img/logo_sbc.png"></a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="${root }product/main">상품목록</a></li>
+                                <li><a class="dropdown-item" href="${root }order/findMyOrder">주문조회</a></li>
+                            </ul>
+                        </li>
+                        
+                        
+                        <c:choose> 
+		                	<c:when test="${loginUserBean.userLogin == true}">
+			                    <li class="nav-item"><a class="nav-link active" href="${root }member/mypagetest">${loginUserBean.user_id} 님 반갑습니다.</a></li>
+			                    <li class="nav-item"><a class="nav-link active" href="${root }member/logout">로그아웃</a></li>
+		                    </c:when> 
+		               		<c:otherwise>
+			                    <li class="nav-item"><a class="nav-link active" href="${root }member/login">로그인</a></li>   
+		                	</c:otherwise>
+		                </c:choose>
+                    </ul>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-outline-dark" onclick="location.href='${root }product/cart'">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="countAll">${cntCart }</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>

@@ -8,16 +8,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+	function find_pw() {
+
+		$.ajax({
+			url : "${root}member/find_pw",
+			type : "POST",
+			data : {
+				"user_id" : $("#user_id").val(),
+				"email" : $("#email").val()
+			},
+			success : function(result) {
+				alert(result);
+			}
+		})
+	}
+</script>
 <title>SBC - Together</title>
 <!-- Bootstrap CDN -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!-- 상단메뉴 분리 해서넣어줌  -->
-<%-- <c:import url="/WEB-INF/views/include/header_menu2.jsp"/> --%>
+<c:import url="/WEB-INF/views/include/header_menu2.jsp"/>
 
 <div class="container" style="margin-top:100px">
 	<div class="row">
@@ -25,36 +41,20 @@
 		<div class="col-sm-6">
 			<div class="card shadow">
 				<div class="card-body">
-					<form action="${root }member/searchPassword_pro" method="post">
 							<div class="form-group">
-								<label>찾으시려는 계정의 ID</label> <input name="user_id" id="user_id" class="form-control" />
-								<spring:hasBindErrors name="usermembershipBean" >
-									<!-- dataBean1에 error를 감지하기 위한 설정(result담겨져 있는 메시지) -->
-									<c:if test="${errors.hasFieldErrors('email') }">
-				<font color="red">${errors.getFieldError('email').defaultMessage }</font><br>
-										<%-- <spring:message code="${errors.getFieldError('email').codes[0] }"></spring:message> --%>
-										<br />
-									</c:if>
-								</spring:hasBindErrors>
+								<label>찾으시려는 계정의 ID</label> 
+								<input name="user_id" id="user_id" class="form-control" required />
 							</div>
 							
 							<div class="form-group">
-								<label>등록시 사용한 이메일</label> <input name="email" id="email" class="form-control" />
-								<spring:hasBindErrors name="usermembershipBean" >
-									<!-- dataBean1에 error를 감지하기 위한 설정(result담겨져 있는 메시지) -->
-									<c:if test="${errors.hasFieldErrors('email') }">
-				<font color="red">${errors.getFieldError('email').defaultMessage }</font><br>
-										<%-- <spring:message code="${errors.getFieldError('email').codes[0] }"></spring:message> --%>
-										<br />
-									</c:if>
-								</spring:hasBindErrors>
+								<label>등록시 사용한 이메일</label> 
+								<input name="email" id="email" class="form-control" required />
 							</div>
 
 							<div class="form-group text-right">
-							<button type="submit" class="btn btn-primary" style="width: 100%;">임시비밀번호 발송</button><br><br>
+							<button type="button" onclick="find_pw()" class="btn btn-primary" style="width: 100%;">임시비밀번호 발송</button><br><br>
 							<button type="button" onclick="location.href='${root }member/login'" class="btn btn-secondary" style="width: 100%;">취소(로그인 돌아가기)</button><br>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -62,9 +62,9 @@
 	</div>
 </div>
 
-<%-- <!-- 하단메뉴 분리 해서넣어줌  -->
+<!-- 하단메뉴 분리 해서넣어줌  -->
 <c:import url="/WEB-INF/views/include/footer_menu2.jsp"/>
- --%>
+
 </body>
 </html>
 

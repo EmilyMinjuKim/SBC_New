@@ -25,5 +25,5 @@ public class OrderListBean {
 	private int total_price;
 	private int shipping;
 	private int total_amount;
-
+	private String product_name;
 }

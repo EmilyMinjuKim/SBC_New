@@ -20,30 +20,31 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 <!-- Core theme CSS (includes Bootstrap)-->
 <link rel="stylesheet" href="${root }css/product-style.css"/>
+
+<style>
+	table {
+		text-align: left;
+		width: 600px;
+		font-size: 18px;
+		margin: auto;
+		border: 1px solid black;
+ 		border-collapse: separate;
+  		border-spacing: 12px;
+	}
+	th {
+		font-style: bold;
+		width: 25%;
+		vertical-align : top;
+	}
+	tr, th, td {
+		padding: 8px;
+	}
+</style>
+
 </head>    
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <c:import url="/WEB-INF/views/include/header_menu3.jsp" />
         
         
         <!-- Header-->
@@ -58,12 +59,31 @@
         
         <!-- Section-->
         <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="justify-content-center" style="text-align: center">
-                	주문이 완료되었습니다. 주문해주셔서 감사합니다.<br>
-                	주문번호 : ${merchant_uid }
-                </div>
-            </div>
+            <div class="container mt-5">
+               	<table>
+               		<tr>
+               			<th>주문번호</th>
+               			<td>${order.merchant_uid}</td>
+               		</tr>
+               		<tr>
+               			<th>배송지 정보</th>
+               			<td>
+               				${order.shipping_name} <br />
+               				${order.shipping_phone} <br />
+               				(${order.shipping_postcode}) <br />
+               				${order.shipping_address1} ${order.shipping_address2}
+               			</td>
+               		</tr>
+               		<tr>
+               			<th>결제정보</th>
+               			<td>
+               				총 상품금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${order.total_price }원<br />
+               				배송비&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${order.shipping }원 <br />
+               				총 결제금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${order.total_amount }원
+               			</td>
+               		</tr>
+               	</table>
+        	</div>
         </section>
         
         

@@ -11,8 +11,8 @@
 
 <title>Shop</title>
 
-<!-- Bootstrap icons-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="${root }css/product-style.css" rel="stylesheet" />
 
@@ -31,37 +31,9 @@
 </script>
 </head>    
     <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-outline-dark" onclick="location.href='${root }product/cart'">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="countAll">${cntCart }</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        
-        
+    <!-- Navigation-->
+    <c:import url="/WEB-INF/views/include/header_menu.jsp" />
+		 
         <!-- Header-->
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
@@ -100,17 +72,23 @@
             </div>
         </section>
         
+        <p id="back-top">
+		<a href="#top"><i class="fa fa-angle-up"></i></a>
+		</p>
+        
         
         <!-- Footer-->
         <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
+            <div class="container"><p class="m-0 text-center text-white">Designed by <a href="${root }"><span>SBC</span> TEAM PROJECT</a></p></div>
         </footer>
 
-        <!-- Bootstrap core JS-->     
+        <!-- Bootsstrap core JS-->     
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="${root }js/bootstrap.min.js"></script>
         <!-- Core theme JS-->
         <script src="${root }js/shop-scripts.js"></script>
+		<script src="${root }js/SmoothScroll.js"></script>
+		<script src="${root }js/theme-scripts.js"></script>
         
     </body>
 </html>

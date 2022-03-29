@@ -442,7 +442,7 @@ text-shadow: 2px 2px 2px black;
                <img class="cir mb-5" src="${root }img/sul.jpg" alt="" />
                <h1 class="mb-4">Welcome</h1>
                <h2 class="mb-5">사지말고 <br />입양하세요.</h2> 
-                <form:button class="btn btn-primary aa3 mb-3" type="submit" path="${root}board/write_pro" role="tab">글 등록</form:button>
+                <form:button class="btn btn-primary aa3 mb-3" type="submit" path="${root}board/write" role="tab">글 등록</form:button>
                 <a class="btn btn-primary aa3 mb-3" href="${root }board/boardList" type="" path="" role="tab">취소</a>
             </div>
             <div class="col-lg-9 register-right hb">
@@ -526,6 +526,7 @@ text-shadow: 2px 2px 2px black;
                                  <form:option value="치와와">치와와</form:option>
                                  <form:option value="코카스파니엘">코카스파니엘</form:option>
                                  <form:option value="퍼그">퍼그</form:option>
+                                 <form:option value="푸들">푸들</form:option>
                                  <form:option value="풍산견">풍산견</form:option>
                                  <form:option value="포메라니안">포메라니안</form:option>
                                  <form:option value="프렌치불독">프렌치불독</form:option>
@@ -653,7 +654,8 @@ text-shadow: 2px 2px 2px black;
                    return false;
             }
          }
-           return true;
+         return confirm("글 작성을 완료하시겠습니까?")
+            
        }
      
    
@@ -720,7 +722,7 @@ text-shadow: 2px 2px 2px black;
    
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div
       mapOption = {
-         center : new daum.maps.LatLng(37.537187, 127.005476),
+         center : new daum.maps.LatLng(37.56956672095332, 126.98600383248464),
          level : 5
       // 지도의 확대 레벨
       };
@@ -733,7 +735,7 @@ text-shadow: 2px 2px 2px black;
 
       //마커를 미리 생성
       var marker = new daum.maps.Marker({ // 클릭한 위치를 표시할 마커입니다
-         position : new daum.maps.LatLng(37.537187, 127.005476),
+         position : new daum.maps.LatLng(37.56956672095332, 126.98600383248464),
          map : map
       });
 

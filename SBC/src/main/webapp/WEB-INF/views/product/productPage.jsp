@@ -29,26 +29,33 @@
 		padding: 8px;
 	}
 	
-	.btnCart{
-  		transition-duration: 0.4s;
-  		background-color: white;
-  		color: black;
-  		border: 2px solid #555555;
-  		width: 320px;
-	}
-
-	.btnCart:hover {
-	  background-color: #555555; /* Green */
-	  color: white;
+	#option_box_del {
+		cursor: pointer
 	}
 	
-	#t1{
-		
+	#t1 {
+		width: 78%;
+	}
+	#opt_detail {
+		width: 100%;
 	}
 </style>
 
 <script>
 	function addToCart() {
+		
+		//null check
+		var cnt = 0;
+		for(var i=0;i<${productList.size()};i++){
+			if($("#q"+i).val()==0){
+				cnt = cnt+1;
+			}
+		}
+		if(cnt==${productList.size()}){
+			alert("옵션을 선택해주세요.");
+			return;
+		}
+		
 		var form = $("#frm").serializeArray();
 		console.log(form);
 		
@@ -89,18 +96,18 @@
 		var pid = $("#opt option:selected").attr("pid");
 
 		$("#opt_detail").append( 
-			"<table>"+
+			"<table id='opt_"+idx+"'>"+
 				"<tr>"+
-					"<td>"+
+					"<td style='width: 300px'>"+
 						"${repProduct.product_name }<br />"+optVal+
 					"</td>"+
 					"<td>"+
 						"<input type='text' class='spinner spinner"+idx+"' style='width: 50px' value='1' />"+
 					"</td>"+
 					"<td>"+
-						"<a href='#none' class='delete'><img src='//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif' id='option_box1_del' class='option_box_del'></a>"+
+						"<img src='//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif' id='option_box_del' onclick='optDel("+idx+")'/>"+
 					"</td>"+
-					"<td>${repProduct.price}원</td>"+
+					"<td style='width: 150px'>${repProduct.price}원</td>"+
 				"</tr>"+
 			"</table>"
 		);
@@ -134,42 +141,21 @@
 			$("#q"+idx).attr('value', $(cnt).val());
 		}
 
- 
+	//option box delete
+	function optDel(idx) {
+		$("#opt_"+idx).remove();
+		$("#q"+idx).attr('value', '0');
+		$("#opt").val("").prop("selected", true);
+	}
+
 	
-	//옵션 null check 
+
 
 </script>
 </head>    
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-outline-dark" onclick="location.href='${root }product/cart'">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="countAll">${cntCart }</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <c:import url="/WEB-INF/views/include/header_menu.jsp" />
         
         
         <!-- Header-->
@@ -191,7 +177,7 @@
 							<td>
 								<img src="${root }images/product/${repProduct.product_id }.jpg" style="position: relative; right:20%; width: 550px; height:600px;" />
 							</td>
-							<td style="width: 700px">
+							<td style="width: 600px">
 								<table id="t2" style="width: 100%">
 									<thead>
 									<tr>
@@ -205,7 +191,7 @@
 									<tr>
 										<td>OPTION</td>
 										<td>
-											<select id="opt" onchange="selectOpt()">
+											<select id="opt" style="width: 100%" onchange="selectOpt()">
 												<option value="" selected="selected">- [필수] 옵션을 선택해주세요 -</option>
 												<c:forEach items="${productList }" var="list" varStatus="vs">
 												<option idx="${vs.index }" pid="${list.product_id}">${list.product_option }</option>
@@ -221,7 +207,7 @@
 									</tr>
 									<tr>
 										<td colspan="2" style="text-align: center">
-											<button type="button" onclick="addToCart()" class="btnCart">ADD TO CART</button>
+											<button type="button" onclick="addToCart()" class="btn btn-outline-dark" style="width: 100%">ADD TO CART</button>
 										</td>
 									</tr>
 								</table>

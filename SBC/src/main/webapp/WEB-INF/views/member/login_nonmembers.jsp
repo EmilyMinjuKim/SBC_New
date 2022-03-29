@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <script>
-   alert('로그인 실패')
-   location.href = '${root}member/login?fail=true'
+   alert('탈퇴 또는 비활성화 된 계정입니다.')
+   location.href = "${root}login?fail=true"
 </script>

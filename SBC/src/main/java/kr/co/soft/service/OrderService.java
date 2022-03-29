@@ -26,4 +26,7 @@ public class OrderService {
 		mapper.deleteCartList(cartBean);
 	}
 
+	public OrderListBean showOrder(String merchant_uid) {
+		return mapper.showOrder(merchant_uid);
+	}
 }

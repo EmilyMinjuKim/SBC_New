@@ -23,7 +23,7 @@ import kr.co.soft.bean.ChipBean;
 import kr.co.soft.bean.DogBean;
 import kr.co.soft.bean.LikeBoardBean;
 import kr.co.soft.bean.PageBean;
-import kr.co.soft.bean.UserlistBean;
+import kr.co.soft.bean.UserBean;
 import kr.co.soft.dao.BoardDao;
 import kr.co.soft.domain.BoardDTO;
 import kr.co.soft.domain.BoardListDTO;
@@ -49,27 +49,29 @@ public class BoardService {
 	private int paginationcnt;
 
 	@Resource(name = "loginUserBean")
-	private UserlistBean loginUserBean;
+	private UserBean loginUserBean;
 
 	private CareAnimal likeAnimal;
 
 	private LikeAnimalHandler infoCrawling = new LikeAnimalHandler();
 
+	// 조회수
+	public void updateReadcount(int board_num, String user_id) {
+		if (!user_id.equals(loginUserBean.getUser_id()))
+			boardMapper.updateReadcount(board_num);
+	}
+
 	// 관심글
 	public String likeCheck(int idx) {
-		String user_id = loginUserBean.getUser_id();
-		user_id = "guest2";
-
+		BoardListDTO list = new BoardListDTO();
 		LikeBoardBean like = new LikeBoardBean();
 		like.setBoard_num(idx);
-		like.setUser_id(user_id);
-
+		like.setUser_id(loginUserBean.getUser_id());
 		try {
 			boardMapper.addLikeContent(like);
 			return "true";
 		} catch (Exception e) {
 			boardMapper.deleteLikeContent(like);
-			System.out.println("이미 등록 한 글! 좋아요 빼기");
 		}
 		return "false";
 	}
@@ -78,8 +80,8 @@ public class BoardService {
 	public String addAnimal(String animal_code) {
 		likeAnimal = new CareAnimal();
 		likeAnimal.setAnimal_code(animal_code);
-		likeAnimal.setUser_id("boardTest1");
-		System.out.println(likeAnimal);
+		likeAnimal.setUser_id(loginUserBean.getUser_id());
+		// System.out.println(likeAnimal);
 		try {
 			boardMapper.addLikeAnimal(likeAnimal);
 			return "true";
@@ -103,15 +105,30 @@ public class BoardService {
 
 	// 게시글 리스트 가져오기
 	public List<BoardListDTO> getBoardList(int page) {
-		// 1 >> 0~9
-		// 2 >> 10~19
-		// 3 >> 20~29
-
-		// 페이징 start 글번호(0,10,20)
 		int start = (page - 1) * page_listcnt;
 		RowBounds rowBounds = new RowBounds(start, page_listcnt);
 
 		return boardDao.getBoardList(rowBounds); // 10개씩 끊어줌.
+	}
+
+	// 게시글 카테고리별 가져오기
+	public List<BoardListDTO> getCategoryList(String category, int page) {
+		int start = (page - 1) * page_listcnt;
+		RowBounds rowBounds = new RowBounds(start, page_listcnt);
+
+		return boardMapper.getCategoryList(category, rowBounds); // 10개씩 끊어줌.
+	}
+
+	// 관심글 리스트 가져오기
+	public List<BoardListDTO> getBoardList(List<BoardListDTO> list, List<LikeBoardBean> mylist) {
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < mylist.size(); j++) {
+				if (list.get(i).getBoard_num() == mylist.get(j).getBoard_num()) {
+					list.get(i).setLikeck(true);
+				}
+			}
+		}
+		return list;
 	}
 
 	public PageBean getContentCnt(int currentPage) {
@@ -124,12 +141,22 @@ public class BoardService {
 		return pageBean;
 	}
 
+	public PageBean getCategoryCnt(String category, int currentPage) {
+
+		// 카테고리별 글의 갯수
+		int current_cnt = boardMapper.getCategoryCnt(category);
+
+		PageBean pageBean = new PageBean(current_cnt, currentPage, page_listcnt, paginationcnt);
+
+		return pageBean;
+	}
+
 	// 게시글 입력
 	void addBoardAllContent(BoardDTO boardInfo) {
 		// 글쓴이 확인하고 넣어야함
 		// 라이터에다가 loginuserbean 넣기
 
-		boardInfo.getBoard().setUser_id("boardTest1");
+		boardInfo.getBoard().setUser_id(loginUserBean.getUser_id());
 
 		// 중성화 여부 체크
 		if (boardInfo.getDog().getNeutering() == null)
@@ -139,7 +166,6 @@ public class BoardService {
 
 		// 칩셋 유무 체크
 		if (!"".equals(boardInfo.getChip().getChip_num().trim())) {
-			System.out.println("너 뭔데 들어오고 난리야?!!! " + boardInfo.getChip().getChip_num() + "<<<<");
 			boardInfo.getDog().setChip_num(boardInfo.getChip().getChip_num());
 			boardDao.addChipInfo(boardInfo.getChip());
 		}
@@ -220,6 +246,7 @@ public class BoardService {
 	void modifyContentSet(BoardListDTO m, int chipExit) {
 		// 글쓴이 확인하고 넣어야함
 
+		m.setUser_id(loginUserBean.getUser_id());
 		// 중성화 여부 체크
 		if (m.getNeutering() == null)
 			m.setNeutering("x");
@@ -244,43 +271,16 @@ public class BoardService {
 		}
 		System.out.println("서비스시작");
 
-		DogBean d = new DogBean();
-		d.setDog_num(m.getDog_num());
-		d.setBreed(m.getBreed());
-		d.setColor(m.getColor());
-		d.setSex(m.getSex());
-		d.setAge(m.getAge());
-		d.setWeight(m.getWeight());
-		d.setCharcteristic(m.getCharcteristic());
-		d.setNeutering(m.getNeutering());
-		d.setAddress1(m.getAddress1());
-		d.setAddress2(m.getAddress2());
-		d.setDog_content(m.getDog_content());
-		d.setChip_num(m.getChip_num());
-		d.setOriginFile(m.getOriginFile());
-		d.setDog_img(m.getDog_img());
-		d.setHappen_date(m.getHappen_date());
-
-		BoardBean b = new BoardBean();
-		b.setBoard_num(m.getBoard_num());
-		b.setUser_id(m.getUser_id());
-		b.setWriter_phone(m.getWriter_phone());
-		b.setReg_time(m.getReg_time());
-		b.setReadcount(m.getReadcount());
-		b.setDog_num(m.getDog_num());
-		b.setBoard_category(m.getBoard_category());
-
-		System.out.println("여기나와??");
-
-		if (boardDao.modifyDogInfo(d)) {
+		if (boardMapper.modifyDogInfo(m)) {
 			System.out.println("도그 테이블 업데이트 성공");
-			if (boardDao.modifyBoardContent(b)) {
+			if (boardMapper.modifyBoardContent(m)) {
 				System.out.println("보드 업데이트 성공");
 			} else {
 				// boardMapper.deleteBoardContent(modifyBean.getDog_num());
 				System.out.println("보드 업데이트 실패");
 			}
 		}
+
 		System.out.println("서비스단 END");
 
 	}

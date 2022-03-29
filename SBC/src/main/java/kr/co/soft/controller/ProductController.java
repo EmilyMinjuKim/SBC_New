@@ -23,9 +23,8 @@ import org.springframework.web.util.WebUtils;
 import kr.co.soft.bean.CartBean;
 import kr.co.soft.bean.CartDetailListBean;
 import kr.co.soft.bean.CartListBean;
-import kr.co.soft.bean.OrderDetailListBean;
 import kr.co.soft.bean.ProductBean;
-import kr.co.soft.bean.UserlistBean;
+import kr.co.soft.bean.UserBean;
 import kr.co.soft.service.CartService;
 import kr.co.soft.service.ProductService;
 
@@ -41,7 +40,7 @@ public class ProductController {
 	CartService cartService;
 	
 	@Resource(name="loginUserBean")
-	UserlistBean loginUserBean;
+	UserBean loginUserBean;
 	
 	@GetMapping("/main")
 	public String product(HttpServletRequest request, HttpServletResponse response,

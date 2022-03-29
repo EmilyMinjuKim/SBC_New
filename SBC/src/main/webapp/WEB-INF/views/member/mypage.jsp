@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyPage</title>
 
-<!-- header -->
+	<!-- header -->
 <c:import url='/WEB-INF/views/include/header_menu2.jsp'/>
 
 <style>
@@ -27,7 +27,7 @@ text-align: center;
 			<div class="card shadow">
 				<div class="card-body">
 					<!-- 절대 경로 -->
-					<form action="${root }member/mypage" method="get">  
+					<form action="${root }views/mypage" method="get">  
 					<div>
 						<h3>MyPage</h3>
 					</div>
@@ -88,6 +88,7 @@ text-align: center;
 		<div class="col-sm-3"></div>
 	</div>
 </div>
+	
 
 <!-- footer  -->
 <c:import url='/WEB-INF/views/include/footer_menu2.jsp'/>

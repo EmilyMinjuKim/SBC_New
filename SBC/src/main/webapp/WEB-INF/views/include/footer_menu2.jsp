@@ -7,8 +7,7 @@
 <footer>
 		<div class="container text-center">
 			<!-- 나중에 우리팀 깃 주소 넣기 -->
-				<p>Designed by <a href="http://moozthemes.com"><span>SBC</span> TEAM PROJECT</a></p>
+				<p>Designed by <a href="${root }"><span>SBC</span> TEAM PROJECT</a></p>
 				<p><span>TEAM SBC : </span>이향원, 이경철, 김민주, 김동현, 김승이, 정유진</p>
 		</div>
 </footer>
-
