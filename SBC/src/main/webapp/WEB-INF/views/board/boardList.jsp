@@ -8,20 +8,26 @@
 <head>
     <meta charset="utf-8">
     <title>게시글 리스트</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
   
-   
-   
-   
+    <!-- header -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+	integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
+	crossorigin="anonymous" />
+<!-- ajax 제이쿼리 -->
+
+
+
+<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script> -->
    
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-   
-   
+   <c:import url='/WEB-INF/views/include/header_menu4.jsp' />
    
    <style type="text/css">
 body{
@@ -264,15 +270,26 @@ body{
 .asd{
 	width: 20px;
 }
+
+
+.imgswap img:last-child {
+   display: none
+}
+
+.imgswap img:first-child {
+   display: inline-block
+}
+
+
 </style>
-   
-   
-   
    
 
    
+   
 </head>
 <body>
+ 
+
 
 <div class="container mt-5 mb-5 pt-5 pb-5 pl-4 pr-4 card shadow bg-color">
 <div class="col-lg-12 ">
@@ -283,12 +300,12 @@ body{
             <thead>
               <tr>
                 <th style="font-size: 15px; text-align: center;">
-                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="전체" checked>&nbsp;전체&nbsp;</label>
-                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="실종">&nbsp;실종&nbsp;</label>
-                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="목격">&nbsp;목격&nbsp;</label>
-                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="보호">&nbsp;보호&nbsp;</label>
-                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="보호요청">&nbsp;보호요청&nbsp;</label>
-                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="완료">&nbsp;완료&nbsp;</label>
+                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="all" ${category eq 'all'? 'checked':''}>&nbsp;전체&nbsp;</label>
+                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="실종" ${category eq '실종'? 'checked':''}>&nbsp;실종&nbsp;</label>
+                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="목격" ${category eq '목격'? 'checked':''}>&nbsp;목격&nbsp;</label>
+                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="보호" ${category eq '보호'? 'checked':''}>&nbsp;보호&nbsp;</label>
+                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="보호요청" ${category eq '보호요청'? 'checked':''}>&nbsp;보호요청&nbsp;</label>
+                   <label style=" margin-right: 5%;"><input type="radio" name='category' value="완료" ${category eq '완료'? 'checked':''}>&nbsp;완료&nbsp;</label>
                 </th>
                 <th class="text-center">Status</th>
                 <th class="action text-right">Action</th>
@@ -308,31 +325,44 @@ body{
                       </div>
                       <div class="candidate-list-option">
                         <ul class="list-unstyled">
-                          <li><i class="fas fa-filter pr-1"></i>${item.happen_date}</li>
-                          <li><i class="fas fa-map-marker-alt pr-1"></i>${item.address1} </li>
-                          <li><i class="fas fa-map-marker-alt pr-1"></i>성별: ${item.sex} / ${item.color} / age: ${item.age} / kg: ${item.weight} </li>
+                          <li><img src="${root }img/board/cal.png"/>&nbsp;${item.happen_date}</li>
+                          <li><i class="fas fa-map-marker-alt mr-5 pr-5">${item.address1}</i></li>
+                          <li><img class="mr-4" src="${root }img/board/pug.png" style="max-width: 50%;  max-height: 50%;"/>성별: ${item.sex} / ${item.color} / age: ${item.age} / kg: ${item.weight} </li>
                         </ul>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="candidate-list-favourite-time text-center">
-                  <a class="candidate-list-favourite order-2 text-danger" href="javascript:like('${item.board_num}');"><i class="fas fa-heart"></i></a>
+                  <a class="candidate-list-favourite order-2 text-danger" href="javascript:like('${item.board_num}');" style="text-decoration:none">
+                 	<c:set var="heartIcn" value="${item.likeck? '../img/board/redheart.gif' : '../img/board/whiteheart.png'}"/>
+                 	 <img id="${item.board_num }" class="heartClass" src="<c:url value ='${heartIcn}'/>" style="max-width: 10%;  max-height: 10%;"/>
+                  </a>
                   <span class="candidate-list-time order-1">좋아요</span>
-                  <a href="#" class="candidate-list-favourite order-2 text-primary" data-toggle="tooltip" title="" data-original-title="view"><i class="far fa-eye"></i></a>
+                 
+                 
+                  <a href="#" class="candidate-list-favourite order-2 text-primary">
+                	 <img src="${root }img/board/eye.gif" style="max-width: 10%; max-height: 10%;"/>
                   <span class="candidate-list-time order-1">조회수 ${item.readcount}</span>
+                  </a>
+                  
                 </td>
                 <!-- 로그인 회원이 글쓴이랑 같은 경우만 보이게 -->
                 <td>
-                  <ul class="list-unstyled mb-0 d-flex justify-content-end">
-        			  <li><a href="#" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
-         			  <li><a href="#" class="text-danger" data-toggle="tooltip" title="" data-original-title="Delete"><i class="far fa-trash-alt"></i></a></li>
-       		 		  <li>${item.reg_time}</li>
+                  <ul class="list-unstyled justify-content-end text-center">
+                  	<c:if test="${loginUserBean.user_id eq item.user_id}">
+                  	
+               			<li style="position: relative; display: inline-block;"><a href="${root}board/modify?b_no=${item.board_num}&page=${page}" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt">&nbsp;&nbsp;</i></a></li>
+         			   <li style="position: relative; display: inline-block;"><a href="${root }board/delete?b_no=${item.board_num}&page=${page}&chip_num=${item.chip_num}" onclick="return deleteCk();" class="text-danger" data-toggle="tooltip" title="" data-original-title="Delete"><i class="far fa-trash-alt"></i></a></li> 
+  					              	
+                  	</c:if>
+                  		<li style="width: 100px"><br />${item.reg_time}</li>
                   </ul>
                 </td>
-	                <!-- 글쓴이 아닌 경우, 작성시간만 보이게  -->
               </tr>
-              </c:forEach>
+       		 		  
+              
+			</c:forEach>
             
             
             
@@ -349,7 +379,7 @@ body{
                      
                      <c:otherwise>
                         <li class="page-item">
-                           <a class="page-link" href="${root }board/boardList?page=${pageBean.prevPage}">이전</a>
+                           <a class="page-link" href="${root }board/boardList?page=${pageBean.prevPage}&board_category=${category}">이전</a>
                         </li>
                      </c:otherwise>
                </c:choose>
@@ -359,12 +389,12 @@ body{
                   <c:choose>
                      <c:when test="${idx==pageBean.currentPage}">
                         <li class="page-item active"  aria-current="page">
-                           <a href="${root }board/boardList?page=${idx}" class="page-link" >${idx}</a>
+                           <a href="${root }board/boardList?page=${idx}&board_category=${category}" class="page-link" >${idx}</a>
                         </li>
                      </c:when>
                      <c:otherwise>
                         <li class="page-item">
-                           <a href="${root }board/boardList?page=${idx}" class="page-link">${idx}</a>
+                           <a href="${root }board/boardList?page=${idx}&board_category=${category}" class="page-link">${idx}</a>
                         </li>
                      </c:otherwise>
                   </c:choose>
@@ -380,7 +410,7 @@ body{
                   </c:when>
                   <c:otherwise>
                      <li class="page-item">
-                        <a href="${root }board/boardList?board_info_idx?page=${pageBean.prevPage}" class="page-link">다음</a>
+                        <a href="${root }board/boardList?board_info_idx?page=${pageBean.prevPage}&board_category=${category}" class="page-link">다음</a>
                      </li>
                   </c:otherwise>
                </c:choose>
@@ -392,13 +422,20 @@ body{
   </div>
 </div>
 
-
+<!-- footer  -->
+	<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
 
 <script type="text/javascript">
+
+
+//카테고리 선택
+$('input[type="radio"]').click(function() {
+   var loc = $(this).val();
+	  location.href=${root }+"board/boardList?board_category="+loc;
+})
 	
 	//좋아요 글 입력
 		function like(boardNo) {
-			console.log("버튼 테스트"+boardNo);
 			$.ajax({
 				url:"${root}board/likeCheck/"+boardNo,
 				type:"get",
@@ -407,38 +444,23 @@ body{
 					console.log("결과값?"+result)
 					if(result.trim()=="true"){
 						alert("좋아요 등록!!")
+						document.getElementById(boardNo).src='../img/board/redheart.gif';
 					}else{
 						alert("좋아요 삭제!!")
+						document.getElementById(boardNo).src='../img/board/whiteheart.png';
 					}
 				}
 			})
 		}
 	
 	
-	
-    //카테고리 선택
-    $('input[type="radio"]').click(function() {
-    	$.ajax({
-    		url:"${root}board/category/"+$(this).val(),
-			type:"get",
-			dataType:"text",
-			success:function(result){
-				console.log("결과값?"+result)
-				if(result.trim()=="true"){
-					alert("좋아요 등록!!")
-				}else{
-					alert("좋아요 삭제!!")
-				}
-			}
-    		
-    	})
+
+	    
+    
     	
-    })
-    	
-    	
-   
-	
-	
+  function deleteCk(){
+    	return confirm("정말 삭제하시겠습니까?")
+    }
 	
 	
 	

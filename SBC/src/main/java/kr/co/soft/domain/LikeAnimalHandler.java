@@ -31,17 +31,23 @@ public class LikeAnimalHandler {
 		String imgsrc = "https://www.animal.go.kr/front/fileMng/imageView.do?"
 				+ imgFile.substring(imgFile.indexOf("?") + 1);
 
+		List label = new ArrayList();
+		for (Element el : element.select("th")) {
+			label.add(el.text());
+		}
+		System.out.println("label:"+label);
+		
 		List content = new ArrayList();
 		for (Element el : element.select("td")) {
 			content.add(el.text());
 		}
 
-		int size = content.size();
+		int size = label.size();
 
 		for (int j = 0; j < size; j++) {
-			list.add(new AnimalDto(j + "", content.get(j)));
+			list.add(new AnimalDto(label.get(j).toString(), content.get(j)));
 		}
-		System.out.println("content??" + content);
+		System.out.println("content:" + content);
 		list.add(new AnimalDto("img", imgsrc));
 
 		Map<String, Object> info = list.stream()

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var='root' value='${pageContext.request.contextPath}/'/>
 <!DOCTYPE html>
 <html>
@@ -14,16 +15,24 @@
 
 <title>My Cart</title>
 
-<!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-<!-- Bootstrap icons-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link rel="stylesheet" href="${root }css/product-style.css"/>
+<!-- 부트스트랩 기본 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <!-- Spinner CSS -->
 <link rel="stylesheet" href="${root }jquery-ui-1.11.4/jquery-ui.css" />
 
 <style>
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	}
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
+    font-weight: bold;
+	}
+	*{
+	font-family: 'air';
+	}
 	.arrow-btn {
 		background-color: white;
 		border: none;
@@ -45,6 +54,20 @@
 	tr.no-bottom-border td {
 	  border-bottom: none;
 	}
+	
+	#price1 {
+		font-size: 16pt;
+		font-weight: bold;
+	}
+	
+	.p_bottom {
+		font-size: 20pt;
+		font-weight: bold;
+	}
+	#priceBottom {
+		font-size: 20pt;
+		font-weight: bold;
+	}
 
 </style>
 <script>
@@ -59,7 +82,12 @@
 		
 	//전체 상품 버튼으로 한 번에 삭제하기
 	function deleteAll() {
-		confirm("장바구니를 모두 비우시겠습니까?");
+		var confirmation = confirm("장바구니를 모두 비우시겠습니까?");
+		
+		if(confirmation==false){
+			return;
+		}
+		
  		$.ajax({
 			type : "delete",
 			url : "${root}product/deleteAll",
@@ -84,7 +112,19 @@
 	
 	//체크박스 선택한 상품 삭제하기
 	function deleteSelected() {
-			confirm("선택한 상품을 삭제하시겠습니까?");
+		
+			//null check
+			if($("input[class='chk']:checked").val()==null){
+				alert("삭제하실 상품을 선택해주세요.");
+				return;
+			}
+		
+			var confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
+			
+			if(confirmation==false){
+				return;
+			}
+			
 		  	var checkArr = new Array();
 		   
 		    $("input[class='chk']:checked").each(function(){
@@ -118,7 +158,11 @@
 	function deleteEach(type) {
 		var each = type;
 		
-		confirm("선택한 상품을 삭제하시겠습니까?");
+		var confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
+		
+		if(confirmation==false){
+			return;
+		}
 		
 	  	var checkArr = new Array();
 	  	checkArr.push(each);
@@ -149,6 +193,13 @@
 	//체크박스 선택한 제품만 form submit
 	function orderSelected() {
 		
+		//null check
+		if($("input[class='chk']:checked").val()==null){
+			alert("주문하실 상품을 선택해주세요.");
+			return;
+		}
+		
+
 		var form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "post");  //Post 방식
@@ -201,6 +252,7 @@
         document.body.appendChild(form);
         form.submit();
         document.getElementById("form").remove();
+        
 	}
 	
 	function orderAll() {
@@ -249,7 +301,10 @@
 			
 			eachTotal = cntVal * priceVal;
 			
-			$(eachTotalSpan).text(eachTotal);
+			/* 화폐 단위로 변경 */
+			var eachTotalCurrency = eachTotal.toLocaleString('ko-KR');
+			
+			$(eachTotalSpan).text(eachTotalCurrency);
 			totalPrice += eachTotal;
 		}
 		
@@ -265,13 +320,18 @@
 		/* 최종 가격 */
 		finalTotalPrice = totalPrice + delivery;
 		
+		/* 화폐 단위로 변경 */
+		var totalPriceCurrency = totalPrice.toLocaleString('ko-KR');
+		var deliveryCurrency = delivery.toLocaleString('ko-KR');
+		var finalTotalPriceCurrency = finalTotalPrice.toLocaleString('ko-KR');
+		
 		/* 값 삽입 */
 		// 총 가격
-		$(".totalPrice").text(totalPrice);
+		$(".totalPrice").text(totalPriceCurrency);
 		// 배송비
-		$(".delivery").text(delivery);	
+		$(".delivery").text(deliveryCurrency);	
 		// 최종 가격(총 가격 + 배송비)
-		$(".finalTotalPrice").text(finalTotalPrice);
+		$(".finalTotalPrice").text(finalTotalPriceCurrency);
 
 	}
 	
@@ -305,39 +365,8 @@
 </head>    
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        
-        
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">장바구니</h1>
-                </div>
-            </div>
-        </header>
-        
-        
+        <c:import url="/WEB-INF/views/include/header_menu3.jsp" />
+
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
@@ -362,58 +391,51 @@
 	                		<tr>
 	                			<td><input type="checkbox" class="chk" idx="${vs.index }" product_id="${list.product_id }" /></td>
 	                			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
-	                			<td>${list.price }원</td>
+	                			<td><fmt:formatNumber value="${list.price }" pattern="#,###"/>원</td>
 	                			<td>
 	                				<input type="text" name="orderDetailList[${vs.index }].quantity" class="spinner spinner${vs.index }" style="width: 50px" value="${list.quantity }" />
-	                				<button type="button" onclick="changeCntConfirm(${vs.index }, '${list.product_id }')">확인</button>
+	                				<button type="button" class="btn btn-outline-dark" onclick="changeCntConfirm(${vs.index }, '${list.product_id }')">확인</button>
 	                			</td>
 	                			<td><span class="delivery"></span>원</td>
-	                			<td><span class="eachTotalSpan${vs.index }">${list.total }</span>원</td>
-	                			<td><button type="button" onclick="deleteEach('${list.product_id }')" product_id="${list.product_id }">삭제</button></td>
+	                			<td><span class="eachTotalSpan${vs.index }"><fmt:formatNumber value="${list.total }" pattern="#,###"/></span>원</td>
+	                			<td><button type="button" class="btn btn-outline-dark" onclick="deleteEach('${list.product_id }')" product_id="${list.product_id }">삭제</button></td>
 	                		</tr>
                 		</c:forEach>
                 		<tr>
-                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
+                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계:&nbsp;&nbsp;&nbsp;<span class="finalTotalPrice" id="price1"></span>원</td>
                 		</tr>
                 		<tr class="no-bottom-border">
                 			<td colspan="6" style="text-align: left">
-                				선택한 상품을 <button type="button" onclick="deleteSelected()">삭제하기</button>
+                				선택한 상품을 <button type="button" class="btn btn-outline-dark" onclick="deleteSelected()">삭제하기</button>
                 			</td>
                 			<td style="text-align: right">
-                				<button type="button" onclick="deleteAll()">장바구니 비우기</button>
+                				<button type="button" class="btn btn-outline-dark" onclick="deleteAll()">장바구니 비우기</button>
                 			</td>
                 		</tr>
 					</table>
 					<br /><br />
-					<table id="total">
+					<table>
 						<tr>
-							<th>총 상품금액</th>
-							<th>총 배송비</th>
-							<th>결제예정금액</th>
+							<td>총 상품금액</td>
+							<td>총 배송비</td>
+							<td>결제예정금액</td>
 						</tr>
-						<tr>
-							<td><span class="totalPrice"></span>원</td>
-							<td><span class="delivery"></span>원</td>
-							<td><span class="finalTotalPrice"></span>원</td>
+						<tr id="priceBottom">
+							<td><span class="totalPrice p_bottom"></span>원</td>
+							<td><span class="delivery p_bottom"></span>원</td>
+							<td><span class="finalTotalPrice p_bottom"></span>원</td>
 						</tr>
 					</table>
 					<br />
-					<button type="button" onclick="orderSelected()">SELECT ORDER</button>
-					<button type="button" onclick="orderAll()">ORDER</button>
-					<button type="button" onclick="history.go(-1)">쇼핑계속하기</button>
+					<button type="button" class="btn btn-outline-dark" onclick="orderSelected()">SELECT ORDER</button>
+					<button type="button" class="btn btn-outline-dark" onclick="orderAll()">ORDER</button>
+					<button type="button" class="btn btn-outline-dark" onclick="location.href='${root}product/main'">쇼핑계속하기</button>
                 </div>
             </div>
         </section>
         
-        
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="${root }js/shop-scripts.js"></script>
+		<!-- 부트스트랩 기본 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <!-- Spinner JS -->
         <script src="${root }jquery-ui-1.11.4/jquery-ui.js"></script>
     </body>

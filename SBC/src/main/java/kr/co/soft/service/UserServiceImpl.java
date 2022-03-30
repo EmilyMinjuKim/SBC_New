@@ -6,21 +6,21 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import kr.co.soft.bean.UserBean;
 import kr.co.soft.dao.UserDao;
 
-
 @Service
 public class UserServiceImpl implements UserService {
-
-	private static final int SALT_SIZE = 16;
 
 	@Autowired
 	private UserDao userDao;
@@ -41,16 +41,31 @@ public class UserServiceImpl implements UserService {
 		return "false";
 	}
 
+	// 이메일 유무 체크
 	@Override
-	public void getLoginUserInfo(UserBean tempLoginUserBeanT) {
+	public String checkUserEmailExist(String email) {
 
-		String user_id = tempLoginUserBeanT.getUser_id();	
+		String email2 = userDao.checkUserEmailExist(email);
+
+		if (email2 == null) {
+			return "true";
+		}
+		return "false";
+	}
+
+	@Override
+	public void getLoginUserInfo(UserBean tempLoginUserBeanT) throws Exception {
+
+		String user_id = tempLoginUserBeanT.getUser_id();
 		String pw = tempLoginUserBeanT.getUser_password();
 		String salt = userDao.getSaltByUser_id(user_id);
-		System.out.println(salt);		
+		if (salt == null) {
+			salt = "";
+		}
+		System.out.println(salt);
 		String encryptpww = getEncrypt(pw, salt);
-		
-		tempLoginUserBeanT.setUser_password(encryptpww);		
+
+		tempLoginUserBeanT.setUser_password(encryptpww);
 		UserBean tempLoginUserBean2 = userDao.getLoginUserInfo(tempLoginUserBeanT);
 
 		System.out.println("값이 오나?" + tempLoginUserBean2);
@@ -61,8 +76,15 @@ public class UserServiceImpl implements UserService {
 			// System.out.println(loginUserBean.getAuthority());
 			loginUserBean.setEnabled(tempLoginUserBean2.getEnabled());
 			// System.out.println(loginUserBean.getEnabled());
+
 			loginUserBean.setUserLogin(true); // 로그인 된 상태
 		}
+	}
+
+	@Override
+	public void updateRecentlogin_ipByUser_id(UserBean tempLoginUserBeanT) {
+
+		userDao.updateRecentlogin_ipByUser_id(tempLoginUserBeanT);
 	}
 
 	@Override
@@ -73,6 +95,36 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String getEmailByUser_id(String UserBean) {
 		return userDao.getEmailByUser_id(UserBean);
+	}
+
+	// 회원정보 갖고오기
+	@Override
+	public UserBean getModifyUserlistInfo(String user_id) {
+		return userDao.getModifyUserlistInfo(user_id);
+	}
+
+	@Override
+	public UserBean getModifyUserMemberInfo(String user_id) {
+		return userDao.getModifyUserMemberInfo(user_id);
+	}
+
+	// 회원정보수정
+	@Override
+	public void updateUserlistModify(UserBean userlistBean) {
+		// return userDao.updateUserlistModify(userlistBean);
+		userDao.updateUserlistModify(userlistBean);
+	}
+
+	@Override
+	public void updateMembershiModify(UserBean usermembershipBean) {
+		// return userDao.updateMembershiModify(usermembershipBean);
+		userDao.updateMembershiModify(usermembershipBean);
+	}
+
+	// 회원탈퇴
+	@Override
+	public void deleteUserEna(String user_id) {
+		userDao.deleteUserEna(user_id);
 	}
 
 	@Override
@@ -95,21 +147,24 @@ public class UserServiceImpl implements UserService {
 			for (int i = 0; i < 12; i++) {
 				pw += (char) ((Math.random() * 26) + 97);
 			}
+			for (int i = 0; i < 3; i++) {
+				pw += (int)(Math.random()*10);
+			}
 			UserBean.setUser_password(pw);
-				
+
 			// 비밀번호 변경 메일 발송
-			sendEmail(UserBean);
-			
-			//발송된 비밀번호 암호화
-			String salt = generateSalt();	
+			sendEmail(UserBean, "find_pw");
+
+			// 발송된 비밀번호 암호화
+			String salt = generateSalt();
 			String encryptpww = getEncrypt(pw, salt);
-			
+
 			UserBean.setUser_password(encryptpww);
 			UserBean.setSalt(salt);
-			
+
 			// 비밀번호 변경
 			userDao.updatePassword(UserBean);
-			
+
 			out.print("이메일로 임시 비밀번호를 발송하였습니다.");
 			out.close();
 		}
@@ -119,19 +174,24 @@ public class UserServiceImpl implements UserService {
 	// 회원가입
 	@Override
 	@Transactional
-	public void addUserlistInfo(UserBean userBean) {
+	public void addUserlistInfo(UserBean userBean) throws Exception {
 
 		String pw = userBean.getUser_password();
-		String salt = generateSalt(); 
+		String salt = generateSalt();
 
 		String encryptpww = getEncrypt(pw, salt);
-		
-		userBean.setUser_password(encryptpww); 
+
+		userBean.setUser_password(encryptpww);
 		userBean.setSalt(salt);
 
 		userBean.setAuthority("ROLE_USER"); // 회원가입시 유저 권한
-		userBean.setEnabled(1); // 회원가입시의 상태 설정
-
+		userBean.setEnabled(0); // 회원가입시의 상태 설정
+		
+		String approval_key = create_key();
+		userBean.setApproval_key(approval_key);
+	
+		
+		
 		userDao.addUserlistInfo(userBean);
 
 	}
@@ -144,6 +204,7 @@ public class UserServiceImpl implements UserService {
 
 		userDao.addMembershipInfo(userBean);
 	}
+
 
 	// ========================================================
 	// 인증키 생성용
@@ -159,7 +220,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 이메일 발송
-	public void sendEmail(UserBean UserBean) throws Exception {
+	public void sendEmail(UserBean UserBean, String div) throws Exception {
 
 		// Mail Server 설정
 		String charSet = "utf-8";
@@ -173,12 +234,29 @@ public class UserServiceImpl implements UserService {
 		String subject = "";
 		String msg = "";
 
-		subject = "SBC-Together 임시비밀번호 발송.";
-		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
-		msg += "<h3 style='color: blue;'>";
-		msg += UserBean.getUser_id() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
-		msg += "<p>임시 비밀번호 : ";
-		msg += UserBean.getUser_password() + "</p></div>";
+		if (div.equals("join")) {
+			// 회원가입 메일 내용
+			subject = "Spring Homepage 회원가입 인증 메일입니다.";
+			msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+			msg += "<h3 style='color: blue;'>";
+			msg += UserBean.getUser_id() + "님 회원가입을 환영합니다.</h3>";
+			msg += "<div style='font-size: 130%'>";
+			msg += "하단의 인증을 클릭 시 정상적으로 회원가입이 완료됩니다.</div><br/>";
+			msg += "<a href='http://localhost:9000/SBC/member/registerEmail?email="
+					+ UserBean.getEmail()
+					+ "&approval_key="
+					+ UserBean.getApproval_key()
+					+"' target='_blank'>이메일 인증 확인</a>";
+
+		} else if (div.equals("find_pw")) {
+
+			subject = "SBC-Together 임시비밀번호 발송.";
+			msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+			msg += "<h3 style='color: blue;'>";
+			msg += UserBean.getUser_id() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
+			msg += "<p>임시 비밀번호 : ";
+			msg += UserBean.getUser_password() + "</p></div>";
+		}
 
 		String mail = UserBean.getEmail();
 		String user_id = UserBean.getUser_id();
@@ -231,15 +309,16 @@ public class UserServiceImpl implements UserService {
 	// 비밀번호 암호화를 위한 메소드
 
 	// SHA-256으로 해싱하는 메소드
-	public static String getEncrypt(String source, String salt) {
+	public String getEncrypt(String source, String salt) {
 		return getEncrypt(source, salt.getBytes());
 	}
 
-	/** 
+	/**
 	 * SHA-256 암호화 함
-	 * @param source 원본 
+	 * 
+	 * @param source       원본
 	 * @param salt(byte[]) SALT 값
-	 * @return   
+	 * @return
 	 */
 	public static String getEncrypt(String source, byte[] salt) {
 		String result = "";
@@ -263,10 +342,12 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
-	/**  SALT 값을 얻어온다. 
-	 *  @return 
+	/**
+	 * SALT 값을 얻어온다.
+	 * 
+	 * @return
 	 */
-	public static String generateSalt() {
+	public String generateSalt() {
 		Random random = new Random();
 		byte[] salt = new byte[8];
 		random.nextBytes(salt);
@@ -284,4 +365,56 @@ public class UserServiceImpl implements UserService {
 		return userDao.getSaltByUser_id(user_id);
 	}
 
+	// ==============================================================
+	// 접속 아이피 가져오기
+
+	public String getUserIp() throws Exception {
+
+		String ip = null;
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+				.getRequest();
+
+		ip = request.getHeader("X-Forwarded-For");
+
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-Real-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-RealIP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("REMOTE_ADDR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+
+		return ip;
+	}
+	
+	/*
+	 * public void addApproval_keyByEamil(UserBean userBean) {
+	 * userDao.addApproval_keyByEamil(userBean); }
+	 */
+
+	public int checkApproval_keyByEmail(String email, String approval_key) {
+		return userDao.checkApproval_keyByEmail(email, approval_key);
+	}
+	
+	public void updateEnabledByEmail(String email) {
+		userDao.updateEnabledByEmail(email);
+	}
+	
 }

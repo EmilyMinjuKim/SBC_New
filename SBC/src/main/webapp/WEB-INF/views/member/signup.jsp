@@ -68,14 +68,28 @@
 <script>
 
 function checkUserIdExist() {
-    //변수 선언 : 사용자가 입력한 id가져오기
+   
+	//변수 선언 : 사용자가 입력한 id가져오기
     var user_id=$("#user_id").val()
+    
     //입력값이 없을시에 요청
     if(user_id.length==0){
        alert("아이디를 입력해주세요")
        return
     }
+    
+    //아이디 유효한 형식 패턴 체크
+    //아이디 정규식
+    let idCheck = /^[a-zA-Z0-9_-]{4,20}$/;
+    
+    if(!idCheck.test(user_id)) {
+    	alert("올바른 형식의 아이디가 아닙니다.")
+    	return
+    }
+    
+    
 console.log(user_id+"들어오는 값?")
+
 $.ajax({
     url:"${root}member/checkUserIdExist/" + user_id,  //요청할 페이지 주소
     type:"get",   
@@ -85,10 +99,52 @@ $.ajax({
        if(result.trim() =="true"){
           alert("사용할 수 있는 아이디입니다")
           $("#userIdExist").val("true")
+          $("#user_id").attr("readonly", "true");
+          $("#user_id_errors").empty();
        }else{
           alert("사용할 수 없는 아이디입니다")
           $("#userIdExist").val("false")
-          $("#userIdExist").attr("readonly", "true");
+          
+       }
+    }
+ });
+}
+
+function checkUserEmailExist() {
+    //변수 선언 : 사용자가 입력한 id가져오기
+    var email=$("#email").val()
+    
+    //입력값이 없을시에 요청
+    if(email.length==0){
+       alert("이메일을 입력 해 주세요.")
+       return
+    }
+    
+    //이메일 패턴 체크
+    //아이디 정규식
+    let reg_email =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+    
+    if(!reg_email.test(email)) {
+    	alert("올바른 형식의 이메일이 아닙니다.")
+    	return
+    }
+
+
+$.ajax({
+    url:"${root}member/checkUserEmailExist/" + email,  //요청할 페이지 주소
+    type:"get",   
+    dataType:"text",  //넘어올 문자열
+    success: function(result){
+    	console.log('성공함')
+       if(result.trim() =="true"){
+          alert("사용할 수 있는 이메일입니다")
+          $("#userEmailExist").val("true")
+          $("#email").attr("readonly", "true");
+          $("#user_eamil_errors").empty();
+       }else{
+          alert("사용할 수 없는 이메일입니다")
+          $("#userEmailExist").val("false")
+          
        }
     }
  });
@@ -97,6 +153,11 @@ $.ajax({
 /* 사용할수 없는 아이디로 구현하는 코드 */
 function resetUserIdExist() {
  $("#userIdExist").val("false")
+}
+
+/* 사용할수 없는 아이디로 구현하는 코드 */
+function resetUserEmailExist() {
+ $("#userEmailExist").val("false")
 }
 
 function execPostCode() {
@@ -146,10 +207,51 @@ function execPostCode() {
 
 
 </script>
+<style type="text/css">
+ #joinForm{width: 460px;margin: 0 auto;}
+ul.join_box{border: 1px solid #ddd;background-color: #fff;}
+.checkBox,.checkBox>ul{position: relative;}
+.checkBox>ul>li{float: left;}
+.checkBox>ul>li:first-child{width: 85%;padding: 15px;font-weight: 600;color: #888;}
+.checkBox>ul>li:nth-child(2){position: absolute;top: 50%;right: 30px;margin-top: -12px;}
+.checkBox textarea{width: 96%;height: 90px; margin: 0 2%;background-color: #f7f7f7;color: #888; border: none;}
+.footBtwrap{margin-top: 15px;}
+.footBtwrap>li{float: left;width: 50%;height: 60px;}
+.footBtwrap>li>button{display: block; width: 100%;height: 100%; font-size: 20px;text-align: center;line-height: 60px;}
+.fpmgBt1{background-color: #fff;color:#888}
+.fpmgBt2{background-color: lightsalmon;color: #fff}
+
+/* @font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	}
+	*{
+	font-family: 'air';
+	}
+
+@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
+    font-weight: bold;
+	}
+	
+input[type=password] {
+	    font-family: "serif";
+	
+	    &::placeholder {
+	        font-family: "air";
+	    }
+	}	
+ */
+</style>
+
+
+
 </head>
 <!-- header -->
 <body>
 	<c:import url='/WEB-INF/views/include/header_menu2.jsp' />
+	<hr />
 	<div class="limiter">
 		<div class="container-login100">
 			<!-- 뒷배경 -->
@@ -160,25 +262,31 @@ function execPostCode() {
 							style="margin-top: 10%; margin-bottom: 10%;">
 							<div class="panel-heading">
 								<h3 class="panel-title">Please Sign Up</h3>
+								<h6 style="text-align: right; color: gray;">* 전 항목 필수사항입니다.</h6>
 							</div>
 							<div class="panel-body">
 								<form:form action="${root }member/signup_pro" method="post"
 									modelAttribute="signupBean">
 									<form:hidden path="userIdExist"/>
+									<form:hidden path="userEmailExist"/>
 									<fieldset>
 										<div class="form-group">
-											<form:label path="user_name">이름</form:label>
+											<form:label path="user_name">이름
+											<h6 style="color: gray;">한글만을 허용합니다. (2~10자리)</h6>
+											</form:label>
 											<form:input path="user_name" class="form-control"
 												placeholder="이름" type="text" />
-											<form:errors path="user_name" />
+											<form:errors path="user_name" style="color:red"/>
 
 										</div>
 
 										<div class="form-group">
-											<form:label path="user_id">아이디</form:label>
+											<form:label path="user_id">아이디
+											<h6 style="color: gray;">영문 대소문자, 로마 숫자, -, _ 을 허용합니다. (4~20자리)</h6>
+											</form:label>
 											<form:input class="form-control" placeholder="아이디"
-												path="user_id" onkeypress="resetUserIdExist()" />
-											<form:errors path="user_id" />
+												path="user_id" onkeypress="resetUserIdExist()" />	
+											<form:errors path="user_id" id="user_id_errors" style="color:red"/>
 											<button type="button"
 												class="btn btn-warning m-t-5 m-b-5 m-l-5 m-r-5"
 												style="float: right" onclick="checkUserIdExist()">중복확인</button>
@@ -187,31 +295,41 @@ function execPostCode() {
 
 
 										<div class="form-group">
-											<form:label path="user_password">비밀번호</form:label>
+											<form:label path="user_password">비밀번호
+											<h6 style="color: gray;">문자와 숫자를 1개이상 조합하여야 합니다. (8자리 이상)</h6>
+											</form:label>
 											<form:password class="form-control" placeholder="비밀번호"
 												path="user_password" />
-											<form:errors path="user_password" />
+											<form:errors path="user_password" style="color:red"/>
 										</div>
 
 										<div class="form-group">
-											<form:label path="user_password2">비밀번호 확인</form:label>
+											<form:label path="user_password2">비밀번호 확인
+											<h6 style="color: gray;">입력한 비밀번호와 동일하여야 합니다.</h6>
+											</form:label>
 											<form:password class="form-control" placeholder="비밀번호 재입력"
 												path="user_password2" />
-											<form:errors path="user_password2" />
+											<form:errors path="user_password2" style="color:red"/>
 										</div>
 
 										<div class="form-group">
 											<form:label path="email">이메일</form:label>
 											<form:input type="text" path="email" class="form-control"
-												placeholder="이메일" />
-											<form:errors path="email" />
+												placeholder="이메일" onkeypress="resetUserEmailExist()"/>
+											<form:errors path="email" class="user_eamil_errors" style="color:red"/>
+											<button type="button"
+												class="btn btn-warning m-t-5 m-b-5 m-l-5 m-r-5"
+												style="float: right" onclick="checkUserEmailExist()">중복확인</button>
+											<br>
 										</div>
 
 										<div class="form-group">
-											<form:label path="phone">전화번호</form:label>
+											<form:label path="phone">휴대전화
+											<h6 style="color: gray;">휴대전화번호를 입력하세요(하이픈(-)제외)</h6>
+											</form:label>
 											<form:input type="text" class="form-control"
-												placeholder="전화번호" path="phone"/>
-											<form:errors path="email" />
+												placeholder="휴대전화(EX 0102349876)" path="phone"/>
+											<form:errors path="phone" style="color:red"/>
 
 										</div>
 
@@ -219,7 +337,7 @@ function execPostCode() {
 											<form:label path="postcode" style="display: block;">기본주소</form:label>
 											<form:input class="form-control"
 												style="width: 40%; display: inline;" placeholder="우편번호"
-												path="postcode" type="text" readonly="true" />
+												path="postcode" type="text" readonly="true" required="true"/>
 											<button type="button" class="btn btn-default"
 												onclick="execPostCode();">
 												<i class="fa fa-search"></i> 우편번호 찾기
@@ -229,7 +347,7 @@ function execPostCode() {
 										<div class="form-group">
 											<form:input class="form-control" style="top: 5px;"
 												placeholder="도로명 주소" path="address1" type="text"
-												readonly="true" />
+												readonly="true" required="true"/>
 										</div>
 
 										<div class="form-group">
@@ -238,7 +356,8 @@ function execPostCode() {
 										</div>
 
 										<div class="form-group">
-											<form:label path="gender">성별</form:label>
+											<form:label path="gender">성별
+											</form:label>
 											<br>
 											<form:radiobutton path="gender" value="male" checked="true"/>
 											남
@@ -247,75 +366,60 @@ function execPostCode() {
 										</div>
 
 										<div class="form-group">
-											<form:label path="birthdate">생년월일</form:label>
+											<form:label path="birthdate">생년월일
+											<h6 style="color: gray;">생년월일 6자릴 입력해주세요(YYMMDD)</h6>
+											</form:label>
 											<form:input class="form-control"
 												placeholder="6자 입력(EX 950503)" path="birthdate"
 												maxlength='6' />
+											<form:errors path="birthdate" style="color:red"/>
 
 										</div>
 
-										<%-- 개인정보수집 및 이용동의 모달창으로 pre --%>
-										<label><h4>개인정보수집 및 이용동의</h4></label>
-										<div class="form-group">
-											<ul class="policy">
-												<li><label for="service" class="ttl"> 서비스 이용 약관
-														<em>(필수)</em>
-												</label> <label class="circle-chx" id="#Modal-1"> </label> <a
-													class="btn sm largy line w-80" data-toggle="modal"
-													data-target="#popup_box">전문 보기</a></li>
-											</ul>
-										</div>
+										<form action="" id="joinForm">
+            <ul class="join_box">
+                <li class="checkBox check01">
+                    <ul class="clearfix">
+                        <li>이용약관, 개인정보 수집 및 이용에 대하여 모두 동의합니다.</li>
+                        <li class="checkAllBtn">
+                            <form:checkbox path="personal_info_agmt" class="chkAll" value="1" required="true"/>
+                        </li>
+                    </ul>
+                </li>
+                <li class="checkBox check02">
+                    <ul class="clearfix">
+                        <li>이용약관 동의(필수)</li>
+                        <li class="checkBtn">
+                        </li>
+                    </ul>
+                    <textarea name="" id="">이 약관은 SBC 회사(전자상거래 사업자)가 운영하는 SBC 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
 
-										<!-- 모달창 -->
-										<div class="modal fade" id="popup_box">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal">&times;</button>
-														<p>서비스 이용약관</p>
-													</div>
-													<div class="modal-body">
-														<p>개인정보관련 동의서 복붙</p>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-default"
-															data-dismiss="modal" style="position: center;">동의하기</button>
-													</div>
-												</div>
-											</div>
-										</div>
+  ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
 
-										<!-- 모달창을 모달았음 -->
-										<div class="form-group">
-											<ul class="policy">
-												<li><label for="service" class="ttl"> 개인정보 수집 및
-														이용안내 <em>(필수)</em>
-												</label> <label class="circle-chx" id="#Modal-2"> </label> <a
-													class="btn sm largy line w-80" data-toggle="modal"
-													data-target="#popup_box2">전문 보기</a></li>
-											</ul>
-										</div>
+       </textarea>
+                </li>
+                <li class="checkBox check03">
+                    <ul class="clearfix">
+                        <li>개인정보 수집 및 이용에 대한 안내(필수)</li>
+                        <li class="checkBtn">
+                        </li>
+                    </ul>
+ 
+                    <textarea name="" id=""> 개인정보 수집 및 이용안내
+                    
+  ① “몰”이란 SBC 회사가 재화 또는 용역(이하 “재화 등”이라 함)을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 아울러 사이버몰을 운영하는 사업자의 의미로도 사용합니다.
 
-										<!-- 모달창 -->
-										<div class="modal fade" id="popup_box2">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal">&times;</button>
-														<p>개인정보 수집 및 이용안내</p>
-													</div>
-													<div class="modal-body">
-														<p>여기에 개인정보 수집 및 이용안내 복붙</p>
-													</div>
-													<div class="modal-footer" style="position: center;">
-														<button type="button" class="btn btn-default"
-															data-dismiss="modal">동의하기</button>
-													</div>
+  ② “이용자”란 “몰”에 접속하여 이 약관에 따라 “몰”이 제공하는 서비스를 받는 회원 및 비회원을 말합니다.
 
-												</div>
-											</div>
-										</div>
+  ③ ‘회원’이라 함은 “몰”에 회원등록을 한 자로서, 계속적으로 “몰”이 제공하는 서비스를 이용할 수 있는 자를 말합니다.
 
+  ④ ‘비회원’이라 함은 회원에 가입하지 않고 “몰”이 제공하는 서비스를 이용하는 자를 말합니다.
+                    
+       </textarea>
+                </li>
+                
+            </ul>
+            
 										<div class="container-login100-form-btn">
 											<div class="wrap-login100-form-btn">
 												<div class="login100-form-bgbtn"></div>

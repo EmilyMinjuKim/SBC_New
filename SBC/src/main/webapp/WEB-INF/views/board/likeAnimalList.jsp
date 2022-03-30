@@ -11,108 +11,248 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Shop Item - Start Bootstrap Template</title>
-<!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-<!-- Bootstrap icons-->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-	rel="stylesheet" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="../css/styles.css" rel="stylesheet" />
+<title>나의 관심 동물</title>
+
+<link href="${root }css/styles.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<c:import url='/WEB-INF/views/include/header_menu4.jsp' />
+
+
+<style>
+html{
+height : 100%;
+}
+body{
+height : 80%;
+}
+section{
+height : 50%;
+margin-bottom: 50px;
+}
+footer{
+height : 20%;
+margin-top: 100px;
+}
+
+
+.justify-content-left {
+   -ms-flex-pack: left!important;
+   justify-content: left!important
+}
+
+.justify-content-center {
+   -ms-flex-pack: center!important;
+   justify-content: center!important
+}
+
+.justify-content-right {
+   -ms-flex-pack: right!important;
+   justify-content: right!important
+}
+
+.animalinfo th{
+	font-size: 20px;
+}
+
+.card {
+   position: relative;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   min-width: 0;
+   word-wrap: break-word;
+   background-color: #fff;
+   background-clip: border-box;
+   border: 1px solid rgba(0, 0, 0, .125);
+   border-radius: .25rem;
+}
+
+.shadow {
+   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+.aa3a{
+	color: #ff61c9;
+	border: 2px solid #ff61c9;
+	vertical-align: middle;
+	text-decoration: none;
+	height: 38px; 
+	position: relative; 
+	left: 60%;
+	font-weight: 900;
+	background: white;
+}
+
+.aa3b{
+	vertical-align: middle;
+	position: relative; 
+	left: 100%;
+}
+
+.aa3a:hover {
+	color: white;
+	border: 2px solid white;
+	vertical-align: middle;
+	text-decoration: none;
+	height: 38px; 
+	position: relative; 
+	left: 60%;
+	font-weight: 900;
+	background: #ff61c9;
+	
+}
+</style>
+
 </head>
 <body>
 
 
 	<!-- Related items section-->
-	<section class="py-5 bg-light">
-	<div class="container px-4 px-lg-5 mt-5">
+<section class="py-5 bg-light ">
+	<div class="container mt-12">
 		<div style="text-align: center;">
-			<h1 class="fw-bolder mb-4">나의 관심글</h1>
+			<h1 class="fw-bolder mb-4 pb-4" style="color:#ff6c99;">나의 관심 동물</h1>
 		</div>
-		<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-			<%-- <c:set var="info" value="${l }"/> --%>
-			<c:forEach var='dog' items='${list}' varStatus="status">
-				<div class="col mb-5">
-					<div class="card h-100">
-						<!-- Product image-->
-						<img class="card-img-top" src="${dog['img'] }" alt="..." />
-						<!-- Product details-->
-						<div class="card-body p-4">
-							<div class="text-center">
-								<!-- animal name-->
-								<h5 class="fw-bolder">${dog['12']}</h5>
-							</div>
-							<div class="imgicon" style="text-align: center;">
-							${dog['6']}
-								<!-- 성별, 품종 아이콘 -->
-								<img src="../img/female.png">${dog['3']} <img src="../img/dog.png">
-							</div>
-							<div style="text-align: center;">${dog['11']}</div>
+		<c:forEach var='dog' items='${list}' varStatus="status">
+			<!-- Product actions-->
+				<div class="h-100 pt-5 card shadow">
+					<div class="row card-body">
+						<div class="col-md-6 text-center">
+							<img class="card-img-top" src="${dog['img'] }" alt="..." />
 						</div>
-						<!-- Product actions-->
-						<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-							<div class="text-center">
-								<a class="btn btn-outline-dark mt-auto" href="${root}board/i">보러가기</a>
+						<div class="row col-md-6">
+							<div class="row col-md-8">
+								<h5 class="fw-bolder">${dog['상태']}   
+								&nbsp;<span style="font-size: 12pt">${dog['성별']}</span>
+								<c:set var="sex" value="${dog['성별']}" scope="session"/>
+								<c:choose>
+									<c:when test="${sex=='수컷'||sex==' 수컷'||sex=='수컷 '||sex==' 수컷 '}">
+										<img src="${root}img/board/male.png">
+									</c:when>
+
+									<c:when test="${sex=='암컷'||sex==' 암컷'||sex=='암컷 '||sex==' 암컷 '}">
+										<img src="${root}img/board/female.png">
+									</c:when>
+									
+									<c:otherwise>
+										<img src="${root}img/board/gender.png">
+									</c:otherwise>
+								</c:choose>
+								 <span style="font-size: 15px; width: 20px;">중성화 여부 : ${dog['중성화']}</span>
+								</h5>
+							</div>
+							<div class="row col-md-2"> <a class="btn aa3b" onclick="addLikeFunc('${dog['animal_code']}');">
+							<img src="${root }img/board/redheart.gif" style="max-width: 80%;  max-height: 80%;"/>
+							</a></div>
+							<div style="position: relative; top: -5%;">
+							<div class="fs-5 mb-5" style="position: relative;">
+								<span style="font-weight: 900;">${dog['품종']}</span><br>
+								<span style="font-weight: 600;">${dog['색상']}/${dog['나이/체중']}</span>
+							</div>
+							<table class="animalinfo" style="font-weight: 900;">
+								<tr>
+									<th colspan="2">공고번호 :</th>
+									<td colspan="2">${dog['공고번호']}</td>
+								</tr>
+								<tr>
+									<th>품종 : </th>
+									<td colspan="2">${dog['품종']}</td>
+								</tr>
+								<tr>
+									<th>색상 : </th>
+									<td  colspan="2">${dog['색상']}</td>
+								</tr>
+								<tr>
+									<th style="width: 20%;" colspan="2">나이/체중 :</th>
+									<td colspan="2">${dog['나이/체중']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">발생장소 : </th>
+									<td colspan="2">${dog['발생장소']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">접수일시 : </th>
+									<td colspan="2">${dog['접수일시']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">중성화 : </th>
+									<td colspan="2">${dog['중성화']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">특징 : </th>
+									<td colspan="2">${dog['특징']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">등록번호 : </th>
+									<td colspan="2">${dog['등록번호']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">RFID_CD : </th>
+									<td colspan="2">${dog['RFID_CD']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">특징 : </th>
+									<td colspan="2">${dog['8']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">관할기관 : </th>
+									<td colspan="2">${dog['관할기관']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">보호센터 : </th>
+									<td colspan="2">${dog['보호센터']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">보호센터<br>연락처 : </th>
+									<td colspan="2">${dog['보호센터연락처']}</td>
+								</tr>
+								<tr>
+									<th colspan="2">보호장소 : </th>
+									<td colspan="2">${dog['보호장소']}</td>
+								</tr>
+							</table>
 							</div>
 						</div>
 					</div>
-				</div>
-			</c:forEach>
-
-
-
-
-			<%--                <div class="col mb-5">
-		                        <div class="card h-100">
-		                            <!-- Product image-->
-		                            <img class="card-img-top" src="${info}" alt="..." />
-		                            <!-- Product details-->
-		                            <div class="card-body p-4">
-		                                <div class="text-center">
-		                                    <!-- animal name-->
-		                                    <h5 class="fw-bolder">핑삼이</h5>  
-		                                </div>
-		                                <div class="imgicon" style="text-align: center;">
-		                                <!-- 성별, 품종 아이콘 -->
-		                                <img src="../img/female.png">
-		                                <img src="../img/dog.png">
-		                                </div>
-		                                <div style="text-align: center;">
-		                               ${info}
-		                                </div>
-		                            </div>
-		                            <!-- Product actions-->
-		                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-		                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="${root}board/i">보러가기</a></div>
-		                            </div>
-		                        </div>
-		                    </div>
-	                  --%>
-
-
-
-
-
-
-
-
-
-
-
-		</div>
+				</div><br>
+		</c:forEach>
 	</div>
-	</section>
-	<!-- Footer-->
-	<footer class="py-5 bg-dark">
-	<div class="container">
-		<p class="m-0 text-center text-white">TEAM SBC</p>
-	</div>
-	</footer>
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="../js/scripts.js"></script>
+	<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
+</section>
+
+	
+	
+	
+	
+	
+<script>
+//관심동물 삭제
+function addLikeFunc(desertionNo) {
+	console.log(desertionNo);
+	    $.ajax({
+    "url" : "${root}board/addAnimal/"+desertionNo,
+    "type" : "get",
+    "dataType" : "text",
+    "async" : "false",
+    "success" : function(result) {
+  	 		 console.log("결과값?"+result)
+				if(result.trim()=="true"){
+					alert("관심동물 등록!!")
+				}else{
+					alert("관심동물 삭제!!")
+				}
+				},
+		"error" : function(x, o, e) {
+        alert(x.status + ":" + o + ":" + e);
+     }
+
+ 	})
+ 	location.reload();
+}
+
+
+</script>
+		
 </body>
 </html>

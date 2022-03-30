@@ -51,13 +51,13 @@ public class BoardDao {
 		boardMapper.modifyChipInfo(chip);
 	};
 
-	public boolean modifyDogInfo(DogBean dog) {
-		return boardMapper.modifyDogInfo(dog);
-	};
-
-	public boolean modifyBoardContent(BoardBean boardContent) {
-		return boardMapper.modifyBoardContent(boardContent);
-	};
+//	public boolean modifyDogInfo(DogBean dog) {
+//		return boardMapper.modifyDogInfo(dog);
+//	};
+//
+//	public boolean modifyBoardContent(BoardBean boardContent) {
+//		return boardMapper.modifyBoardContent(boardContent);
+//	};
 	
 	
 	

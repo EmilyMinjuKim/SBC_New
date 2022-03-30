@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var='root' value='${pageContext.request.contextPath}/'/>
 <!DOCTYPE html>
 <html>
@@ -14,19 +15,33 @@
 
 <title>My Cart</title>
 
-<!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-<!-- Bootstrap icons-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link rel="stylesheet" href="${root }css/product-style.css"/>
-
+<!-- 부트스트랩 기본 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <!--카카오 map api  -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=67350dbec2efe1663af9ea26ecc6ec71&libraries=services"></script>	
 
 <style>  
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	}
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
+    font-weight: bold;
+	}
+	*{
+		font-family: 'air';
+	}
+	input[type=password] {
+	    font-family: "serif";
+	
+	    &::placeholder {
+	        font-family: "air";
+	    }
+	}
     table {
 		width: 100%;
 		border-top: 1px solid #808080;
@@ -49,9 +64,33 @@
 	
 	.order_phone {
 		maxlenght: "3";
-		pattern: "[0-9]";
 	}
-
+	
+	#price1 {
+		font-size: 16pt;
+		font-weight: bold;
+	}
+	
+	.mtop{
+		margin-top: 6px;
+	}
+	
+	.mbottom {
+		margin-bottom: 6px;
+	}
+	
+	.smallfonts{
+		font-size: 10pt;
+		color: #696969;
+	}
+	.priceBottom {
+		font-size: 20pt;
+		font-weight: bold;
+	}
+	.tdBottom{
+		border-right: 1px solid #D3D3D3;
+		width: 48%;
+	}
 
 </style>
 
@@ -76,7 +115,10 @@ $(document).ready(function() {
 		
 		eachTotal = cntVal * priceVal;
 		
-		$(eachTotalSpan).text(eachTotal);
+		/* 화폐 단위로 변경 */
+		var eachTotalCurrency = eachTotal.toLocaleString('ko-KR');
+		
+		$(eachTotalSpan).text(eachTotalCurrency);
 		totalPrice += eachTotal;
 	}
 	
@@ -92,13 +134,18 @@ $(document).ready(function() {
 	/* 최종 가격 */
 	finalTotalPrice = totalPrice + delivery;
 	
+	/* 화폐 단위로 변경 */
+	var totalPriceCurrency = totalPrice.toLocaleString('ko-KR');
+	var deliveryCurrency = delivery.toLocaleString('ko-KR');
+	var finalTotalPriceCurrency = finalTotalPrice.toLocaleString('ko-KR');
+	
 	/* 값 삽입 */
 	// 총 가격
-	$(".totalPrice").text(totalPrice);	
+	$(".totalPrice").text(totalPriceCurrency);	
 	// 배송비
-	$(".delivery").text(delivery);	
+	$(".delivery").text(deliveryCurrency);	
 	// 최종 가격(총 가격 + 배송비)
-	$(".finalTotalPrice").text(finalTotalPrice);
+	$(".finalTotalPrice").text(finalTotalPriceCurrency);
 	
 	$('input[name=total_price]').attr('value', totalPrice);
 	$('input[name=shipping]').attr('value', delivery);
@@ -198,25 +245,6 @@ function showAlert(ele_id, label_txt) {
 	$("#"+ele_id).focus();
 }
 
-//비회원 비밀번호 유효성 검사
-var pw1_id = "#frm input[id=order_pw1]";
-var pw2_id = "#frm input[id=order_pw2]";
-	
-$(document).ready(function() {
-
-	if($(pw1_id).val()=="" || $(pw1_id).val()==null){
-		$("#pw1").text("주문조회 시 필요합니다. (영문대소문자/숫자/특수문자 중 2가지 이상 조합, 6자~16자)");
-	}	
-});
-
-function pwVal() {
-	if($(pw1_id).val() != $(pw2_id).val()){
-		$("#pw2").text("비밀번호가 일치하지 않습니다.");
-		$("#pw2").focus();
-	} else if($(pw1_id).val() == $(pw2_id).val()){
-		$("#pw2").text("");
-	}
-}
 
 //email 선택하기 
 function selectEmail(ele) {
@@ -258,13 +286,13 @@ $(document).ready(function() {
 			document.getElementById("pay_detail").innerHTML =
 			"<table style='border:0; text-align: left'>"+
 				"<tr>"+
-					"<td>입금자명</td>"+
-					"<td><input type='text' id='order_deposit' /></td>"+
+					"<td style='border:0'>입금자명</td>"+
+					"<td style='border:0'><input type='text' id='order_deposit' /></td>"+
 				"</tr>"+
 				"<tr>"+
-					"<td>입금은행</td>"+
-					"<td>"+
-						"<select id='bank_account'>"+
+					"<td style='border:0'>입금은행</td>"+
+					"<td style='border:0'>"+
+						"<select id='bank_account' style='padding: 5px'>"+
 							"<option value='1' selected='selected'>:::선택해주세요.:::</option>"+
 							"<option>국민은행: 111122223333 (주)에스비씨</option>"+
 							"<option>신한은행: 444455556666 (주)에스비씨</option>"+
@@ -320,7 +348,7 @@ $(document).ready(function() {
 		    	 var msg = '결제에 실패하였습니다.';
 		         msg += '//' + rsp.error_msg;
 		    }
-		    alert(msg);
+		    //alert(msg);
 		});
 	}
 	
@@ -353,44 +381,64 @@ $(document).ready(function() {
             }
         }).open();
     }
+    
+    /*            유효성검사                 */
+	
+	//휴대전화
+	function phoneValCheck(id) {
+		var tel = $("#"+id).val();
+		
+		var telCheck = /^[0-9]{3,4}/;
+		
+		if(!telCheck.test(tel)){
+	   		alert("숫자만 입력 가능합니다.");
+	   		$("#"+id).val("");
+	   		$("#"+id).focus();
+	   	}
+		
+	}
+	
+	//비회원 비밀번호 유효성 검사
+	var pw1_id = "#frm input[id=order_pw1]";
+	var pw2_id = "#frm input[id=order_pw2]";
+		
+	$(document).ready(function() {
 
+		if($(pw1_id).val()=="" || $(pw1_id).val()==null){
+			$("#pw1").text("주문조회 시 필요합니다. (영문대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)");
+		}	
+	});
+	
+	//비밀번호 유효성 검사
+	function pwValCheck() {
+		
+	    var pwd = $(pw1_id).val();
+	    var pwdCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+	    
+	   	if(!pwdCheck.test(pwd)){
+	   		$("#pw1").text("사용할 수 없는 비밀번호입니다. (영문대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)");
+	   		$("#order_pw1").focus();
+	   	} else{
+	   		$("#pw1").text("사용가능한 비밀번호입니다.");
+	   	}
+	}
+
+	//비밀번호 유효성 검사 
+	function pwVal() {
+		if($(pw1_id).val() != $(pw2_id).val()){
+			$("#pw2").text("비밀번호가 일치하지 않습니다.");
+			$("#order_pw2").focus();
+		} else if($(pw1_id).val() == $(pw2_id).val()){
+			$("#pw2").text("");
+		}
+	}
+    
 </script>
 </head>    
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        
-        
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">주문하기</h1>
-                </div>
-            </div>
-        </header>
-        
-        
+        <c:import url="/WEB-INF/views/include/header_menu3.jsp" />
+
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
@@ -422,14 +470,14 @@ $(document).ready(function() {
                 		<tbody>
                 		<tr>
                 			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
-                			<td>${list.price }원</td>
+                			<td><fmt:formatNumber value="${list.price }" pattern="#,###"/>원</td>
                 			<td>${list.quantity }</td>
                 			<td><span class="delivery"></span>원</td>
                 			<td><span class="eachTotalSpan${vs.index }"></span>원</td>
                 		</tr>
                 		</c:forEach>
                 		<tr class="no-bottom-border">
-                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계: <span class="finalTotalPrice"></span>원</td>
+                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계:&nbsp;&nbsp;&nbsp;<span class="finalTotalPrice" id="price1"></span>원</td>
                 		</tr>
                 		</tbody>
 					</table>
@@ -452,9 +500,9 @@ $(document).ready(function() {
                 			<td>주소<span style="color: red">*</span></td>
                 			<td>
                 				<label for="order_postcode1" class="label_hidden">우편번호</label>
-	                			<input type="text" id="order_postcode1" class="nullCheck" name="order_postcode" readonly="readonly" /> <button type="button" onclick="shipping1()">우편번호</button><br />
-	                			<input type="text" size="50" id="order_addr1" class="nullCheck" name="order_address1" readonly="readonly" /> <label for="order_addr1">기본주소</label><br />
-	                			<input type="text" size="50" id="order_addr2" class="nullCheck" name="order_address2" /> <label for="order_addr2">나머지주소</label> 나머지주소
+	                			<input type="text" id="order_postcode1" class="nullCheck" name="order_postcode" readonly="readonly" /> <button type="button" class="btn btn-outline-dark" onclick="shipping1()">우편번호</button><br />
+	                			<input type="text" size="50" id="order_addr1" class="nullCheck mtop" name="order_address1" readonly="readonly" /> <label for="order_addr1" class="smallfonts">기본주소</label><br />
+	                			<input type="text" size="50" id="order_addr2" class="nullCheck mtop" name="order_address2" /> <label for="order_addr2" class="smallfonts">나머지주소</label>
                 			</td>
                 		</tr>
                 		<tr>
@@ -470,16 +518,16 @@ $(document).ready(function() {
                 					<option>019</option>
                 				</select>
                 				-
-                				<input type="text" size="10" id="order_phone1" class="nullCheck" maxlength="4" /><label for="order_phone1" class="label_hidden">휴대전화</label>
+                				<input type="text" size="10" id="order_phone1" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone1" class="label_hidden">휴대전화</label>
                 				-
-                				<input type="text"  size="10" id="order_phone2" class="nullCheck" maxlength="4" /><label for="order_phone2" class="label_hidden">휴대전화</label>
+                				<input type="text"  size="10" id="order_phone2" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone2" class="label_hidden">휴대전화</label>
                 			</td>
                 		</tr>
                 		<tr>
                 			<td>이메일<span style="color: red">*</span></td>
                 			<td>
                 				<input type="hidden" name="email"/>
-                				<input type="text" id="order_email1" class="nullCheck" name="email1" /> @ <input type="text" id="order_email2" class="nullCheck" name="email2" />
+                				<input type="text" id="order_email1" class="nullCheck mbottom" name="email1" /> @ <input type="text" id="order_email2" class="nullCheck mbottom" name="email2" />
                 				<label for="order_email1" class="label_hidden">이메일</label>
                 				<label for="order_email2" class="label_hidden">이메일</label>
                 				<select onchange="selectEmail(this)">
@@ -495,29 +543,31 @@ $(document).ready(function() {
                 					<option>gmail.com</option>
                 					<option value="">-이메일 선택-</option>
                 				</select><br />
-                				이메일을 통해 주문처리과정을 보내드립니다.<br />
-								이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.
+                				<div class="smallfonts">
+                					이메일을 통해 주문처리과정을 보내드립니다.<br />
+									이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.
+                				</div>
                 			</td>
                 		</tr>
                 		<tr>
                 			<td>주문조회 <label for="order_pw1" >비밀번호</label><span style="color: red">*</span></td>
                 			<td>
-                				<input type="password" id="order_pw1" class="nullCheck" />
-                				<span id="pw1"></span>
+                				<input type="password" id="order_pw1" class="nullCheck" onchange="pwValCheck()" />
+                				<span id="pw1" class="smallfonts"></span>
                 			</td>
                 		</tr>
                 		<tr>
                 		    <td>주문조회 <label for="order_pw2">비밀번호 확인</label><span style="color: red">*</span></td>
                 			<td>
                 				<input type="password" id="order_pw2" class="nullCheck" onchange="pwVal()" name="temp_pw" />
-                				<span id="pw2"></span>
+                				<span id="pw2" class="smallfonts"></span>
                 			</td>
                 		</tr>
                 		<tr>
                 			<td>비회원 구매 및 결제 개인정보취급방침</td>
                 			<td>비회원 구매 및 결제 개인정보취급방침에 대하여 동의합니다.
                 				<input type="radio" name="info_agmt" value="1" />동의함 <input type="radio" name="info_agmt" />동의안함<br />
-                				<textarea rows="3" cols="80" readonly="readonly">1. 개인정보 수집목적 및 이용목적 : 비회원 구매 서비스 제공 2. 수집하는 개인정보 항목- 주문 시, 성명, 주소, 전화번호, 이메일, 결제정보, 비회원 결제 비밀번호- 취소/교환/반품 신청 시, 환불계좌정보(은행명, 계좌번호, 예금주) 3. 개인정보의 보유기간 및 이용기간원칙적으로, 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 단, 다음의 정보에 대해서는 아래의 이유로 명시한 기간 동안 보존합니다. 가. 회사 내부 방침에 의한 정보 보유 사유고객의 개인정보는 회원탈퇴 등 수집 및 이용목적이 달성되거나 동의철회 요청이 있는 경우 지체없이 파기됩니다. 단,「전자상거래 등에서의 소비자보호에 관한 법률」 등 관련법령의 규정에 의하여다음과 같이 거래 관련 권리 의무 관계의 확인 등을 이유로 일정기간 보유하여야 할 필요가 있을 경우에는 그 기간동안 보유합니다.가. 「전자상거래 등에서의 소비자보호에 관한 법률」 제6조- 계약 또는 청약 철회 등에 관한 기록 : 5년- 대금결재 및 재화 등의 공급에 관한 기록 : 5년- 소비자의 불만 또는 분쟁처리에 관한 기록 : 3년나. 「통신비밀보호법」 제15조의2- 방문(로그)에 관한 기록: 3개월다. 기타 관련 법령 등※ 동의를 거부할 수 있으나 거부시 비회원 구매 서비스 이용이 불가능합니다.
+                				<textarea rows="3" cols="80" readonly="readonly" class="mtop smallfonts">1. 개인정보 수집목적 및 이용목적 : 비회원 구매 서비스 제공 2. 수집하는 개인정보 항목- 주문 시, 성명, 주소, 전화번호, 이메일, 결제정보, 비회원 결제 비밀번호- 취소/교환/반품 신청 시, 환불계좌정보(은행명, 계좌번호, 예금주) 3. 개인정보의 보유기간 및 이용기간원칙적으로, 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 단, 다음의 정보에 대해서는 아래의 이유로 명시한 기간 동안 보존합니다. 가. 회사 내부 방침에 의한 정보 보유 사유고객의 개인정보는 회원탈퇴 등 수집 및 이용목적이 달성되거나 동의철회 요청이 있는 경우 지체없이 파기됩니다. 단,「전자상거래 등에서의 소비자보호에 관한 법률」 등 관련법령의 규정에 의하여다음과 같이 거래 관련 권리 의무 관계의 확인 등을 이유로 일정기간 보유하여야 할 필요가 있을 경우에는 그 기간동안 보유합니다.가. 「전자상거래 등에서의 소비자보호에 관한 법률」 제6조- 계약 또는 청약 철회 등에 관한 기록 : 5년- 대금결재 및 재화 등의 공급에 관한 기록 : 5년- 소비자의 불만 또는 분쟁처리에 관한 기록 : 3년나. 「통신비밀보호법」 제15조의2- 방문(로그)에 관한 기록: 3개월다. 기타 관련 법령 등※ 동의를 거부할 수 있으나 거부시 비회원 구매 서비스 이용이 불가능합니다.
                 				</textarea>
                 			</td>
                 		</tr>
@@ -545,9 +595,9 @@ $(document).ready(function() {
                 			<td>주소<span style="color: red">*</span></td>
                 			<td>
                 				<label for="order_postcode2" class="label_hidden">우편번호</label>
-	                			<input type="text" id="order_postcode2" class="nullCheck" name="shipping_postcode" readonly="readonly" /> <button type="button" onclick="shipping2()">우편번호</button><br />
-	                			<input type="text" size="50" id="order_addr3" class="nullCheck" name="shipping_address1" readonly="readonly" /> <label for="order_addr3">기본주소</label><br />
-	                			<input type="text" size="50" id="order_addr4" class="nullCheck" name="shipping_address2" /> <label for="order_addr4">나머지주소</label>
+	                			<input type="text" id="order_postcode2" class="nullCheck" name="shipping_postcode" readonly="readonly" /> <button type="button" class="btn btn-outline-dark" onclick="shipping2()">우편번호</button><br />
+	                			<input type="text" size="50" id="order_addr3" class="nullCheck mtop" name="shipping_address1" readonly="readonly" /> <label for="order_addr3" class="smallfonts">기본주소</label><br />
+	                			<input type="text" size="50" id="order_addr4" class="nullCheck mtop" name="shipping_address2" /> <label for="order_addr4" class="smallfonts">나머지주소</label>
                 			</td>
                 		</tr>
                 		<tr>
@@ -563,9 +613,9 @@ $(document).ready(function() {
                 					<option>019</option>
                 				</select>
                 				-
-                				<input type="text" size="10" id="order_phone3" class="nullCheck" maxlength="4" /><label for="order_phone3" class="label_hidden">휴대전화</label>
+                				<input type="text" size="10" id="order_phone3" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone3" class="label_hidden">휴대전화</label>
                 				-
-                				<input type="text" size="10" id="order_phone4" class="nullCheck" maxlength="4" /><label for="order_phone4" class="label_hidden">휴대전화</label>
+                				<input type="text" size="10" id="order_phone4" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone4" class="label_hidden">휴대전화</label>
                 			</td>
                 		</tr>
                 		<tr>
@@ -588,7 +638,7 @@ $(document).ready(function() {
                 			<td>배송비</td>
                 			<td>총 결제예정 금액</td>
                 		</tr>
-                		<tr>
+                		<tr class="priceBottom">
                 			<td>
                 				<span class="totalPrice"></span>원
                 				<input type="hidden" name="total_price"/>
@@ -612,19 +662,19 @@ $(document).ready(function() {
                 	</table>
                 	<table style="text-align: left">
                 		<tr>
-                			<td>
+                			<td class="tdBottom">
                 				<input type="radio" name="pay_method" value="1" /> 무통장 입금
                 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="pay_method" value="2" /> 카드 결제<br />
                 			</td>
-                			<td rowspan="2">
+                			<td rowspan="2" style="padding: 20px; padding-left: 40px">
                 				최종결제 금액<br />
-                				<span class="finalTotalPrice"></span>원<br />
+                				<span class="finalTotalPrice priceBottom" class="mbottom"></span>원<br />
                 				<input type="checkbox" id="order_agmt" /> 결제정보를 확인하였으며, 구매진행에 동의합니다.<br />
-                				<button type="button" onclick="btnClicked()">PAYMENT</button>
+                				<button type="button" class="btn btn-outline-dark mtop" onclick="btnClicked()" style="width: 57%">PAYMENT</button>
                 			</td>
                 		</tr>
                 		<tr>
-                			<td>
+                			<td class="tdBottom">
                 				<div id="pay_detail"></div>
                 			</td>
                 		</tr>
@@ -636,16 +686,8 @@ $(document).ready(function() {
         </section>
         
         
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="${root }js/shop-scripts.js"></script>
-        <!-- Spinner JS -->
-        <script src="${root }jquery-ui-1.11.4/jquery-ui.js"></script>
+        <!-- 부트스트랩 기본 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <!-- iamport.payment.js -->
  		<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     </body>

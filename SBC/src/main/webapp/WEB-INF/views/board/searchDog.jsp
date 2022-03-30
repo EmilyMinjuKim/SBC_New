@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath }/" />
@@ -14,274 +15,286 @@
 <link rel="icon" href="favicon.ico">
 <title>유기동물 조회</title>
 <!-- Bootstrap core CSS -->
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link href="${root }css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <!-- Custom styles for this template -->
-<link href="../css/style.css" rel="stylesheet">
+<link href="${root }css/style.css" rel="stylesheet">
 
 <!-- 달력  -->
 <!-- <link rel="stylesheet" href="/css/jquery-ui.min.css">-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css"> 
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 
 <style>
 .team-item {
-   position: relative;
-   display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 .card {
-   position: relative;
-   display: -ms-flexbox;
-   display: flex;
-   -ms-flex-direction: column;
-   flex-direction: column;
-   min-width: 0;
-   word-wrap: break-word;
-   background-color: #fff;
-   background-clip: border-box;
-   border: 1px solid rgba(0, 0, 0, .125);
-   border-radius: .25rem;
+	position: relative;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0, 0, 0, .125);
+	border-radius: .25rem;
 }
 
 .card1 {
-   position: relative;
-   display: -ms-flexbox;
-   -ms-flex-direction: column;
-   flex-direction: column;
-   min-width: 0;
-   word-wrap: break-word;
-   background-color: #fff;
-   background-clip: border-box;
-   border: 1px solid rgba(0, 0, 0, .125);
-   border-radius: .25rem;
+	position: relative;
+	display: -ms-flexbox;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0, 0, 0, .125);
+	border-radius: .25rem;
 }
 
 .card2 {
-   position: relative;
-   display: -ms-flexbox;
-   -ms-flex-direction: column;
-   flex-direction: column;
-   min-width: 0;
-   word-wrap: break-word;
-   background-clip: border-box;
-   border: 1px solid rgba(0, 0, 0, .125);
-   border-radius: .25rem;
-   background: #f8eed1;
+	position: relative;
+	display: -ms-flexbox;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-clip: border-box;
+	border: 1px solid rgba(0, 0, 0, .125);
+	border-radius: .25rem;
+	background: #f8eed1;
 }
 
 .shadow {
-   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+	box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 }
 
 .img-responsive {
-   width: 100%;
-   height: 250px;
-   max-height: 80%;
+	width: 100%;
+	height: 250px;
+	max-height: 80%;
 }
 
 .img-responsive-1 {
-   position: relative;
-   width: 350px;
-   height: 350px;
+	position: relative;
+	width: 350px;
+	height: 350px;
 }
 
 .h3 {
-   text-align: center;
-   font-size: 40px;
-   font-weight: 900;
+	text-align: center;
+	font-size: 30px;
+	font-weight: 500;
 }
 
 .size {
-   position: relative;
-   height: 500px;
-   margin-top: 5%;
-   margin-bottom: 5%;
-   margin-left: -2.5%;
-   margin-right: -2.5%;
+	position: relative;
+	height: 500px;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	margin-left: -2.5%;
+	margin-right: -2.5%;
 }
 
 .row {
-   margin-right: -41%;
-   margin-left: -15%;
+	margin-right: -41%;
+	margin-left: -15%;
 }
 
 .center {
-   position: relative;
-   text-align: center;
-   align-content: center;
+	position: relative;
+	text-align: center;
+	align-content: center;
+	-ms-flex-pack: center!important;
+	justify-content: center!important;
+	
 }
-
 
 /*달력  */
 body {
-   color: #000;
-   overflow-x: hidden;
-   height: 100%;
-   background-color: #F9A825 !important;
-   background-repeat: no-repeat
+	color: #000;
+	overflow-x: hidden;
+	height: 100%;
+	background-color: white !important;
+	background-repeat: no-repeat
 }
 
 .container {
-   padding-top: 120px;
-   padding-bottom: 120px
+	padding-top: 120px;
+	padding-bottom: 120px
 }
 
 input {
-   padding: 10px 15px !important;
-   border: 1px solid lightgrey !important;
-   border-radius: 10px;
-   box-sizing: border-box;
-   background-color: #fff !important;
-   color: #2C3E50;
-   font-size: 14px;
-   letter-spacing: 1px;
-   position: relative
+	padding: 10px 15px !important;
+	border: 1px solid lightgrey !important;
+	border-radius: 10px;
+	box-sizing: border-box;
+	background-color: #fff !important;
+	color: #2C3E50;
+	font-size: 14px;
+	letter-spacing: 1px;
+	position: relative
 }
 
 input:focus {
-   -moz-box-shadow: none !important;
-   -webkit-box-shadow: none !important;
-   box-shadow: none !important;
-   border: 1px solid #512DA8;
-   outline-width: 0
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	border: 1px solid #512DA8;
+	outline-width: 0
 }
 
 ::placeholder {
-   color: #BDBDBD;
-   opacity: 1
+	color: #BDBDBD;
+	opacity: 1
 }
 
 :-ms-input-placeholder {
-   color: #BDBDBD
+	color: #BDBDBD
 }
 
 ::-ms-input-placeholder {
-   color: #BDBDBD
+	color: #BDBDBD
 }
 
 button:focus {
-   -moz-box-shadow: none !important;
-   -webkit-box-shadow: none !important;
-   box-shadow: none !important;
-   outline-width: 0
+	-moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	outline-width: 0
 }
 
 .datepicker {
-   background-color: #fff;
-   border: none;
-   border-radius: 0 !important
+	background-color: #fff;
+	border: none;
+	border-radius: 0 !important
 }
 
 .datepicker-dropdown {
-   top: 0;
-   left: 0
+	top: 0;
+	left: 0
 }
 
 .datepicker table tr td.today, span.focused {
-   border-radius: 50% !important;
-   background-image: linear-gradient(#FFF3E0, #FFE0B2)
+	border-radius: 50% !important;
+	background-image: linear-gradient(#FFF3E0, #FFE0B2)
 }
 
 .datepicker table tr td.today.range {
-   background-image: linear-gradient(#eeeeee, #eeeeee) !important;
-   border-radius: 0 !important
+	background-image: linear-gradient(#eeeeee, #eeeeee) !important;
+	border-radius: 0 !important
 }
 
 thead tr:nth-child(3) th {
-   text-align: center;
-   font-weight: bold !important;
-   padding-top: 10px;
-   padding-bottom: 10px
+	text-align: center;
+	font-weight: bold !important;
+	padding-top: 10px;
+	padding-bottom: 10px
 }
 
 .dow, .old-day, .day, .new-day {
-   width: 40px !important;
-   height: 40px !important;
-   border-radius: 0px !important
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 0px !important
 }
 
 .old-day:hover, .day:hover, .new-day:hover, .month:hover, .year:hover,
-   .decade:hover, .century:hover {
-   border-radius: 50% !important;
-   background-color: #eee
+	.decade:hover, .century:hover {
+	border-radius: 50% !important;
+	background-color: #eee
 }
 
 .active {
-   border-radius: 50% !important;
-   background-image: linear-gradient(#90CAF9, #64B5F6) !important;
-   color: #fff !important
+	border-radius: 50% !important;
+	background-image: linear-gradient(#90CAF9, #64B5F6) !important;
+	color: #fff !important
 }
 
 .range-start, .range-end {
-   border-radius: 50% !important;
-   background-image: linear-gradient(#FFA726, #FFA726) !important
+	border-radius: 50% !important;
+	background-image: linear-gradient(#FFA726, #FFA726) !important
 }
 
 .prev, .next, .datepicker-switch {
-   border-radius: 0 !important;
-   padding: 10px 10px 10px 10px !important;
-   text-transform: uppercase;
-   font-size: 14px;
-   opacity: 0.8
+	border-radius: 0 !important;
+	padding: 10px 10px 10px 10px !important;
+	text-transform: uppercase;
+	font-size: 14px;
+	opacity: 0.8
 }
 
 .prev:hover, .next:hover, .datepicker-switch:hover {
-   background-color: inherit !important;
-   opacity: 1
+	background-color: inherit !important;
+	opacity: 1
 }
 
 .btn-black {
-   background-color: #37474F !important;
-   color: #fff !important;
-   width: 100%
+	background-color: #37474F !important;
+	color: #fff !important;
+	width: 100%
 }
 
 .btn-black:hover {
-   color: #fff !important;
-   background-color: #000 !important
+	color: #fff !important;
+	background-color: #000 !important
 }
 
 .small {
-   position: relative;
-   margin-left: 26%;
-   width: 50%;
-   height: 25%;
+	position: relative;
+	margin-left: 4%;
+    width: 15%;
+    height: 5%;
+	
 }
 
 .md {
-   text-align: center;
-   left: 24%;
-   width: 300px;
-   height: 100px;
+	text-align: center;
+	left: 24%;
+	width: 300px;
+	height: 100px;
 }
 
 .cl {
-   background: #f8eed1;
-   color: #00ff0000;
+	background: #f8eed1;
+	color: #00ff0000;
 }
 
 .mr {
-   position: relative;
-   margin-top: -10%;
-   height: 100%;
-   margin-bottom: 4%;
+	position: relative;
+	margin-top: -10%;
+	height: 100%;
+	margin-bottom: 4%;
 }
 
 .br {
-   margin-top: 5%;
+	margin-top: 5%;
 }
 
 .btnr {
-   display:-ms-flexbox;
-   display:flex;
-   padding-left:0;
-   list-style:none;
-   border-radius:.25rem;
+	display: -ms-flexbox;
+	display: flex;
+	padding-left: 0;
+	list-style: none;
+	border-radius: .25rem;
 }
 
 .btnc {
-   -ms-flex-pack:center!important;
-   justify-content:center!important;
+position: relative;
+text-align:center;
+
+	-ms-flex-pack: center!important;
+	justify-content: center!important;
+}
+
+navout {
+	height: 50%;
 }
 </style>
 
@@ -289,13 +302,22 @@ thead tr:nth-child(3) th {
 
 <script src="http://madalla.kr/js/jquery-1.8.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"
-   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-   crossorigin="anonymous"></script>
+	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+	crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-   //주소값 컨트롤러 넘기기 >> 실패. 자바스크립트 보안 에러 뜸. 
-
-   $(document).ready(function() {
+	//주소값 컨트롤러 넘기기 >> 실패. 자바스크립트 보안 에러 뜸.
+	   $(document).ready(function() {
+	   
+		var currentPosition = parseInt($(".quickmenu").css("top"));
+		$(window).scroll(function() {
+			var position = $(window).scrollTop();
+			$(".quickmenu").stop().animate({
+				"top" : position + currentPosition + "px"
+			}, 1000);
+		});
+		
+		
 
              //검색 종료 금일 날짜
              var nowDate = new Date();
@@ -446,6 +468,14 @@ thead tr:nth-child(3) th {
                      $('#searchBtn').trigger('click');
                   })
 
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                      
                   //검색 api ajax
                   $("#searchBtn")
                         .click(
@@ -560,14 +590,12 @@ thead tr:nth-child(3) th {
                                                                html1 += "<div class='modal fade' id='"+ modalId +"'tabindex='-1' role='dialog' aria-labelledby='"+labelledby+"'><div class='modal-dialog' role='document'>"
                                                                      + "<div class='modal-content center'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
                                                                      + "<h4 class='modal-title' id='"+labelledby+"'>"
-                                                                     + "<img src='${root}img/SBC_LOGO.jpg'/>"
+                                                                     + "<span style='color:green; font-weight:bold'>"+dogInfo.processState+"</span>"
                                                                      + "</h4></div><div class='modal-body'>"
                                                                      + "<img src='"+dogInfo.popfile+"' alt=img01 class='img-responsive-1'/>"
                                                                      + "<div class='modal-works'><span>"
                                                                      + dogInfo.kindCd
-                                                                     + "</span><span>"+dogInfo.processState+"</span><span>"+dogInfo.age+"살</span><span>"+dogInfo.processState+"</span><span>"+dogInfo.weight+"kg</span><span>"+key+"kg</span></div><p>"
-                                                                     + dogInfo.careNm
-                                                                     + "</p><p>공고번호: "+ dogInfo.noticeNo+"</p><p>공고기간: "+dogInfo.noticeSdt+" ~ "+dogInfo.noticeEdt +"</p><p>발견장소: "+dogInfo.happenPlace+"</p><p>특이사항 :"+dogInfo.specialMark+"</p><p>보호센터 : "+dogInfo.careNm+"</p><p>"+dogInfo.careTel+"</p><p>담당부서 : "+dogInfo.orgNm+"</p><p>"+dogInfo.officetel+"</p></div> <div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+                                                                     + "</span><span>"+dogInfo.age+"살</span><span>"+dogInfo.weight+"</span></div><div class='modal-body text-left'><p>공고번호: "+ dogInfo.noticeNo+"</p><p>공고기간: "+dogInfo.noticeSdt+" ~ "+dogInfo.noticeEdt +"</p><p>발견장소: "+dogInfo.happenPlace+"</p><p>특이사항 :"+dogInfo.specialMark+"</p><p>보호센터 : "+dogInfo.careNm+"("+dogInfo.careTel+")</p><p>담당부서 : "+dogInfo.orgNm+"("+dogInfo.officetel+")</p></div> <div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
                                                                      +"<button type='button' class='btn btn-default likebtn' value="+dogInfo.desertionNo+" data-dismiss='modal'>관심유기동물 설정</button>"
                                                                      +"</div></div></div></div><i id='idxi'>"+key+"</i>";
                                                               		 $('#modalDiv').append(html1);
@@ -592,8 +620,7 @@ thead tr:nth-child(3) th {
                               }); //searchBtn 끝
 
                   document.getElementById('searchBtn').click(); //첫 화면 로드 시키기
-                  
-                  
+ 
                   
                   //좋아요 등록
                   function addLikeFunc(desertionNo) {
@@ -618,13 +645,7 @@ thead tr:nth-child(3) th {
            	   }
 
                   
-                  
-                  
-                  
-                  
-                  
                });
-   
 </script>
 
 
@@ -634,136 +655,142 @@ thead tr:nth-child(3) th {
 
 </head>
 <body>
-   <div class="card1">
-      <h3 class="h3">유기견 정보</h3>
-      <form:form modelAttribute="searchDogDTO" id="searchForm" method="get">
-      	<!-- <input type="hidden" id="hiddenLike" /> -->
-         <input type="hidden" id="pageNo" name="pageNo" value="1" />
-         <input type="hidden" id="state" name="state" value="" />
-         <div class="container px-1 px-sm-5 mx-auto card2 shadow ">
+	<c:import url='/WEB-INF/views/include/header_menu6.jsp' />
+		<form:form modelAttribute="searchDogDTO" id="searchForm" method="get">
+			<!-- <input type="hidden" id="hiddenLike" /> -->
+			<input type="hidden" id="pageNo" name="pageNo" value="1" />
+			<input type="hidden" id="state" name="state" value="" />
+			<div class="card2 shadow btnc" style="position:relative; left:15%; width: 70%;">
+			
+				<h3 class="h3">유기견 정보</h3>
+				<br />
+				
 
-            <div class="input-group date input-daterange shadow small">
-               <span class="input-group-addon" style="width: 44%; background: white;">
-               <i class="glyphicon"> 시작날짜</i></span> <span class="input-group-addon " style="background: white;">
-               <i class="glyphicon"> 마지막날짜</i></span>
-            </div>
+			<div style="position: relative; display: flex; margin-left: 30%;">
+				<h4 style="position: relative; left: 10px; font-weight: 600;">날짜 : </h4>
+				<div class="input-group date input-daterange shadow small">
+					<form:input type="text" placeholder="시작 날짜" class="form-control" id="bgnde" name="bgnDate" path="bgnDate" />
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
+					<h1 style="position:relative; left:22.5px; font-size: 30px; font-weight: 900; top:-17px;">~</h1>
+				<div class="input-group date input-daterange shadow small">
+					<form:input type="text" class="form-control" id="endde" path="endDate" />
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-sm-6 md">
+						<br /> <label>시도 : </label>
+						<form:select path="areaCode" id="upr_cd">
+							<form:options items="${city_list }" itemLabel="name"
+								itemValue="code" />
+						</form:select>
+					</div>
+	
+					<div class="col-sm-6 md">
+						<br /> <label>시군구 : </label> 
+						<select name="cityCode" id="org_cd" style="width: 150px;">
+							<option value="">전체선택</option>
+						</select> <br />
+					</div>
+				</div>
+				<!-- <br /><br /><br /> -->
+				<div class="row">
+					<div class="input-group col-md-6" style="position: relative; left:17.5%; top:-20px;">
+						<form:label path="upkind">종 선택 : &nbsp;&nbsp;&nbsp;&nbsp;</form:label>
+						<form:label path="upkind">
+							<form:radiobutton path="upkind" label="전체" id="all_code" value="" checked="true" />
+						</form:label> &nbsp;&nbsp;
+						<form:label path="upkind">
+							<form:radiobutton path="upkind" label="개" id="dog_code" value="417000" />
+						</form:label>&nbsp;&nbsp;
+						<form:label path="upkind">
+							<form:radiobutton path="upkind" label="고양이" id="cat_code" value="422400" />
+						</form:label>&nbsp;&nbsp;
+						<form:label path="upkind">
+							<form:radiobutton path="upkind" label="기타" id="etc_code" value="429900" />
+						</form:label>
+					
+						<label style="margin-left: 5%;" for="searchState">상태&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+						<label><input type="radio" class='searchState' name="searchState" value="">전체선택</label> &nbsp;&nbsp;
+						<label><input type="radio" class='searchState' name="searchState" id="notice" value="notice">공고중</label> &nbsp;&nbsp;
+						<label><input type="radio" class='searchState' name="searchState" id="protect" value="protect">보호중</label>&nbsp;&nbsp;
+					</div>
+				</div>
+				<input class="btn searchBtn btn-black small" type="button" value="유기견 조회" id="searchBtn" />
+			</div>
+		</form:form>
+		<section id="team">
+			<div class="container">
+				<div class="mr">
+					<h2></h2>
+					<div class="note-txt center card2 shadow">
 
-
-            <div class="input-group date input-daterange shadow small">
-               <form:input type="text" placeholder="시작 날짜" class="form-control" id="bgnde" name="bgnDate" path="bgnDate" />
-               <span class="input-group-addon"><i  class="glyphicon glyphicon-calendar"></i></span>
-               <form:input type="text" class="form-control" id="endde" path="endDate" />
-               <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-
-            </div>
-            <br />
-            <div class="col-sm-6 md">
-               <br /> <label>시도코드</label>
-               <form:select path="areaCode" id="upr_cd">
-                  <form:options items="${city_list }" itemLabel="name" itemValue="code" />
-               </form:select>
-            </div>
-
-            <div class="col-sm-6 md">
-               <br /> <label>시군구코드</label> 
-               <select name="cityCode" id="org_cd" style="width: 150px;">
-                  <option value="">전체</option>
-               </select>
-               <br />
-               <form:label path="upkind"><form:radiobutton path="upkind" label="전체" id="all_code" value="" checked="true"/></form:label> 
-     			  <form:label path="upkind"><form:radiobutton path="upkind" label="개" id="dog_code" value="417000"/></form:label> 
-     			  <form:label path="upkind"><form:radiobutton path="upkind" label="고양이" id="cat_code" value="422400"/></form:label> 
-                  <form:label path="upkind"><form:radiobutton path="upkind" label="기타" id="etc_code" value="429900"/></form:label>
-            </div>
-             
-            
-            <input class="btn searchBtn btn-black small" type="button" value="유기견 조회" id="searchBtn" />
-         </div>
-      </form:form>
-
-      <section id="team">
-         <div class="container">
-            <div class="mr">
-               <h2></h2>
-               <div class="note-txt center card2 shadow">
-
-                  <p class="h3">상태</p>
-                  <label><input type="radio" class='searchState' name="searchState" value="">전체선택</label> 
-                  <label><input type="radio" class='searchState' name="searchState" id="notice" value="notice">공고중</label> 
-                  <label><input type="radio" class='searchState' name="searchState" id="protect" value="protect">보호중</label>
-                  <hr />
-                  
-              <%--     <form:label path="upkind">
-   					 <form:radiobuttons items="${animal_code}" path="upkind" />
-				</form:label> --%>
-                  
-                  
-     			
-                  <h4>
-                     <label id="total">총 0 건</label>
-                  </h4>
-
-
-                  <p>공고중인 동물 소유자는 "자세히 보기"를 참고하시어 해당 시군구 및
-                  <p style="color: blue;">동물보호센터</p>
-                  또는
-                  <p style=''color:#8c0000;'>동물보호상담센터</p>
-                  <p>
-                     <a href='tel:1577-0954'>1577-0954</a>
-                  </p>
-                  로 문의하시기 바랍니다. 동물보호센터 및 동물병원 <span class="red regular">근무시간은
-                     09:00 ~ 18:00이므로 문의전화는 근무시간에만 가능</span>합니다. <br />
-
-               </div>
+						<h4>
+							<label id="total">총 0 건</label>
+						</h4>
 
 
-            </div>
+						<p>공고중인 동물 소유자는 <span style="color: red;">"자세히 보기" </span>를 참고하시어 <p></p>해당 시군구 및 <span style="color: blue;">동물보호센터</span>
+						또는 <span style="color: blue;">동물보호상담센터</span> <span style="color: red;"><a href='tel:1577-0954'>1577-0954</a> </span>
+					로 문의하시기 바랍니다. <p></p> 동물보호센터 및 동물병원 근무시간은
+							<span class="red regular" style="color: red;">09:00 ~ 18:00</span>이므로 문의전화는 근무시간에만 가능합니다. <br />
 
-            <div class="row" id="dog_info_list1"></div>
-            <div class="row" id="dog_info_list2"></div>
-
-            <div>
-               <div class="br">
-                  <div class="div-parent btn-toolbar col-lg-12 btnr btnc" role="toolbar" aria-label="Toolbar with button groups"></div>
-                  <div class="div-parent btn-toolbar col-lg-12 btnr btnc" role="group" aria-label="First group" id="paging-var"></div>
-               </div>
-            </div>
-
-         </div>
-
-      </section>
-
-      <!-- 위로가기 버튼  -->
-      <p id="back-top">
-         <a href="#top"><i class="fa fa-angle-up"></i></a>
-      </p>
+					</div>
 
 
-      <footer>
-         <div class="container text-center">
-            <p>
-               <a href="http://localhost:9000/NewSBCDog"><span>SBC DOG</span>유기견 입양 홈페이지</a>
-            </p>
-         </div>
-      </footer>
+				</div>
 
-      <div id="modalDiv"></div>
+				<div class="row" id="dog_info_list1"></div>
+				<div class="row" id="dog_info_list2"></div>
 
-      <!-- Bootstrap core JavaScript
+				<div>
+					<div class="br">
+						<div class="div-parent btn-toolbar col-lg-12 btnr btnc"
+							role="toolbar" aria-label="Toolbar with button groups"></div>
+						<div class="div-parent btn-toolbar col-lg-12 btnr btnc"
+							role="group" aria-label="First group" id="paging-var"></div>
+					</div>
+				</div>
+
+			</div>
+
+		</section>
+		<!-- 위로가기 버튼  -->
+		<p id="back-top">
+			<a href="#top"><i class="fa fa-angle-up"></i></a>
+		</p>
+
+
+		<footer>
+			<div class="container text-center">
+				<p>
+					<a href="http://localhost:9000/NewSBCDog"><span>SBC DOG</span>유기견
+						입양 홈페이지</a>
+				</p>
+			</div>
+		</footer>
+
+		<div id="modalDiv"></div>
+
+		<!-- Bootstrap core JavaScript
          ================================================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-      <script src="../js/bootstrap.min.js"></script>
-      <script src="../js/SmoothScroll.js"></script>
-      <script src="../js/theme-scripts.js"></script>
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="${root }js/bootstrap.min.js"></script>
+		<!--   <script src="../js/SmoothScroll.js"></script> -->
+		<script src="${root }js/theme-scripts.js"></script>
 
-      <!-- 달력  -->
-      <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
-      <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-      <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-      <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
-      <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-   </div>
+		<!-- 달력  -->
+		<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+		<script
+			src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+		<script type='text/javascript'
+			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+	
 
 </body>
 </html>

@@ -1,7 +1,9 @@
 package kr.co.soft.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -11,8 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
 import kr.co.soft.bean.CartBean;
@@ -45,13 +50,15 @@ public class OrderController {
 		for(OrderDetailBean order : orderDetailList.getOrderDetailList()) {
 			if(order.getProduct_id()!=null) {
 				list.add(order);
-			} 
-				
+			} 	
 		}
 
 		//넘기기
 		model.addAttribute("list", list);
-	
+		
+		if(loginUserBean.isUserLogin() == true) 
+			return "/order/orderform2";
+		
 		return "/order/orderform";
 	}
 	
@@ -89,9 +96,30 @@ public class OrderController {
 			orderService.deleteCartList(cart);
 		}
 		
-		model.addAttribute("merchant_uid", merchant_uid);
+		model.addAttribute("order", orderList);
 
 		return "/order/orderComplete";
+	}
+	
+	@PostMapping("/showOrder")
+	@ResponseBody
+	public Map<String, Object> showOrder(@RequestParam("merchant_uid") String merchant_uid) throws Exception{
+
+		OrderListBean order = orderService.showOrder(merchant_uid);
+		Map<String, Object> resultMap = new HashMap<>();
+		if(order != null) {
+			resultMap.put("merchant_uid", order.getMerchant_uid());
+			resultMap.put("order_date", order.getOrder_date());
+			resultMap.put("product_name", order.getProduct_name());
+			resultMap.put("total_amount", order.getTotal_amount());	
+		}	
+		return resultMap;
+			
+	}
+	
+	@GetMapping("/findMyOrder")
+	public String findMyOrder() {
+		return "/order/findMyOrder";
 	}
 
 

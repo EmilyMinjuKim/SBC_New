@@ -14,68 +14,85 @@
 
 <title>My Cart</title>
 
-<!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-<!-- Bootstrap icons-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link rel="stylesheet" href="${root }css/product-style.css"/>
+<!-- 부트스트랩 기본 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<style>
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	}
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
+    font-weight: bold;
+	}
+	*{
+	font-family: 'air';
+	}
+	
+	table {
+		text-align: left;
+		width: 600px;
+		font-size: 18px;
+		margin: auto;
+		border: 1px solid black;
+ 		border-collapse: separate;
+  		border-spacing: 12px;
+	}
+	th {
+		font-style: bold;
+		width: 25%;
+		vertical-align : top;
+	}
+	tr, th, td {
+		padding: 8px;
+	}
+	#thanks{
+		text-align: center;
+		font-size: 20px;
+		margin-bottom: 5%;
+	}
+</style>
+
 </head>    
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        
-        
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">주문완료</h1>
-                </div>
-            </div>
-        </header>
-        
-        
+        <c:import url="/WEB-INF/views/include/header_menu3.jsp" />
+
         <!-- Section-->
         <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="justify-content-center" style="text-align: center">
-                	주문이 완료되었습니다. 주문해주셔서 감사합니다.<br>
-                	주문번호 : ${merchant_uid }
-                </div>
-            </div>
+            <div class="container mt-5">
+            	<div class="justify-content-center">
+            		<div id="thanks">주문해주셔서 감사합니다 🐾</div>
+            		<table>
+	               		<tr>
+	               			<th>주문번호</th>
+	               			<td>${order.merchant_uid}</td>
+	               		</tr>
+	               		<tr>
+	               			<th>배송지 정보</th>
+	               			<td>
+	               				${order.shipping_name} <br />
+	               				${order.shipping_phone} <br />
+	               				(${order.shipping_postcode}) <br />
+	               				${order.shipping_address1} ${order.shipping_address2}
+	               			</td>
+	               		</tr>
+	               		<tr>
+	               			<th>결제정보</th>
+	               			<td>
+	               				총 상품금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${order.total_price }원<br />
+	               				배송비&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${order.shipping }원 <br />
+	               				총 결제금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${order.total_amount }원
+	               			</td>
+	               		</tr>
+	               	</table>
+               	</div>
+        	</div>
         </section>
-        
-        
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="${root }js/shop-scripts.js"></script>
-        <!-- Spinner JS -->
-        <script src="${root }jquery-ui-1.11.4/jquery-ui.js"></script>
+
+        <!-- 부트스트랩 기본 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
 </html>

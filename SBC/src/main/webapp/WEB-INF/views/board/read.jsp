@@ -18,7 +18,7 @@
 <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
 <link href='' rel='stylesheet'>
 
-
+<c:import url='/WEB-INF/views/include/header_menu4.jsp' />
 
 <style>
 #multiple-container {
@@ -373,12 +373,12 @@ text-shadow: 2px 2px 2px black;
 }
 
 .rf{
-   font-size: 28px;
+   font-size: 20px;
    font-weight: 600;
 }
 
 .rf_a{
-   font-size: 28px; 
+   font-size: 20px; 
    text-decoration: none; 
    font-weight: 600;
    color: black;
@@ -420,17 +420,13 @@ text-shadow: 2px 2px 2px black;
             <img class="cir mb-5" src="${root }img/sul.jpg" alt="" />
                <h1 class="mb-4">Welcome</h1>
                <h2 class="mb-5">사지말고 <br />입양하세요.</h2>
-                  <c:if test="${loginUserBean.user_idx == readContentBean.content_writer_idx}">
-                     <a class="btn btn-primary aa3 mb-3" href="${root }board/boardList">목록보기</a>
-               <a href="${root }board/modify?b_no=${b_no}&page=${page}" class="btn btn-primary aa3 mb-3">수정하기</a>
-               <a href="${root }board/delete?b_no=${b_no}&page=${page}" class="btn btn-primary aa3 mb-3">삭제하기</a>
-            </c:if>
+                <a class="btn btn-primary aa3 mb-3" href="${root }board/boardList?board_category=all">목록보기</a>
+                <c:if test="${readContent.user_id eq loginUserBean.user_id}">
+	               <a href="${root }board/modify?b_no=${b_no}&page=${page}" class="btn btn-primary aa3 mb-3">수정하기</a>
+	               <a href="${root }board/delete?b_no=${b_no}&page=${page}&chip_num=${readContent.chip_num}" class="btn btn-primary aa3 mb-3" onclick="return deleteCk();">삭제하기</a>
+                 </c:if>
                </div> 
               <div class="col-lg-9 register-right hb"> 
-               <!-- <ul class="nav nav-tabs nav-justified aa2b" id="myTab" role="tablist">
-                  <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">기본 정보</a></li>
-                  <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">강아지 정보</a></li>
-               </ul> -->
 <!-- 기본정보 -->
             <div class="row">
                <div class="col-md-6">
@@ -445,9 +441,9 @@ text-shadow: 2px 2px 2px black;
                               <span class="title" style='text-align: center; height: 20px; width: 275px;'>지도중심기준 행정동 주소정보</span> <span style="text-align: center;" id="centerAddr">${readContent.address1}</span>
                            </div>
                         </div>
-                     </div>
+                     </div>	
                      <div class="form-group">
-                        <p><a href="${root }" class="rf_a">아이디 : &nbsp;&nbsp;${readContent.user_id}</a></p>
+                        <p><a href="${root }board/userBoard?user=${readContent.user_id}" class="rf_a" style='text-decoration-line:none;'>아이디 : &nbsp;&nbsp;${readContent.user_id}</a></p>
                         <p class="rf">실종일 : &nbsp;&nbsp;${readContent.happen_date }</p>
                         <p class="rf">연락처 : &nbsp;&nbsp;${readContent.writer_phone}</p>
                         <table>
@@ -544,10 +540,6 @@ text-shadow: 2px 2px 2px black;
             </div>
             
          </div>
-         
-      </div>
-      </div>
-      </div>
 
 
 
@@ -556,55 +548,60 @@ text-shadow: 2px 2px 2px black;
 
 
    <script>
+   
+  
+				function deleteCk() {
+					return confirm("삭제 하시겠습니까?")
+				}
 
-      /* 원래 리드폼에 있는거 복붙 */
+				/* 원래 리드폼에 있는거 복붙 */
 
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-      mapOption = {
-         center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-         level : 5
-      // 지도의 확대 레벨
-      };
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				mapOption = {
+					center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					level : 5
+				// 지도의 확대 레벨
+				};
 
-      //지도를 생성합니다    
-      var map = new kakao.maps.Map(mapContainer, mapOption);
+				//지도를 생성합니다    
+				var map = new kakao.maps.Map(mapContainer, mapOption);
 
-      //주소-좌표 변환 객체를 생성합니다
-      var geocoder = new kakao.maps.services.Geocoder();
+				//주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
 
-      //주소로 좌표를 검색합니다
-      var address1 = document.getElementById("searchAddr").value;
+				//주소로 좌표를 검색합니다
+				var address1 = document.getElementById("searchAddr").value;
 
-      geocoder
-            .addressSearch(
-                  address1,
-                  function(result, status) {
+				geocoder
+						.addressSearch(
+								address1,
+								function(result, status) {
 
-                     // 정상적으로 검색이 완료됐으면 
-                     if (status === kakao.maps.services.Status.OK) {
+									// 정상적으로 검색이 완료됐으면 
+									if (status === kakao.maps.services.Status.OK) {
 
-                        var coords = new kakao.maps.LatLng(result[0].y,
-                              result[0].x);
+										var coords = new kakao.maps.LatLng(
+												result[0].y, result[0].x);
 
-                        // 결과값으로 받은 위치를 마커로 표시합니다
-                        var marker = new kakao.maps.Marker({
-                           map : map,
-                           position : coords
-                        });
+										// 결과값으로 받은 위치를 마커로 표시합니다
+										var marker = new kakao.maps.Marker({
+											map : map,
+											position : coords
+										});
 
-                        // 인포윈도우로 장소에 대한 설명을 표시합니다
-                        var infowindow = new kakao.maps.InfoWindow(
-                              {
-                                 content : '<div style="width:150px;text-align:center;padding:6px 0;">여기에요!!</div>'
-                              });
-                        infowindow.open(map, marker);
+										// 인포윈도우로 장소에 대한 설명을 표시합니다
+										var infowindow = new kakao.maps.InfoWindow(
+												{
+													content : '<div style="width:150px;text-align:center;padding:6px 0;">여기에요!!</div>'
+												});
+										infowindow.open(map, marker);
 
-                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                        map.setCenter(coords);
-                     }
-                  });
-   </script>
+										// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+										map.setCenter(coords);
+									}
+								});
+			</script>
 
-
+		<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
 </body>
 </html>

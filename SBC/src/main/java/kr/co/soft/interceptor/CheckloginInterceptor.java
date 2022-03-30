@@ -17,25 +17,19 @@ public class CheckloginInterceptor implements HandlerInterceptor {
 		this.loginUserBean = loginUserBean;
 
 	}
-	
-	
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
-		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-	}
 
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
+		System.out.println("핸들러 테스트" + loginUserBean.getUser_id());
 
 		if (loginUserBean.isUserLogin() == false) {
 			//경로 읽어오기
 			String contextPath = request.getContextPath();
 			
-			response.sendRedirect(contextPath + "/user/not_login");
+			response.sendRedirect(contextPath + "/member/not_login");
 			return false;
 		}
 		//로그인이 된 상태

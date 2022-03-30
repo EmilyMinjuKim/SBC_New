@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var='root' value='${pageContext.request.contextPath}/'/>
 <!DOCTYPE html>
 <html>
@@ -9,16 +10,64 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<title>Shop</title>
+<title>SBC</title>
 
-<!-- Bootstrap icons-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="${root }css/product-style.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <style>
-	.card-img-top{
-		cursor: pointer;
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	}
+	@font-face {
+    font-family: 'air';
+    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
+    font-weight: bold;
+	}
+	*{
+	font-family: 'air';
+	}
+	
+	.card{
+		border: none;
+	}
+
+	.card-img-top {
+      cursor: pointer;
+	  opacity: 1;
+	  display: block;
+	  transition: .5s ease;
+	  backface-visibility: hidden;
+	}
+	
+	.middle {
+	  transition: .5s ease;
+	  opacity: 0;
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  -ms-transform: translate(-50%, -50%);
+	  text-align: center;
+	}
+	
+	.card:hover .card-img-top {
+	  opacity: 0.3;
+	}
+	
+	.card:hover .middle {
+	  opacity: 1;
+	}
+	
+	.product_detail {
+	  font-size: 14px;
+	  width: 250px;
+	}
+	
+	.bfSale{
+		text-decoration: line-through;
+		font-size: 12px;
+		color: #696969;
 	}
 </style>
 
@@ -31,45 +80,8 @@
 </script>
 </head>    
     <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">SBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-outline-dark" onclick="location.href='${root }product/cart'">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="countAll">${cntCart }</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        
-        
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">애견 용품</h1>
-                </div>
-            </div>
-        </header>
+    <!-- Navigation-->
+    <c:import url="/WEB-INF/views/include/header_menu.jsp" />
         
         
         <!-- Section-->
@@ -79,17 +91,23 @@
                     <c:forEach var="list" items="${productList }" varStatus="vs">
                     <form id="frm_${vs.index }" action="${root }product/productPage" method="post">
                 		<input type="hidden" name="product_name" value="${list.product_name }" />
-	                    <div class="col mb-5">
+	                    <div class="col mb-5" style="margin-top: 30%">
 	                        <div class="card h-100">
 	                            <!-- Product image-->
-	                            <img class="card-img-top" src="${root }images/product/${list.product_id}.jpg" width="450" height="300" onclick="formSubmit(${vs.index})" />
+	                            <img class="card-img-top" src="${root }images/product/${list.product_id}.jpg" onclick="formSubmit(${vs.index})" />
+	                            <div class="middle">
+								    <div class="product_detail">
+								    	상품 보러가기! Click!
+								    </div>
+								</div>
 	                            <!-- Product details-->
 	                            <div class="card-body p-4">
 	                                <div class="text-center">
 	                                    <!-- Product name-->
-	                                    <h5 class="fw-bolder">${list.product_name }</h5>
+	                                    <h5>${list.product_name }</h5>
 	                                    <!-- Product price-->
-	                                    ${list.price }원
+	                                    <span style="color: #FF1493">25%</span>&nbsp;&nbsp;<fmt:formatNumber value="${list.price }" pattern="#,###"/>원<br>
+	                                    <span class="bfSale"><fmt:formatNumber value="${(list.price)*1.25 }" pattern="#,###"/>원</span>
 	                                </div>
 	                            </div>         
 	                        </div>
@@ -100,17 +118,11 @@
             </div>
         </section>
         
-        
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
-        </footer>
+        <p id="back-top">
+		<a href="#top"><i class="fa fa-angle-up"></i></a>
+		</p>
 
-        <!-- Bootstrap core JS-->     
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="${root }js/bootstrap.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="${root }js/shop-scripts.js"></script>
-        
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
 </html>
