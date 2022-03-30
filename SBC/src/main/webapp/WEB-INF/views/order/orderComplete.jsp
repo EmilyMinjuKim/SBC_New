@@ -88,6 +88,7 @@
 	               			</td>
 	               		</tr>
 	               	</table>
+	               	<div><button type="button">쇼핑계속하기</button>&nbsp;&nbsp;&nbsp;<button type="button">HOME</button></div>
                	</div>
         	</div>
         </section>
