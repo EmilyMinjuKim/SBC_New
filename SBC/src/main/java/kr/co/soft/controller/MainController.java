@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,14 +23,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import kr.co.soft.domain.BoardListDTO;
 import kr.co.soft.domain.PageHandler;
 import kr.co.soft.domain.SearchDogDTO;
+import kr.co.soft.mapper.BoardMapper;
+
 
 @Controller
 public class MainController {
-
+	
 	@GetMapping("/main")
 	public String main() {
+	
+		
 		
 		return "main";
 	}
@@ -111,5 +117,6 @@ public class MainController {
 
 		return resultMap;
 	}
+	
 	
 }

@@ -124,37 +124,7 @@ function hello() {
 
 <body id="page-top">
 
-	<!-- 여기서부터 진짜 body -->
-	<section id="portfolio">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="section-title">
-						<h2>WELCOME to SBC</h2>
-						<p>지금 막 구조된 아이들입니다. 따뜻한 손길을 내밀어주세요 ♥</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row row-0-gutter">
-				<c:forEach begin="1" end="6" varStatus="vs">
-				<!-- start portfolio item -->
-				<div class="col-md-4 col-0-gutter">
-					<div class="ot-portfolio-item">
-						<figure class="effect-bubba">
-							<div class="row" id="dog_info_list${vs.index }"></div>
-						</figure> 
-					</div>
-				</div>
-				<!-- end portfolio item -->
-				</c:forEach>
-			
-			</div>
-		</div>
-		<!-- container -->
-	</section>
-
-	<section id="team">
+<section id="team">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -200,59 +170,14 @@ function hello() {
 				<div class="col-md-4">
 					<div class="team-item">
 						<div class="team-image">
-							<img src="${root }img/main/author-4.jpg" class="img-responsive"
+							<img src="${root }img/main/author-6.jpg" class="img-responsive"
 								alt="author">
 						</div>
 						<div class="team-text">
-							<h3>Minjoo Kim</h3>
-							<div class="team-position">Marketing</div>
-							<p>Dolor sit don namet, cons uectetur beriscing adon elit.
-								Aliquam vitae fringilla unda.</p>
-						</div>
-					</div>
-				</div>
-				<!-- end team member item -->
-				<div class="col-md-4">
-					<div class="team-item">
-						<div class="team-image">
-							<img src="${root }img/main/author-4.jpg" class="img-responsive"
-								alt="author">
-						</div>
-						<div class="team-text">
-							<h3>DongHyun Kim</h3>
-							<div class="team-position">Marketing</div>
-							<p>Dolor sit don namet, cons uectetur beriscing adon elit.
-								Aliquam vitae fringilla unda.</p>
-						</div>
-					</div>
-				</div>
-				<!-- end team member item -->
-				<div class="col-md-4">
-					<div class="team-item">
-						<div class="team-image">
-							<img src="${root }img/main/author-4.jpg" class="img-responsive"
-								alt="author">
-						</div>
-						<div class="team-text">
-							<h3>SeungE Kim</h3>
-							<div class="team-position">Marketing</div>
-							<p>Dolor sit don namet, cons uectetur beriscing adon elit.
-								Aliquam vitae fringilla unda.</p>
-						</div>
-					</div>
-				</div>
-				<!-- end team member item -->
-				<div class="col-md-4">
-					<div class="team-item">
-						<div class="team-image">
-							<img src="${root }img/main/author-4.jpg" class="img-responsive"
-								alt="author" style="margin: auto;">
-						</div>
-						<div class="team-text">
-							<h3>Yujin Jeong</h3>
-							<div class="team-position">Marketing</div>
-							<p>Dolor sit don namet, cons uectetur beriscing adon elit.
-								Aliquam vitae fringilla unda.</p>
+							<h3>KyungChul Lee</h3>
+							<div class="team-position">Photography</div>
+							<p>Worsa dona namet, cons uectetur dipiscing adon elit.
+								Aliquam vitae fringilla unda mir.</p>
 						</div>
 					</div>
 				</div>
@@ -260,6 +185,36 @@ function hello() {
 			</div>
 		</div>
 	</section>
+	<!-- 여기서부터 진짜 body -->
+	<section id="portfolio">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="section-title">
+						<h2>WELCOME to SBC</h2>
+						<p>지금 막 구조된 아이들입니다. 따뜻한 손길을 내밀어주세요 ♥</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row row-0-gutter">
+				<c:forEach begin="1" end="6" varStatus="vs">
+				<!-- start portfolio item -->
+				<div class="col-md-4 col-0-gutter">
+					<div class="ot-portfolio-item">
+						<figure class="effect-bubba">
+							<div class="row" id="dog_info_list${vs.index }"></div>
+						</figure> 
+					</div>
+				</div>
+				<!-- end portfolio item -->
+				</c:forEach>
+			
+			</div>
+		</div>
+		<!-- container -->
+	</section>
+	
 
 	<p id="back-top">
 		<a href="#top"><i class="fa fa-angle-up"></i></a>
