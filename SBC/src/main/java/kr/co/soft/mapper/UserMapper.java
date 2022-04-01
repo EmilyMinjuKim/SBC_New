@@ -16,6 +16,10 @@ public interface UserMapper {
 	// 이메일 중복 확인
 	@Select("select email from userlist where email = #{email}")
 	String checkUserEmailExist(String email);
+	
+	// 쿠키 존재시 저장된 쿠키로 아이디 정보를 받아옴
+	@Select("select user_idx, user_id, Email, authority, enabled from Userlist where user_id = #{user_id}")
+	UserBean getLoginUserInfoByUser_id(String user_id);
 
 	// 로그인 및 로그인 정보 받아오기
 	@Select("select user_idx, user_id, Email, authority, enabled from Userlist where user_id=#{user_id} and user_password=#{user_password}")

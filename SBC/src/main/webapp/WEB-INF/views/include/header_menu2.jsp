@@ -5,7 +5,7 @@
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
    <!-- Bootstrap CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
@@ -29,10 +29,6 @@
 }
 </style>
 
-<script>
-  
-</script>
-
  </head>
  
 <!--  <body id="page-top"> -->
@@ -50,54 +46,49 @@
             <div class="collapse navbar-collapse rw" id="bs-example-navbar-collapse-1">
             	<ul class="nav navbar-nav navbar-right ml-auto">
 	               	<!-- 기본 메뉴 -->
-	                <li class="nav-item"><a class="page-scroll" href="${root }main">메인</a></li>
-	                <li class="nav-item"><a class="page-scroll" href="${root }notice/noticemain">공지사항</a></li>
-	                <li class="nav-item"><a class="page-scroll" href="${root }board/searchDog">유기동물 조회</a></li>
+	                <li class="nav-item"><a style="font-size: 20px;" class="page-scroll" href="${root }main">메&nbsp;&nbsp;&nbsp;인</a></li>
+	                <li class="nav-item"><a style="font-size: 20px;" class="page-scroll" href="${root }notice/noticemain">공지사항</a></li>
+	                <li class="nav-item"><a style="font-size: 20px;" class="page-scroll" href="${root }board/searchDog">유기동물 조회</a></li>
 	      
 	                <li class="nav-item dropdown">
-		               	<a class="nav-link dropdown-toggle" href="${root }board/boardList" 
-		                id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">게시판</a> <!-- 게시판 경로 -->
+		               	<a style="font-size: 20px;" class="nav-link dropdown-toggle" href="${root }board/boardList" 
+		                id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">게&nbsp;시&nbsp;판</a> <!-- 게시판 경로 -->
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="${root }board/write">글쓰기</a><p>
-							<a class="dropdown-item" href="#">추가메뉴</a><p>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">CLOSE</a>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }board/write">글&nbsp;쓰&nbsp;기</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }board/boardList?board_category=all">게&nbsp;시&nbsp;글</a><p>
 						</div>          	
 	                </li>
 	                  
 	                <li class="nav-item">
-	                	<a class="page-scroll" href="<c:url value="/product/main" />">쇼핑</a> <!-- 민주언니 쇼핑몰 경로 -->
+	                	<a style="font-size: 20px;" class="page-scroll" href="<c:url value="/product/main" />">쇼&nbsp;&nbsp;&nbsp;핑</a> <!-- 민주언니 쇼핑몰 경로 -->
 	                </li>
 	                
                 	<c:choose> 
                   	<c:when test="${loginUserBean.userLogin == true}">
                     <li class="nav-item dropdown">
                     	<a class="nav-link dropdown-toggle" href="${root }member/mypagetest" 
-                    	id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${loginUserBean.user_id} 님의 마이페이지</a>
+                    	id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${loginUserBean.user_id} 님</a> 
 	                  	<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="text-align: center;">
-							<a class="dropdown-item" href="${root }board/likeAnimalList">관심동물</a><p>
-							<a class="dropdown-item" href="${root }board/boardList">관심글</a><p>
-							<a class="dropdown-item" href="${root }board/myWrite">내가쓴글</a><p>
-							<a class="dropdown-item" href="${root }member/modify">정보수정</a><p>
-							<a class="dropdown-item" href="${root }product/productPage">주문정보</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }board/myAnimal">관심동물</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }board/myBoard">관심글</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }board/myWrite">내가쓴글</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }member/modify">정보수정</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }order/findMyOrder">주문정보</a><p>
 							
 							<c:if test='${loginUserBean.authority == "ROLE_ADMIN"  }'>
-							<a class="dropdown-item" href="${root }admin/userlist">회원관리</a><p>
-							<a class="dropdown-item" href="${root }siteInfo/siteInfo">사이트 정보</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }admin/userlist">회원관리</a><p>
+							<a style="font-size: 20px;" class="dropdown-item" href="${root }siteInfo/siteInfo">사이트 정보</a><p>
 							
 							</c:if>
-		
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">CLOSE</a>
 						</div>          	
                      </li>
                      <li class="nav-item">
-                        <a class="page-scroll" href="${root }member/logout">로그아웃</a> <!-- Login후에 Logout으로 변경 -->
+                        <a style="font-size: 20px;" class="page-scroll" href="${root }member/logout">로그아웃</a> <!-- Login후에 Logout으로 변경 -->
                      </li>
                   </c:when> 
                   <c:otherwise>
                      <li class="nav-item">
-                        <a class="page-scroll" href="${root }member/login">로그인</a> <!-- Login후에 Logout으로 변경 -->
+                        <a style="font-size: 20px;" class="page-scroll" href="${root }member/login">로&nbsp;그&nbsp;인</a> <!-- Login후에 Logout으로 변경 -->
                      </li>   
                   </c:otherwise>
                 </c:choose>

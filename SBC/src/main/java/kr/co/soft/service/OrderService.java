@@ -1,5 +1,7 @@
 package kr.co.soft.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +30,17 @@ public class OrderService {
 
 	public OrderListBean showOrder(String merchant_uid) {
 		return mapper.showOrder(merchant_uid);
+	}
+	
+	public List<OrderListBean> showOrderList(String member_id) {
+		return mapper.showOrderList(member_id);
+	}
+	
+	public List<OrderDetailBean> showOrderProductList(String merchant_uid){
+		return mapper.showOrderProductList(merchant_uid);
+	}
+	
+	public OrderListBean showOrderInfo(String merchant_uid) {
+		return mapper.showOrderInfo(merchant_uid);
 	}
 }

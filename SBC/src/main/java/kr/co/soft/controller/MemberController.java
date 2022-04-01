@@ -1,6 +1,7 @@
 package kr.co.soft.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,34 +43,51 @@ public class MemberController {
 	// 로그인
 	@GetMapping("/login")
 	public String login(@ModelAttribute("tempLoginUserBeanT") UserBean temploginUserBeanT,
-			@RequestParam(value = "fail", defaultValue = "false") String fail, Model m) {
+			@RequestParam(value = "fail", defaultValue = "false") String fail, Model m, HttpSession session) {
 
-		System.out.println("login test");
+		session.invalidate();
 
 		m.addAttribute("fail", fail);
 
 		return "member/login";
 	}
+	
+	/*
+	 * @GetMapping("/kakaoLogin") public String kakaoLogin
+	 * 
+	 */
 
 	// String값일경우 return(PostMapping값은 임의의 값을 넣어도 가능)
 	// 유효성 검사(login_load로 줘야할듯)
 	@PostMapping("/login_load")
 	public String login_load(@Valid @ModelAttribute("tempLoginUserBeanT") UserBean tempLoginUserBeanT,
-			BindingResult result, Model model, HttpServletRequest request) throws Exception {
+			BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 
 		if (result.hasErrors()) {
 			System.out.println(result);
 			return "member/login"; // views/logintest(login작동)
 		}
+		// 비활성화된 회원일경우
+		String ip = userService.getUserIp();
 
 		userService.getLoginUserInfo(tempLoginUserBeanT);
-		String ip = userService.getUserIp();
 
 		System.out.println(ip);
 
 		tempLoginUserBeanT.setRecentlogin_ip(ip);
 
+		// 아이디와 비밀번호에 해당하는 데이터가 있음
 		if (loginUserBean.isUserLogin() == true) {
+
+			// 로그인은 성공했지만, 계정 활성화가 안된경우
+			if (loginUserBean.getEnabled() == 0) {
+
+				System.out.println(loginUserBean.getUser_id());
+				System.out.println("무슨 값을 가지고 오고 있나" + loginUserBean.getEnabled());
+
+				return "member/login_nonmembers";
+			}
 
 			// 로그인 성공시, 로그에 접속 타임과 아이피 업데이트
 
@@ -77,9 +95,10 @@ public class MemberController {
 
 			userService.updateRecentlogin_ipByUser_id(tempLoginUserBeanT);
 
+
 			HttpSession session = request.getSession(true);
 			session.setAttribute("loginUserBean", loginUserBean);
-			session.setMaxInactiveInterval(3600);
+			session.setMaxInactiveInterval(3600 * 60);
 
 			visitCountService.setTotalCount();
 
@@ -87,6 +106,24 @@ public class MemberController {
 
 			System.out.println("세션값 아이디" + ub.getUser_id());
 			System.out.println("로그인 상태 확인" + ub.isUserLogin());
+			
+			
+			boolean chk1 = tempLoginUserBeanT.isCookieChk1();
+			model.addAttribute("chk1", chk1);
+
+			
+			if (tempLoginUserBeanT.isCookieChk1() == true) {
+				//Cookie idCookie = new Cookie("user_id", String.valueOf(tempLoginUserBeanT.getUser_id()));
+
+				/*
+				 * response.addCookie(idCookie); idCookie.setMaxAge(604800);
+				 */
+				
+				loginUserBean.setCookieChk1(true);
+				System.out.println("쿠키 체크 통과");
+
+			}
+			 
 
 			return "member/login_success";
 		}
@@ -119,15 +156,10 @@ public class MemberController {
 
 	// 회원가입(join_pro 수정함)
 	@PostMapping("/signup_pro") // 기존 model joinUserBean, 기존 UserBean public
-	public String signup_load(@Valid @ModelAttribute("signupBean") UserBean signupBean, BindingResult result, Model model) {
-
-		System.out.println("가입시도 1");
+	public String signup_load(@Valid @ModelAttribute("signupBean") UserBean signupBean, BindingResult result,
+			Model model, HttpSession session) {
 
 		if (result.hasErrors()) { // 유효성 검사를 통하가지 못하게 된다면
-
-			System.out.println("에러 발생 2");
-			System.out.println("에러종류?" + result);
-
 			return "member/signup";
 		}
 
@@ -145,37 +177,35 @@ public class MemberController {
 			e.printStackTrace();
 		}
 
-		System.out.println("가입 성공");
-		
+		System.out.println("가입 성공, 인증 필요");
+
 		try {
 			userService.sendEmail(signupBean, "join");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		model.addAttribute("signupBean", signupBean);
+		session.invalidate();
 
 		return "member/join_success";
 
 	}
-	
+
 	@GetMapping("/registerEmail")
-	public String registerEmail(@RequestParam(value = "email") String email, 
+	public String registerEmail(@RequestParam(value = "email") String email,
 			@RequestParam(value = "approval_key") String approval_key) {
 
 		System.out.println("레지스터 이메일");
-		
+
 		if (userService.checkApproval_keyByEmail(email, approval_key) == 0) {
 			return "member/register_fail";
 		}
-		
+
 		userService.updateEnabledByEmail(email);
-		
+
 		return "member/register_success";
-	} 
-	
-	
+	}
+
 	// 아이디 유무 체크
 	@ResponseBody
 	@GetMapping("/checkUserIdExist/{user_id}")
@@ -197,13 +227,48 @@ public class MemberController {
 	}
 
 	// 로그아웃
-	@GetMapping("logout")
-	public String logout() {
+	@GetMapping("/logout")
+	public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
+		System.out.println("로그아웃 실행");
+		session.invalidate();
+
+		expiredCookie(response, "user_id");
+		
+		deleteAllCookies(request, response);
+		
 		loginUserBean.setUserLogin(false);
-
-		return "member/logout";
+		loginUserBean.setCookieChk1(false);
+		
+		return "redirect:/";
 	}
+
+	private void expiredCookie(HttpServletResponse response, String cookieName) {
+		System.out.println("가져온 쿠키 이름" + cookieName);
+		
+		Cookie cookie = new Cookie(cookieName, null);
+		
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
+		
+		response.addCookie(cookie);
+
+	}
+	
+	public void deleteAllCookies(HttpServletRequest req,HttpServletResponse res) {
+		
+	    Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
+	    if (cookies != null) { // 쿠키가 한개라도 있으면 실행
+	    	System.out.println("쿠키삭제 실행");
+	        for (int i = 0; i < cookies.length; i++) {
+	            cookies[i].setMaxAge(0); // 유효시간을 0으로 설정
+	            cookies[i].setPath("/");
+	            res.addCookie(cookies[i]); // 응답에 추가하여 만료시키기.
+	        }
+	    }
+	}
+
+	
 
 	@GetMapping("searchId")
 	public String searchId(UserBean userlistBean) {
@@ -274,12 +339,12 @@ public class MemberController {
 
 	@PostMapping("/modify_pro")
 	public String modify_pro(@Valid @ModelAttribute("modifyUserBean") UserBean modifyUserBean, BindingResult result) {
-		
+
 		if (result.hasErrors()) {
 			System.out.println("무슨 에러? : " + result);
 			return "member/modify";
 		}
-		
+
 		String pw = modifyUserBean.getUser_password();
 		String salt = userService.generateSalt();
 
@@ -287,7 +352,6 @@ public class MemberController {
 
 		modifyUserBean.setUser_password(encryptpww);
 		modifyUserBean.setSalt(salt);
-		
 
 		try {
 			userService.updateUserlistModify(modifyUserBean);

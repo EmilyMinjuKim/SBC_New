@@ -9,9 +9,7 @@
 <html>
 <head>
 <style>
-.navbar {
-	background: #FAEBD7;
-}
+
 #logo{
 	width: 100px;
 	height: 50px;

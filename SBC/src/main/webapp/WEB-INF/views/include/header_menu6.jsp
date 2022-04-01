@@ -66,7 +66,7 @@
                   	<c:when test="${loginUserBean.userLogin == true}">
                     <li class="nav-item dropdown">
                     	<a class="nav-link dropdown-toggle" href="${root }member/mypagetest" 
-                    	id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${loginUserBean.user_id} 님의 마이페이지</a>
+                    	id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${loginUserBean.user_id} 님</a>
 	                  	<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="text-align: center;">
 							<a class="dropdown-item" href="${root }board/myAnimal">관심동물</a><p>
 							<a class="dropdown-item" href="${root }board/myBoard">관심글</a><p>

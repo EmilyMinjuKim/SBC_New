@@ -19,8 +19,12 @@ public class NoticeDao {
 		noticeMapper.addNoticeInfo(noticeBean);
 	}
 	
-	public List<NoticeBean> getMainList(NoticeBean noticeBean, RowBounds rowBounds) {
-		return noticeMapper.getMainList(noticeBean, rowBounds);
+	public List<NoticeBean> getMainList(RowBounds rowBounds) {
+		return noticeMapper.getMainList(rowBounds);
+	}
+	
+	public List<NoticeBean> getSearchList(String keyword, RowBounds rowBounds){
+		return noticeMapper.getSearchList(keyword, rowBounds);
 	}
 	
 	public NoticeBean getNoticeInfo(int notice_idx) {

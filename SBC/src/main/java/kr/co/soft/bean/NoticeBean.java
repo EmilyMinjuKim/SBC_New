@@ -14,6 +14,7 @@ public class NoticeBean {
 	
 	private int notice_idx;
 	
+	@NotBlank
 	private String notice_writer;
 	
 	@NotBlank
@@ -21,9 +22,13 @@ public class NoticeBean {
 	
 	@NotBlank
 	private String notice_text;
+	
+	
 	private String notice_file;
 	
 	private String notice_date;
+	
+	private MultipartFile upload_file;
 	
 	
 	

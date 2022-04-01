@@ -111,5 +111,13 @@ public class AdminService {
 				
 		return pageBean;
 	}
+	
+	public String getUser_passwordByUser_id(String user_id) {
+		return adminDao.getUser_passwordByUser_id(user_id);
+	}
+	
+	public String getSaltByUser_id(String user_id) {
+		return adminDao.getSaltByUser_id(user_id);
+	}
 
 }

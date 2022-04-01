@@ -145,6 +145,7 @@ function execPostCode() {
 					<div class="form-group">
 							<form:label path="phone">전화번호</form:label>
 							<form:input type="text" class="form-control" placeholder="phone" path="phone"/>
+							<form:errors path='phone' style='color:red'/>
 					</div>
 					
 					<div class="form-group">
@@ -183,6 +184,8 @@ function execPostCode() {
 											<form:input class="form-control"
 												placeholder="6자 입력(EX 950503)" path="birthdate"
 												maxlength='6' />
+											<form:errors path='birthdate' style='color:red'/>
+											
 
 										</div>
 					<!--  

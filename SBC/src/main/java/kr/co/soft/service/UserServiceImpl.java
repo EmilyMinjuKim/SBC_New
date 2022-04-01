@@ -144,11 +144,11 @@ public class UserServiceImpl implements UserService {
 		} else {
 			// 임시 비밀번호 생성
 			String pw = "";
-			for (int i = 0; i < 12; i++) {
+			for (int i = 0; i < 8; i++) {
 				pw += (char) ((Math.random() * 26) + 97);
 			}
 			for (int i = 0; i < 3; i++) {
-				pw += (int)(Math.random()*10);
+				pw += (int) (Math.random() * 10);
 			}
 			UserBean.setUser_password(pw);
 
@@ -186,12 +186,10 @@ public class UserServiceImpl implements UserService {
 
 		userBean.setAuthority("ROLE_USER"); // 회원가입시 유저 권한
 		userBean.setEnabled(0); // 회원가입시의 상태 설정
-		
+
 		String approval_key = create_key();
 		userBean.setApproval_key(approval_key);
-	
-		
-		
+
 		userDao.addUserlistInfo(userBean);
 
 	}
@@ -204,7 +202,6 @@ public class UserServiceImpl implements UserService {
 
 		userDao.addMembershipInfo(userBean);
 	}
-
 
 	// ========================================================
 	// 인증키 생성용
@@ -225,11 +222,11 @@ public class UserServiceImpl implements UserService {
 		// Mail Server 설정
 		String charSet = "utf-8";
 		String hostSMTP = "smtp.gmail.com";
-		String hostSMTPid = "sbcmailserver@gmail.com";
-		String hostSMTPpwd = "soldesk1234";
+		String hostSMTPid = "";
+		String hostSMTPpwd = "";
 
 		// 보내는 사람 EMail, 제목, 내용
-		String fromEmail = "sbcmailserver@gmail.com";
+		String fromEmail = "";
 		String fromName = "SBC-Together";
 		String subject = "";
 		String msg = "";
@@ -242,11 +239,8 @@ public class UserServiceImpl implements UserService {
 			msg += UserBean.getUser_id() + "님 회원가입을 환영합니다.</h3>";
 			msg += "<div style='font-size: 130%'>";
 			msg += "하단의 인증을 클릭 시 정상적으로 회원가입이 완료됩니다.</div><br/>";
-			msg += "<a href='http://localhost:9000/SBC/member/registerEmail?email="
-					+ UserBean.getEmail()
-					+ "&approval_key="
-					+ UserBean.getApproval_key()
-					+"' target='_blank'>이메일 인증 확인</a>";
+			msg += "<a href='http://localhost:9000/SBC/member/registerEmail?email=" + UserBean.getEmail()
+					+ "&approval_key=" + UserBean.getApproval_key() + "' target='_blank'>이메일 인증 확인</a>";
 
 		} else if (div.equals("find_pw")) {
 
@@ -403,7 +397,7 @@ public class UserServiceImpl implements UserService {
 
 		return ip;
 	}
-	
+
 	/*
 	 * public void addApproval_keyByEamil(UserBean userBean) {
 	 * userDao.addApproval_keyByEamil(userBean); }
@@ -412,9 +406,9 @@ public class UserServiceImpl implements UserService {
 	public int checkApproval_keyByEmail(String email, String approval_key) {
 		return userDao.checkApproval_keyByEmail(email, approval_key);
 	}
-	
+
 	public void updateEnabledByEmail(String email) {
 		userDao.updateEnabledByEmail(email);
 	}
-	
+
 }

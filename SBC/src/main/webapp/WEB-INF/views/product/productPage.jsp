@@ -21,12 +21,15 @@
 
 <style type="text/css">
 	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	    font-family: 'Cafe24Dongdong';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
 	}
 	*{
-	font-family: 'air';
+		font-family: 'Cafe24Dongdong';
 	}
+	
 	th {
 		text-align: center;
 		font-size: 20pt;
@@ -53,7 +56,7 @@
 	}
 	.bfSale{
 		text-decoration: line-through;
-		font-size: 12px;
+		font-size: 14px;
 		color: #696969;
 	}
 </style>
@@ -202,7 +205,7 @@
 									<tr>
 										<td>OPTION</td>
 										<td>
-											<select id="opt" style="width: 100%" onchange="selectOpt()">
+											<select id="opt" style="width: 100%; height: 40px; line-height: normal;" onchange="selectOpt()">
 												<option value="" selected="selected">- [필수] 옵션을 선택해주세요 -</option>
 												<c:forEach items="${productList }" var="list" varStatus="vs">
 												<option idx="${vs.index }" pid="${list.product_id}">${list.product_option }</option>
@@ -239,7 +242,11 @@
 				<input type="hidden" name="cartList[${v.index }].quantity" value="0" id="q${v.index }" />
 			</c:forEach>
 		</form>
+		
+	<!-- footer-->
+    <c:import url="/WEB-INF/views/include/footer_menu.jsp" />
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      <script src="${root }jquery-ui-1.11.4/jquery-ui.js"></script>
     </body>
 </html>

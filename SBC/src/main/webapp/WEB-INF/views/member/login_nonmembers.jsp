@@ -3,5 +3,5 @@
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <script>
    alert('탈퇴 또는 비활성화 된 계정입니다.')
-   location.href = "${root}login?fail=true"
+   location.href = "${root}member/login"
 </script>

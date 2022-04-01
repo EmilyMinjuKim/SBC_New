@@ -3,5 +3,5 @@
 <c:set var='root' value='${pageContext.request.contextPath }/'/>
 <script>
 	alert('글이 삭제 되었습니다.')
-	location.href = '${root}notice/noticemain?notice_idx=${notice_idx}'
+	location.href = '${root}notice/noticemain?notice_idx=${notice_idx}&page=${page}'
 </script>

@@ -22,8 +22,30 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+
 
 <style>
+
+/* .footer-font {
+	font-family: 'Cafe24Dongdong' !important;
+}
+
+.header-font {
+	font-family: 'Cafe24Dongdong' !important;
+} 
+ 
+body > div > div {
+	font-family: 'Roboto', sans-serif !important;
+} */
+
+footer p a span {
+    color: #FF9F46;
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
 body {
 	color: #566787;
 	background: #ffffff;
@@ -247,7 +269,7 @@ a:link {
 
 	function openWin(f,s)
 	{
-	adWindow=window.open(f,s,'width=200,height=100,status=no,scrollbars=auto');
+	adWindow=window.open(f,s,'width=500,height=800,status=no,scrollbars=auto');
 	}
 
 
@@ -257,8 +279,7 @@ a:link {
 </script>
 </head>
 <body>
-<c:import url='/WEB-INF/views/include/header_menu2.jsp' />
-<hr />
+<c:import url='/WEB-INF/views/include/header_menu11.jsp' />
 
 	<div class="container">
 		<div class="table-responsive">
@@ -280,7 +301,7 @@ a:link {
 						</div>
 					</div>
 				</div>
-				전체 검색 건수 : [ ${fn:length(userlist)} ]<br /> 전체 다시 불러오기 : <a
+				현재 페이지 : ${pageBean.currentPage}/${pageBean.max }<br /> 전체 다시 불러오기 : <a
 					href="${root}admin/userlist" class="replace" title="Replace"
 					data-toggle="tooltip"><i class="material-icons">cached</i></a>
 				<div>
@@ -315,22 +336,23 @@ a:link {
 									</td>
 									<td>${obj.last_login_time }</td>
 									<td>${obj.recentlogin_ip }</td>
-									<td>
-										<c:if test="${obj.enabled eq '1'}">
+									<td><c:if test="${obj.enabled eq '1'}">
 											<span class="status text-success">&bull;</span> Active
-										</c:if>
-										<c:if test="${obj.enabled eq '0'}">
+										</c:if> <c:if test="${obj.enabled eq '0'}">
 											<span class="status text-danger">&bull;</span> Inactive
-										</c:if>
-									</td>
-									<td><a href="javascript:openWin('${root }admin/modifyUser?user_id=${obj.user_id }','0')" class="edit" title="Edit"
-										data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-
+										</c:if></td>
+									<td>
+									<a href="javascript:openWin('${root }admin/modifyUser?user_id=${obj.user_id }','0')"
+										class="edit" title="Edit" data-toggle="tooltip"><i
+											class="material-icons">&#xE254;</i></a> 
+											
 										<c:if test="${obj.enabled eq '1'}">
 											<a href="${root}admin/userDelete?user_id=${obj.user_id }"
 												class="delete" title="Delete" data-toggle="tooltip"><i
 												class="material-icons">&#xE872;</i></a>
-										</c:if> <c:if test="${obj.enabled eq '0'}">
+										</c:if> 
+										
+										<c:if test="${obj.enabled eq '0'}">
 											<a href="${root}admin/userAbled?user_id=${obj.user_id }"
 												class="user_unlock" title="User_unlock"
 												data-toggle="tooltip"><i class="material-icons">lock_open</i></a>
@@ -353,71 +375,71 @@ a:link {
 									class="fa fa-angle-double-right"></i></a></li>
 						</ul>
 					</div> -->
-					<div class="clearfix">
-				<ul class="pagination">
-		<!-- 이전 페이지로 이동하려는게 1이하이면 disabled(비활성화) -->
-					<c:choose>
-					
-					<c:when test="${pageBean.prevPage <= 0 }">
-					<li class="page-item disabled"> 
-						<a href="#" class="fa fa-angle-double-left">이전</a>
-					</li>
-					</c:when>
-					
-					<c:otherwise>
-					
-					<li class="page-item">
-						<a href="${root}admin/userlist?page=${pageBean.prevPage}" class="page-link">이전</a>
-					</li>
-					</c:otherwise>
-					
-					</c:choose>
-					
-					<c:forEach var="idx" begin="${pageBean.min }" end="${pageBean.max }">
-					
-		<!-- 페이지 아이콘 표시 -->
-		<!-- 현재페이지면 active(부트스트랩) -->
-					<c:choose>
-					
-					<c:when test="${idx == pageBean.currentPage}">
-					
-					<li class="page-item active">
-						<a style="background: lightorange" href="${root}admin/userlist?page=${idx}" class="page-link">${idx}</a>
-					</li>
-					
-					</c:when>
-					
-					<c:otherwise>
-					
-					<li class="page-item">
-						<a href="${root}admin/userlist?page=${idx}" class="page-link">${idx}</a>
-					</li>
-					
-					</c:otherwise>
-					
-					</c:choose>
-					
-					</c:forEach>
-					
-		<!-- Max값이 전체페이지보다 크거나 같으면 비활성화 disabled -->
-					<c:choose>
-					
-					<c:when test="${pageBean.max >= pageBean.pageCnt }">
-					<li class="page-item disabled">
-						<a href="#" class="fa fa-angle-double-right">다음</a>
-					</li>
-					</c:when>
-					
-					<c:otherwise>
-					<li class="fa fa-angle-double-right">
-						<a href="${root}admin/userlist?page=${pageBean.nextPage}" class="page-link">다음</a>
-					</li>
-					</c:otherwise>
-					
-					</c:choose>
-					
-				</ul>
-			</div>
+					<div class="d-md-block justify-content-center">
+						<ul class="pagination mt-4 justify-content-center">
+							<!-- 이전 페이지로 이동하려는게 1이하이면 disabled(비활성화) -->
+							<c:choose>
+
+								<c:when test="${pageBean.prevPage <= 0 }">
+									<li class="page-item disabled"><a
+										style="text-decoration: none;" href="#" class="page-link">이전</a>
+									</li>
+								</c:when>
+
+								<c:otherwise>
+									<li class="page-item "><a
+										href="${root}admin/userlist?page=${pageBean.prevPage}"
+										class="page-link">이전</a></li>
+								</c:otherwise>
+
+							</c:choose>
+
+							<c:forEach var="idx" begin="${pageBean.min }"
+								end="${pageBean.max }">
+
+								<!-- 페이지 아이콘 표시 -->
+								<!-- 현재페이지면 active(부트스트랩) -->
+								<c:choose>
+
+									<c:when test="${idx == pageBean.currentPage}">
+
+										<li class="page-item active"><a
+											style="background: lightorange"
+											href="${root}admin/userlist?page=${idx}" class="page-link">${idx}</a>
+										</li>
+
+									</c:when>
+
+									<c:otherwise>
+
+										<li class="page-item"><a style="text-decoration: none;"
+											href="${root}admin/userlist?page=${idx}" class="page-link">${idx}</a>
+										</li>
+
+									</c:otherwise>
+
+								</c:choose>
+
+							</c:forEach>
+
+							<!-- Max값이 전체페이지보다 크거나 같으면 비활성화 disabled -->
+							<c:choose>
+
+								<c:when test="${pageBean.max >= pageBean.pageCnt }">
+									<li class="page-item disabled"><a href="#"
+										class="page-link" style="text-decoration: none;">다음</a></li>
+								</c:when>
+
+								<c:otherwise>
+									<li class="page-item"><a
+										href="${root}admin/userlist?page=${pageBean.nextPage}"
+										style="text-decoration: none;" class="page-link">다음</a></li>
+								</c:otherwise>
+
+							</c:choose>
+
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -30,4 +30,15 @@ public interface AdminMapper {
 	
 	@Select("select count(*) from userlist")
 	int getAdminCnt();
+	
+	// 유저 회원 정보 수정
+	// 아이디를 통해 유저 비밀번호 얻기
+	@Select("select user_password from userlist where user_id = #{user_id}")
+	String getUser_passwordByUser_id(String user_id);
+	
+	@Select("select salt from userlist where user_id = #{user_id}")
+	String getSaltByUser_id(String user_id);
+	
+
+	
 }

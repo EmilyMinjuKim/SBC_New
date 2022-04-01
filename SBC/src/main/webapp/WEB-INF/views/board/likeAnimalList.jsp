@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="root" value="${pageContext.request.contextPath }/" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http//www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -123,7 +123,17 @@ margin-top: 100px;
 						</div>
 						<div class="row col-md-6">
 							<div class="row col-md-8">
-								<h5 class="fw-bolder">${dog['상태']}   
+								
+								<h5 class="fw-bolder">
+									<c:set var="w" value="${dog['상태']}"/>
+									<c:choose>
+										 <c:when test="${fn:contains(w, '자연사')||fn:contains(w, '안락사')}">
+											 <img src="${root}img/board/daizy.png" style="max-width: 40%;  max-height: 40%;">
+										 </c:when>
+										<c:otherwise>
+											<span style='color:green; font-weight:bold'> ${dog['상태']}  </span>
+										</c:otherwise>
+									 </c:choose>
 								&nbsp;<span style="font-size: 12pt">${dog['성별']}</span>
 								<c:set var="sex" value="${dog['성별']}" scope="session"/>
 								<c:choose>
@@ -132,7 +142,7 @@ margin-top: 100px;
 									</c:when>
 
 									<c:when test="${sex=='암컷'||sex==' 암컷'||sex=='암컷 '||sex==' 암컷 '}">
-										<img src="${root}img/board/female.png">
+										<img src="${root}img/board/female.png" >
 									</c:when>
 									
 									<c:otherwise>
@@ -218,7 +228,7 @@ margin-top: 100px;
 				</div><br>
 		</c:forEach>
 	</div>
-	<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
+<%-- 	<c:import url='/WEB-INF/views/include/footer_menu2.jsp' /> --%>
 </section>
 
 	
@@ -250,8 +260,6 @@ function addLikeFunc(desertionNo) {
  	})
  	location.reload();
 }
-
-
 </script>
 		
 </body>

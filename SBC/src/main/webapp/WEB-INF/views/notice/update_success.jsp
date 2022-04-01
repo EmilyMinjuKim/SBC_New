@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var='root' value='${pageContext.request.contextPath }/'/>
 <script>
-	alert('공지 글이 수정되었습니다')
-	location.href = '${root}notice/read?notice_idx=${updateNoticeBean.notice_idx}'
+	alert('공지글이 수정되었습니다')
+	location.href = '${root}notice/read?notice_idx=${updateNoticeBean.notice_idx}&page=${page}'
 </script>

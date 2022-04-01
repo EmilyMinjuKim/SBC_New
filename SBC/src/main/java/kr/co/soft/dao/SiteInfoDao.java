@@ -22,4 +22,10 @@ public class SiteInfoDao {
 		
 	}
 	
+	public int getTotal_amount() {
+		
+		return siteInfoMapper.getTotal_amount();
+	}
+	
+	
 }

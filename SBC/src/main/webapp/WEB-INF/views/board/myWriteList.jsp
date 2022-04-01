@@ -19,6 +19,25 @@
    
    
    <style type="text/css">
+   
+   
+      @font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+   font-family: 'Cafe24Dongdong' !important;
+}
+   
+   
+   
+   
+   
+   
+   
+   
 body{
     background-color: #f8f9fa!important
 }
@@ -335,7 +354,7 @@ body{
                   
                 </td>
                 <!-- 로그인 회원이 글쓴이랑 같은 경우만 보이게 -->
-                <td>
+          <%--       <td>
                  <ul class="list-unstyled justify-content-end text-center">
                   	<c:if test="${loginUserBean.user_id eq item.user_id}">
                   	
@@ -345,7 +364,7 @@ body{
                   	</c:if>
                   		<li style="width: 100px"><br />${item.reg_time}</li>
                   </ul>
-                </td>
+                </td> --%>
               </tr>
        		 		  
               
@@ -374,6 +393,6 @@ function deleteCk(){
 
 
 
-		<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
+		<%-- <c:import url='/WEB-INF/views/include/footer_menu2.jsp' /> --%>
 </body>
 </html>

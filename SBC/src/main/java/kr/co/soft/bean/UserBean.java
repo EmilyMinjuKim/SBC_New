@@ -20,7 +20,6 @@ public class UserBean {
 	@Pattern(regexp = "[가-힣]*")
 	private String user_name;
 	
-	@NotBlank
 	private String user_id;
 
 	@Pattern(regexp = "^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$")
@@ -62,8 +61,12 @@ public class UserBean {
 	private boolean userIdExist;
 	private boolean userEmailExist;
 	private boolean userLogin;
+	
+	private boolean cookieChk1;
 
 	public UserBean() {
+		
+		this.cookieChk1 = false;
 
 		this.userIdExist = false; // 최초 가입자 아이디 존재 여부는 false 디폴트 값을 준다. 중복 검사를 하지 않기 때문에
 		

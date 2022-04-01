@@ -8,87 +8,208 @@
         <!-- include libraries(jQuery, bootstrap) -->
 <!-- 전체적으로 크기를 줄여줌 -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
- 
+ 		<link rel="stylesheet" href="${root}css/bootstrap4.4.1.css" />
 <!-- 텍스트 AREA 크기 -->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-
-<!-- 어느 기능을 하는지 잘 모르겟음 -->
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-
-<!-- 어느 기능을 하는지 잘 모르겟음 -->       
-<!--         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
-        
-<!-- 큰 틀을 구성함(중요한거 같음) -->        
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-      
-<!-- 형태를 구성함(약간 중요한거 같음) -->         
-        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>                     
  
     
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <!-- 방금 다운받은거 --> 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script> 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script> 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet"> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+<!--         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">  -->
+				<link rel="stylesheet" href="${root}css/bootstrap4.0.0.css" />
+        <title>공지글 수정</title>
 
-        <title>write</title>  
- 
- 
-    </head>
-    <body style="padding-top: 5rem;">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-      
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-              <ul class="navbar-nav mr-auto">
- 
-              </ul>
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>
-            </div>
-        </nav>
-  
- 
-        <main role="main" class="container">
-            
-            <input type="hidden" id="notice_idx" name="notice_idx" value="${readNoticeBean.notice_idx }">
-                <div class="pt-1">
-                    <input type="text" name="notice_subject" placeholder="제목을 입력하세요"value="${readNoticeBean.notice_subject }" style="border-radius:5px; width:100%; padding:5px;" readonly="readonly">
-                </div>
-                <div class="pt-1">
-                    <textarea  id="summernote" name="notice_text" disabled="disabled" readonly="readonly" value="">${readNoticeBean.notice_text }</textarea>
-                    <input class="form-control" id="notice_file" name="notice_file" type="file" placeholder="" data-sb-validations="required" 
-                                value="${readNoticeBean.notice_file }" disabled="disabled"/>
-                </div>    
-                <script>
-                    $('#summernote').summernote({
-                      placeholder: '내용을 입력해주세요',
-                      tabsize: 2,
-                      height: 300
-                    });
-                  </script>                     
-                <div class="text-center"><a href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx }&page=${page}">
-                    <button class="btn btn-primary btn-xl text-uppercase size" id="Button" type="submit">목록 보기</button></a>
-                    <%-- 
-                    <a href="${root }notice/update?notice_idx=${noticeBean.notice_idx}&page=${page}">
-                    <button class="btn btn-primary btn-xl text-uppercase size" id="Button" type="submit">공지 글 수정하기</button></a>
-                    
-                    <a href="${root }notice/delete?notice_idx=${noticeBean.notice_idx}&page=${page}">
-                    <button class="btn btn-primary btn-xl text-uppercase size" id="Button" type="submit">공지 글 삭제하기</button></a>
-                    </div> --%>
-            
-                
-            </div>    
-            </form>
-        </main>  
-    </body>
+<style>
+@font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	font-family: 'Cafe24Dongdong' !important;
+}
+
+.aa3 {
+	background: white;
+	color: #FDB85E;
+	font-size: 18px;
+	font-weight: 900;
+	border: 3px solid #FDB85E;
+}
+
+.aa3:hover {
+	background: #FDB85E;
+	color: white;
+	font-size: 19px;
+	font-weight: 900;
+	border: 3px solid #00ff0000;
+	
+}
+
+.aa4 {
+	background: #FDB85E;
+	color: white;
+	font-size: 15px;
+	font-weight: 600;
+	border: 3px solid white;
+	border-radius: 10%;
+}
+
+.aa4:hover {
+	background: white;
+	color: #FDB85E;
+	font-size: 16px;
+	font-weight: 600;
+	border: 3px solid #FDB85E;
+	border-radius: 5%;
+}
+
+.aa3:visited {
+	background: #FDB85E;
+	color: white;
+	font-size: 19px;
+	font-weight: 900;
+	border: 3px solid #00ff0000;
+	
+}
+.aa3:link {
+	background: #FDB85E;
+	color: white;
+	font-size: 19px;
+	font-weight: 900;
+	border: 3px solid #00ff0000;
+	
+}
+.aa3:active {
+	background: #FDB85E;
+	color: white;
+	font-size: 19px;
+	font-weight: 900;
+	border: 3px solid #00ff0000;
+	
+}
+.aa3:disabled {
+	background: #FDB85E;
+	color: white;
+	font-size: 19px;
+	font-weight: 900;
+	border: 3px solid #00ff0000;
+	
+}
+
+.te{
+	border-radius:5px; 
+	border:2px solid #FDB85E;
+	width:40%; 
+	height: 50px;
+}
+
+.te:target{
+	border-radius:5px; 
+	border:2px solid #FDB85E;
+	width:50%; 
+	height: 50px;
+}
+
+.tea{
+	border-radius:5px; 
+	width:40%; 
+	height: 250px; 
+	border:2px solid #FDB85E; 
+	resize: none; 
+	autocomplete:on;
+}
+
+.fi{
+	width:40%;
+	border-radius:5px; 
+	border:2px solid #FDB85E; 
+}
+
+.fi1{
+	width: 40%;
+	height: 44px;
+	border-radius:5px; 
+	border:2px solid #FDB85E; 
+}
+
+.justify-content-center {
+	-ms-flex-pack: center!important;
+	justify-content: center!important
+}
+
+.card {
+   position: relative;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-direction: column;
+   flex-direction: column;
+   min-width: 0;
+   word-wrap: break-word;
+   background-color: #fff;
+   background-clip: border-box;
+   border: 1px solid rgba(0, 0, 0, .125);
+   border-radius: .25rem;
+}
+
+.shadow {
+   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+.im1{
+	border: 2px solid #FDB85E;
+	border-radius: 5px;
+	width: 50%;
+	height: 50%;
+}
+
+hr{
+	width:50%; 
+	height:3px; 
+	background:#FDB85E;
+}
+
+.hr1{
+	width:100%; 
+	height:1.5px; 
+	background:#FD9b5E;
+}
+</style>
+</head>
+<body>
+	<div class="mt-2 card shadow" style="position:relative; border:1px solid lightgray; width: 60%; left:20%;">
+		<div class="text-center mb-2 mt-3">
+			<img class="pb-1" src="${root }img/notice.png" style="height: 40%; width: 40%;" />
+		</div>
+		<main role="main" class="container">
+				<div class="pt-1 mb-2 text-center" style="font-weight: 900; font-size:20px;"><hr/>
+					${readNoticeBean.notice_subject}
+				</div><hr/>
+				<div class=" mt-4" style="vertical-align: middle; font-weight: 500;"><hr class="hr1"/>
+					<br /><p style="margin-left:25%; width: 50%;">${readNoticeBean.notice_text}</p>
+				</div><br />
+				<div class="text-center mt-4">
+					<img class="im1" src="${root }upload/${readNoticeBean.notice_file }"onerror="this.src='${root}/img/logo_sbc.png'" />
+				</div>
+				<hr class="hr1" />
+				<div class="mt-4 mb-3 text-center">
+					<a class="btn btn-primary btn-xl aa3" href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx }&page=${page}">목록 보기</a>
+				</div>
+		</main>
+	</div>
+	
+	
+	<!-- <script>
+	
+	document.getElementById('bizFile').addEventListener('change', function(){
+		var filename = document.getElementById('fileName');
+		if(this.files[0] == undefined){
+			filename.innerText = '선택된 파일없음';
+			return;
+		}
+		filename.innerText = this.files[0].name;
+	});
+	</script> -->
+</body>
 </html>

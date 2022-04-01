@@ -10,8 +10,6 @@
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
 
 <title>My Cart</title>
 
@@ -21,18 +19,23 @@
 <link rel="stylesheet" href="${root }jquery-ui-1.11.4/jquery-ui.css" />
 
 <style>
-	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+
+	html, body {
+		height: 100%;
 	}
+	section {
+		height: 80%;
+	}	
 	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
-    font-weight: bold;
+	    font-family: 'Cafe24Dongdong';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
 	}
 	*{
-	font-family: 'air';
+		font-family: 'Cafe24Dongdong';
 	}
+	
 	.arrow-btn {
 		background-color: white;
 		border: none;
@@ -433,6 +436,9 @@
                 </div>
             </div>
         </section>
+        
+        <!-- footer-->
+   		<c:import url="/WEB-INF/views/include/footer_menu.jsp" />
         
 		<!-- 부트스트랩 기본 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

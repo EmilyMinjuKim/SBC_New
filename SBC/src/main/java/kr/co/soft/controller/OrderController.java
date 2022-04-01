@@ -84,7 +84,6 @@ public class OrderController {
 		String merchant_uid = orderList.getMerchant_uid();
 		
 		//받아서 DB에 저장 
-		List<OrderDetailBean> list = new ArrayList<>();
 		for(OrderDetailBean order : orderDetailList.getOrderDetailList()) {
 			order.setMerchant_uid(merchant_uid);
 			orderService.insertOrderList(order);
@@ -116,12 +115,31 @@ public class OrderController {
 		return resultMap;
 			
 	}
-	
+
 	@GetMapping("/findMyOrder")
-	public String findMyOrder() {
+	public String findMyOrder(Model model) {
+		
+		String member_id = loginUserBean.getUser_id();
+		List<OrderListBean> list = orderService.showOrderList(member_id);
+		model.addAttribute("list", list);
+		for(int i=0; i < list.size(); i++) {
+			list.get(i).getMerchant_uid();
+		}
+		
 		return "/order/findMyOrder";
 	}
-
-
+	
+	@PostMapping("/searchOrder")
+	public String searchOrder(String merchant_uid, Model model) {
+		
+		List<OrderDetailBean> productList = orderService.showOrderProductList(merchant_uid);
+		OrderListBean orderInfo = orderService.showOrderInfo(merchant_uid);
+		
+		model.addAttribute("productList", productList);
+		model.addAttribute("orderInfo", orderInfo);
+		
+		return "/order/orderList";
+	}
+	
 }
 

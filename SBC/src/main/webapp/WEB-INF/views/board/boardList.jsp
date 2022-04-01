@@ -15,12 +15,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+   href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+   rel="stylesheet">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
-	integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
-	crossorigin="anonymous" />
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+   integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
+   crossorigin="anonymous" />
 <!-- ajax 제이쿼리 -->
 
 
@@ -30,6 +30,18 @@
    <c:import url='/WEB-INF/views/include/header_menu4.jsp' />
    
    <style type="text/css">
+   
+   @font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+   font-family: 'Cafe24Dongdong' !important;
+}
+
+
 body{
     background-color: #f8f9fa!important
 }
@@ -268,7 +280,7 @@ body{
 }
 
 .asd{
-	width: 20px;
+   width: 20px;
 }
 
 
@@ -315,19 +327,19 @@ body{
               <tr class="candidates-list">
                 <td class="title">
                   <div class="thumb">
-                 	 <h5 class="mb-2"><a href="#">${item.board_category}</a></h5>
-                    <img class="img-fluid" src="${root }upload/${item.dog_img}"  alt="">
+                     <h5 class=""><span class="pb-1" style="padding:5px; background:#F9F965; border-radius:8px; color: #49C331; font-size:25px; font-weight: 600;">${item.board_category}</span></h5>
+                    <img class="img-fluid" style="" src="${root }upload/${item.dog_img}"  alt="">
                   </div>
                   <div class="candidate-list-details">
                     <div class="candidate-list-info">
                       <div class="candidate-list-title">
-                        <h5 class="mb-0"><a href="${root}board/read?b_no=${item.dog_num}&page=${page}">${item.breed}</a></h5>
+                        <h5 class="mb-0"><a href="${root}board/read?b_no=${item.dog_num}&page=${page}" style="font-size: 25px; font-weight: 700;">${item.breed}</a></h5>
                       </div>
                       <div class="candidate-list-option">
                         <ul class="list-unstyled">
-                          <li><img src="${root }img/board/cal.png"/>&nbsp;${item.happen_date}</li>
-                          <li><i class="fas fa-map-marker-alt mr-5 pr-5">${item.address1}</i></li>
-                          <li><img class="mr-4" src="${root }img/board/pug.png" style="max-width: 50%;  max-height: 50%;"/>성별: ${item.sex} / ${item.color} / age: ${item.age} / kg: ${item.weight} </li>
+                          <li class="mt-3" style="font-size: 20px; color: #858785; font-weight: 600;"><img src="${root }img/board/cal.png"/>&nbsp;${item.happen_date}</li>
+                          <li class="mt-3" ><i class="fas fa-map-marker-alt mr-5 mt-1 pr-5" ><img src="${root }img/board/map.png" width="12%" height="12%"/>${item.address1}</i></li>
+                          <li class="mt-3" style=" font-size:18px; font-weight: 600; color: #384735;"><img class="mr-2" src="${root }img/board/pug.png" style="max-width: 50%;  max-height: 50%;"/>성별: ${item.sex} / ${item.color} / age: ${item.age} / kg: ${item.weight} </li>
                         </ul>
                       </div>
                     </div>
@@ -335,34 +347,36 @@ body{
                 </td>
                 <td class="candidate-list-favourite-time text-center">
                   <a class="candidate-list-favourite order-2 text-danger" href="javascript:like('${item.board_num}');" style="text-decoration:none">
-                 	<c:set var="heartIcn" value="${item.likeck? '../img/board/redheart.gif' : '../img/board/whiteheart.png'}"/>
-                 	 <img id="${item.board_num }" class="heartClass" src="<c:url value ='${heartIcn}'/>" style="max-width: 10%;  max-height: 10%;"/>
+                    <c:set var="heartIcn" value="${item.likeck? '../img/board/redheart.gif' : '../img/board/whiteheart.png'}"/>
+                     <img id="${item.board_num }" class="heartClass mb-1" src="<c:url value ='${heartIcn}'/>" style="max-width: 10%;  max-height: 10%;"/>
                   </a>
-                  <span class="candidate-list-time order-1">좋아요</span>
+                  <span class="candidate-list-time order-1 mr-3" style="font-size:20px; font-weight: 600; ">좋아요</span>
                  
                  
                   <a href="#" class="candidate-list-favourite order-2 text-primary">
-                	 <img src="${root }img/board/eye.gif" style="max-width: 10%; max-height: 10%;"/>
-                  <span class="candidate-list-time order-1">조회수 ${item.readcount}</span>
+                    <img src="${root }img/board/eye.gif" class="mb-1" style="max-width: 10%; max-height: 10%;"/>
+                  <span class="candidate-list-time order-1" style="font-size:20px; font-weight: 600; ">조회수 ${item.readcount}</span>
                   </a>
                   
                 </td>
                 <!-- 로그인 회원이 글쓴이랑 같은 경우만 보이게 -->
                 <td>
-                  <ul class="list-unstyled justify-content-end text-center">
-                  	<c:if test="${loginUserBean.user_id eq item.user_id}">
-                  	
-               			<li style="position: relative; display: inline-block;"><a href="${root}board/modify?b_no=${item.board_num}&page=${page}" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt">&nbsp;&nbsp;</i></a></li>
-         			   <li style="position: relative; display: inline-block;"><a href="${root }board/delete?b_no=${item.board_num}&page=${page}&chip_num=${item.chip_num}" onclick="return deleteCk();" class="text-danger" data-toggle="tooltip" title="" data-original-title="Delete"><i class="far fa-trash-alt"></i></a></li> 
-  					              	
-                  	</c:if>
-                  		<li style="width: 100px"><br />${item.reg_time}</li>
+                  <ul class="list-unstyled justify-content-end text-center" >  
+                  <div style="display: flex; ">                 
+                  <c:if test="${loginUserBean.user_id eq item.user_id}">
+                     
+                        <li style="position: relative; display: inline-block; margin-bottom: 10%;"><a href="${root}board/modify?b_no=${item.board_num}&page=${page}" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><img style="position: relative; top:-6%; left:2%;" src="${root }img/board/board_update.png"/></a></li>
+                     <li style="position: relative; display: inline-block;"><a href="${root }board/delete?b_no=${item.board_num}&page=${page}&chip_num=${item.chip_num}" onclick="return deleteCk();" class="text-danger" data-toggle="tooltip" title="" data-original-title="Delete"><img src="${root }img/board/board_delete.png"/></a></li> 
+                                  
+                     </c:if>
+                     </div>  
+                        <li class="mb-1" style="width: 100px; font-size: 18px; font-weight: 600;">${item.reg_time}</li>
                   </ul>
                 </td>
               </tr>
-       		 		  
+                      
               
-			</c:forEach>
+         </c:forEach>
             
             
             
@@ -383,6 +397,7 @@ body{
                         </li>
                      </c:otherwise>
                </c:choose>
+               
                
                
                <c:forEach var='idx' begin="${pageBean.min}" end="${pageBean.max}">
@@ -423,7 +438,7 @@ body{
 </div>
 
 <!-- footer  -->
-	<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
+   <c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
 
 <script type="text/javascript">
 
@@ -431,39 +446,39 @@ body{
 //카테고리 선택
 $('input[type="radio"]').click(function() {
    var loc = $(this).val();
-	  location.href=${root }+"board/boardList?board_category="+loc;
+     location.href=${root }+"board/boardList?board_category="+loc;
 })
-	
-	//좋아요 글 입력
-		function like(boardNo) {
-			$.ajax({
-				url:"${root}board/likeCheck/"+boardNo,
-				type:"get",
-				dataType:"text",
-				success:function(result){
-					console.log("결과값?"+result)
-					if(result.trim()=="true"){
-						alert("좋아요 등록!!")
-						document.getElementById(boardNo).src='../img/board/redheart.gif';
-					}else{
-						alert("좋아요 삭제!!")
-						document.getElementById(boardNo).src='../img/board/whiteheart.png';
-					}
-				}
-			})
-		}
-	
-	
+   
+   //좋아요 글 입력
+      function like(boardNo) {
+         $.ajax({
+            url:"${root}board/likeCheck/"+boardNo,
+            type:"get",
+            dataType:"text",
+            success:function(result){
+               console.log("결과값?"+result)
+               if(result.trim()=="true"){
+                  alert("좋아요 등록!!")
+                  document.getElementById(boardNo).src='../img/board/redheart.gif';
+               }else{
+                  alert("좋아요 삭제!!")
+                  document.getElementById(boardNo).src='../img/board/whiteheart.png';
+               }
+            }
+         })
+      }
+   
+   
 
-	    
+       
     
-    	
+       
   function deleteCk(){
-    	return confirm("정말 삭제하시겠습니까?")
+       return confirm("정말 삭제하시겠습니까?")
     }
-	
-	
-	
+   
+   
+   
 </script>
 
 

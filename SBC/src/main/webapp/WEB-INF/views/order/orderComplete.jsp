@@ -18,17 +18,22 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <style>
-	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
+	html, body {
+		height: 100%;
 	}
+	
+	section {
+		height: 81%;
+	}
+
 	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
-    font-weight: bold;
+	    font-family: 'Cafe24Dongdong';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
 	}
 	*{
-	font-family: 'air';
+		font-family: 'Cafe24Dongdong';
 	}
 	
 	table {
@@ -88,10 +93,14 @@
 	               			</td>
 	               		</tr>
 	               	</table>
-	               	<div><button type="button">쇼핑계속하기</button>&nbsp;&nbsp;&nbsp;<button type="button">HOME</button></div>
+	               	<br />
+	               	<div style="text-align: center"><button class="btn btn-outline-dark" type="button" onclick="location.href='${root}product/main'">쇼핑계속하기</button>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-outline-dark" onclick="location.href='${root}'">HOME</button></div>
                	</div>
         	</div>
         </section>
+        
+        <!-- footer-->
+   		<c:import url="/WEB-INF/views/include/footer_menu.jsp" />
 
         <!-- 부트스트랩 기본 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

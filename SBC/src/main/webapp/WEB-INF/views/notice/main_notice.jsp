@@ -8,98 +8,187 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-<!--  All snippets are MIT license http://bootdey.com/license -->
-<title>light user list - Bootdey.com</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" nonce="b53b0a014ba94d4a9d21a20025b"
-	src="//local.adguard.org?ts=1647676406029&amp;type=content-script&amp;dmn=www.bootdey.com&amp;pth=%2Fsnippets%2Fexecute_download%2Ft3&amp;app=msedge.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;uag="></script>
-<script type="text/javascript" nonce="b53b0a014ba94d4a9d21a20025b"
-	src="//local.adguard.org?ts=1647676406029&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<title>공지사항</title>
+<link href="${root }css/bootstrap4.5.0.css" rel="stylesheet">
+
+<!-- 아이콘 -->	
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
 	integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
 	crossorigin="anonymous" />
 
+
+<style>
+@font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	font-family: 'Cafe24Dongdong' !important;
+}
+
+.aa3 {
+	background: white;
+	color: #FDB85E;
+	font-size: 18px;
+	font-weight: 900;
+	border: 3px solid #FDB85E;
+}
+
+.aa4 {
+	background: white;
+	color: #FDB85E;
+	font-size: 16px;
+	font-weight: 600;
+	border: 3px solid #FDB85E;
+}
+
+.aa3:hover {
+	background: #FDB85E;
+	color: white;
+	font-size: 19px;
+	font-weight: 900;
+	border: 3px solid white;
+	border-radius: 10%;
+}
+
+.justify-content-right {
+	-ms-flex-pack: right !important;
+	justify-content: right !important
+}
+
+.justify-content-center {
+	position: relative;
+	text-align: center;
+	-ms-flex-pack: center!important;
+	justify-content: center!important;
+}
+
+.li1{
+	font-size: 25px; 
+	width: 30%; 
+	vertical-align: middle;
+	color:#FDB85E;
+}
+
+.lii1{
+	color: #F9BF20;
+}
+
+.li2{
+	font-size: 25px; 
+	vertical-align: middle;
+	color:#ff6c99;
+}
+
+.lii2{
+	color:#ff6c99;
+}
+
+</style>
+
+<c:import url='/WEB-INF/views/include/header_menu4.jsp' />
+
 </head>
 <body>
+
+
 	<div class="container mt-5">
 		<div class="col-lg-12">
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
-						<div class="text-right mr-5 pr-5">
-							<img class="pb-5" src="${root }images/notice.png" style="position: relative; right: 12%;" /> 
-							<a class="mr-1" href="${root }notice/write"><input class="btn btn-primary" type="button" value="글추가" /></a>
+					<div class="user-dashboard-info-box table-responsive pb-1 bg-white pb-3">
+						<div class="text-center">
+							<a href="${root }notice/noticemain"> 
+							<img class="pb-3" src="${root }img/notice.png" style="height: 35%; width: 35%;" /></a>
 						</div>
-						<table class="table manage-candidates-top mb-0">
+						<!-- search 부분 -->
+						<nav
+							class="navbar navbar-expand-md navbar-dark bg-white justify-content-right">
+
+						<form class="form-inline my-2 my-lg-0">
+						
+								<!-- <input class="form-control mr-3 aa4" type="text"
+									placeholder="Search" aria-label="Search">
+								<a class="btn btn-primary aa3 mr-3" href="#">Search</a> -->
+<!-- 							<hr style="background-color:#FDB85E;position:relative; top:31px; height: 5px; border-radius: 5px;" /> -->
+
+			<!-- 글 추가 버튼 -->
+							<c:if test="${loginUserBean.authority == 'ROLE_ADMIN'}">
+							<a class="pr-4 mr-2" href="${root }notice/write">
+							<input class="btn btn-primary aa3"  type="button" value="글 추가" /></a>
+							</c:if>
+					</form>
+					</div>
+					</nav>
+					<table class="table manage-candidates-top">
 							<thead>
 								<tr>
-									<th class="text-center" style="font-size:25px;">글 번호</th>
-									<th class="text-center" style="font-size:25px;">제목</th>
-									<th class="text-center" style="font-size:25px;">작성자</th>
-									<th class="text-center" style="font-size:25px;">작성날짜</th>
-									<th class="action text-center" style="font-size:25px;">수정&nbsp; / &nbsp;삭제</th>
-
+									<th class="text-center" style="font-size:20px;">글 번호</th>
+									<th class="text-center" style="font-size:20px;">제목</th>
+									<th class="text-center" style="font-size:20px;">관리자</th>
+									<th class="text-center" style="font-size:20px;">작성날짜</th>
+									
+								<c:if test="${loginUserBean.authority == 'ROLE_ADMIN'}">
+									<th class="action text-center" style="font-size:18px;">수정&nbsp; / &nbsp;삭제</th>
+								</c:if>
+								
 								</tr>
 							</thead>
 							<c:forEach var="obj" items="${NoticeList }">
 								<tbody>
 									<tr class="candidates-list">
 
-										<td class="candidate-list-favourite-time text-center" style="font-weight: 600; vertical-align: middle"><a>
+										<td class="candidate-list-favourite-time text-center" style="font-size:17px; font-weight: 400; vertical-align: middle"><a>
 												${obj.notice_idx }</a></td>
 
-										<td class="candidate-list-favourite-time text-center" style="font-weight: 600; vertical-align: middle"><a
+										<td class="candidate-list-favourite-time text-center" style="font-size:17px; font-weight: 600; vertical-align: middle;"><a style=" color:#FDB85E;"
 											href="${root }notice/read?notice_idx=${obj.notice_idx}&page=${page}">
 												${obj.notice_subject }</a></td>
 												
-										<td class="candidate-list-favourite-time text-center" style="font-weight: 600; vertical-align: middle"><a>
+										<td class="candidate-list-favourite-time text-center" style="font-size:17px; font-weight: 400; vertical-align: middle"><a>
 												${obj.notice_writer }</a></td>
 
-										<td class="candidate-list-favourite-time text-center" style="font-weight: 600; vertical-align: middle"><a>
+										<td class="candidate-list-favourite-time text-center" style="font-size:17px; font-weight: 400; vertical-align: middle"><a>
 												${obj.notice_date }</a></td>
 											
-										<td>
-											<ul class="list-unstyled mb-1 d-flex justify-content-center">
-
-												<li style="font-size: 22px; width: 30%; vertical-align: middle;"><a
-													href="${root }notice/update?notice_idx=${obj.notice_idx}&page=${page}"
-													class="text-info" data-toggle="tooltip" title=""
-													data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
-												<li style="font-size: 22px; vertical-align: middle;"><a
-													href="${root }notice/delete?notice_idx=${obj.notice_idx}&page=${page}"
-													class="text-danger" data-toggle="tooltip" title=""
-													data-original-title="Delete"><i
-														class="far fa-trash-alt"></i></a></li>
-											</ul>
-										</td>
+											
+										<c:if test="${loginUserBean.authority == 'ROLE_ADMIN'}">
+											<td>
+												<ul class="list-unstyled d-flex  justify-content-center">
+													<li class="li1 mr-2" >
+													<a href="${root }notice/update?notice_idx=${obj.notice_idx}&page=${page}">
+													<img style="width: 80%; height: 90%;" src="${root }img/notice/update_notice.png"/></a>
+													<li class="li2">
+													<a href="${root }notice/delete?notice_idx=${obj.notice_idx}&page=${page}">
+													<img class="" style="width: 80%; height: 90%;" src="${root }img/notice/delete_notice.png"/></a>
+													
+												</ul>
+											</td>
+										</c:if>
 									</tr>
 								</tbody>
 							</c:forEach>
 						</table>
 						
-						<div class="d-none d-md-block">
-				<ul class="pagination justify-content-center" style="">
+				<!-- 페이징 -->
+						<div class="d-md-block justify-content-center mb-5">
+				<ul class="pagination mt-4 justify-content-center">
 		<!-- 이전 페이지로 이동하려는게 1이하이면 disabled(비활성화) -->
 					<c:choose>
 					
 					<c:when test="${pageBean.prevPage <= 0 }">
 					<li class="page-item disabled">
-						<a href="#" class="page-link">이전</a>
+						<a style="text-decoration: none;" href="#" class="page-link">이전</a>
 					</li>
 					</c:when>
 					
 					<c:otherwise>
 					
-					<li class="page-item">
-						<a href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${pageBean.prevPage}" class="page-link">이전</a>
+					<li class="page-item aa2">
+						<a style="text-decoration: none;" href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${pageBean.prevPage}" class="page-link">이전</a>
 					</li>
 					</c:otherwise>
 					
@@ -114,7 +203,7 @@
 					<c:when test="${idx == pageBean.currentPage}">
 					
 					<li class="page-item active">
-						<a  style="background: lightorange" href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${idx}" class="page-link">${idx}</a>
+						<a style="background: lightorange; text-decoration: none;" href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${idx}" class="page-link">${idx}</a>
 					</li>
 					
 					</c:when>
@@ -122,7 +211,7 @@
 					<c:otherwise>
 					
 					<li class="page-item">
-						<a href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${idx}" class="page-link">${idx}</a>
+						<a style="text-decoration: none;" href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${idx}" class="page-link">${idx}</a>
 					</li>
 					
 					</c:otherwise>
@@ -136,13 +225,13 @@
 					
 					<c:when test="${pageBean.max >= pageBean.pageCnt }">
 					<li class="page-item disabled">
-						<a href="#" class="page-link">다음</a>
+						<a href="#" class="page-link" style="text-decoration: none;">다음</a>
 					</li>
 					</c:when>
 					
 					<c:otherwise>
 					<li class="page-item">
-						<a href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${pageBean.nextPage}" class="page-link">다음</a>
+						<a style="text-decoration: none;" href="${root }notice/noticemain?notice_idx=${noticeBean.notice_idx}&page=${pageBean.nextPage}" class="page-link">다음</a>
 					</li>
 					</c:otherwise>
 					
@@ -154,12 +243,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	
 
 
-
-	<script type="text/javascript">
-		
-	</script>
 </body>
 </html>

@@ -25,16 +25,13 @@
 
 <style>  
 	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
-	}
-	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
-    font-weight: bold;
+	    font-family: 'Cafe24Dongdong';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
 	}
 	*{
-	font-family: 'air';
+		font-family: 'Cafe24Dongdong';
 	}
 	input[type=password] {
 	    font-family: "serif";
@@ -615,6 +612,9 @@ $(document).ready(function() {
                 </div>
             </div>
         </section>
+        
+   	<!-- footer-->
+    <c:import url="/WEB-INF/views/include/footer_menu.jsp" />
         
         
         <!-- 부트스트랩 기본 -->

@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var='root' value='${pageContext.request.contextPath }/'/>
 <script>
-	alert('공지 글이 저장되었습니다')
+	alert('공지글이 추가되었습니다')
 	location.href = '${root}notice/noticemain'
 </script>

@@ -8,6 +8,7 @@
 
 <head>
 
+
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -17,10 +18,52 @@
 <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
 <link href='' rel='stylesheet'>
 
-<!-- Custom styles for this template -->
-<link href="${root }css/style.css" rel="stylesheet">
+
 
 <style>
+
+
+
+@font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	font-family: 'Cafe24Dongdong' !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #multiple-container {
 display grid;
 grid-template-columns 1fr 1fr 1fr;
@@ -225,7 +268,7 @@ text-shadow: 2px 2px 2px black;
    
 .mm{
    
-   margin-right:24px;
+   margin-right:18px;
 }
    
 .mn{
@@ -434,16 +477,26 @@ text-shadow: 2px 2px 2px black;
 
 <body oncontextmenu='return false' class='snippet-body'>
 
+
+
+	<!-- footer  -->
+	<c:import url='/WEB-INF/views/include/header_menu4.jsp' />
+
+
+
+
+
+
    <form:form action="${root}board/write" modelAttribute="db" method="post" enctype="multipart/form-data" onsubmit="return formCheck(this)">
       <!--enctype="multipart/form-data"  -->
       <div class="container register mb-5">
          <div class="row">
             <div class="col-md-3 register-left">
                <img class="cir mb-5" src="${root }img/sul.jpg" alt="" />
-               <h1 class="mb-4" style="color:white;">Welcome</h1>
-               <h2 class="mb-5" style="color:white;">사지말고 <br />입양하세요.</h2> 
+               <h1 class="mb-4">Welcome</h1>
+               <h2 class="mb-5">사지말고 <br />입양하세요.</h2> 
                 <form:button class="btn btn-primary aa3 mb-3" type="submit" path="${root}board/write" role="tab">글 등록</form:button>
-                <a class="btn btn-primary aa3 mb-3" href="${root }board/boardList" type="" path="" role="tab">취소</a>
+                <a class="btn btn-primary aa3 mb-3" href="${root }board/boardList?board_category=all" type="" path="" role="tab">취소</a>
             </div>
             <div class="col-lg-9 register-right hb">
                <ul class="nav nav-tabs nav-justified aa2b"style="vertical-align: middle;" id="myTab" role="tablist">
@@ -571,7 +624,7 @@ text-shadow: 2px 2px 2px black;
                                  </form:label>
                                  <form:label class="radio inline" path="dog.sex">
                                     <form:radiobutton path="dog.sex" value="미확인" />
-                                    <span>&nbsp;미확인 </span>
+                                    <span>미확인 </span>
                                  </form:label>
                               </div>
                            </div>
@@ -654,8 +707,7 @@ text-shadow: 2px 2px 2px black;
                    return false;
             }
          }
-         return confirm("글 작성을 완료하시겠습니까?")
-            
+           return true;
        }
      
    
@@ -884,7 +936,7 @@ text-shadow: 2px 2px 2px black;
        var nMonth = nowDate.getMonth()+1; //월은 0부터 시작.
        var nDate = nowDate.getDate(); //오늘 일
        if(nMonth<10) nMonth="0"+nMonth;
-       if(nDate<10) tDate="0"+nDate;
+       if(nDate<10) nDate="0"+nDate;
        var nDt = "" + nYear + "-" + nMonth + "-" + nDate ;
        
         $('#datepicker').val(nDt);  
@@ -934,7 +986,6 @@ text-shadow: 2px 2px 2px black;
       
    </script>
 
-		<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
-		
+
 </body>
 </html>

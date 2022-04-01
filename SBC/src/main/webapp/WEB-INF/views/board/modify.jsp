@@ -24,6 +24,18 @@
 
 
 <style>
+
+@font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	font-family: 'Cafe24Dongdong' !important;
+}
+
+
 #multiple-container {
 display grid;
 grid-template-columns 1fr 1fr 1fr;

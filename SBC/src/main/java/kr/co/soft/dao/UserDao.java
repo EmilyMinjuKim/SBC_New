@@ -11,6 +11,11 @@ public class UserDao {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	// 아이디를 통한 정보 반환
+	public UserBean getLoginUserInfoByUser_id(String user_id) {
+		return userMapper.getLoginUserInfoByUser_id(user_id);
+	}
 
 	// 입력받은 아이디 반환
 	public String checkUserIdExist(String user_id) {
@@ -19,7 +24,7 @@ public class UserDao {
 
 	// 입력받은 아이디 반환
 	public String checkUserEmailExist(String user_id) {
-		return userMapper.checkUserIdExist(user_id);
+		return userMapper.checkUserEmailExist(user_id);
 	}
 
 	// 아이디를 통해 해당 계정의 솔트 값 가져오기

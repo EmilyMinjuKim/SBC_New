@@ -20,13 +20,18 @@ public interface NoticeMapper {
 	//Write 뷰
 	@Insert("insert into notice(notice_idx, notice_writer, notice_subject, notice_text, "
 			+ "notice_file,	 notice_date) values(notice_seq.nextval, #{notice_writer}, "
-			+ "#{notice_subject}, #{notice_text, jdbcType=VARCHAR}, #{notice_file}, sysdate)")
+			+ "#{notice_subject}, #{notice_text}, #{notice_file, jdbcType=VARCHAR}, sysdate)")
 	void addNoticeInfo(NoticeBean noticeBean);
 	
 	//Main 뷰
 	@Select("select notice_idx, notice_writer, notice_subject, notice_text, notice_file, "
 			+ "notice_date from notice order by notice_idx desc")
-	List<NoticeBean> getMainList(NoticeBean noticeBean, RowBounds rowBounds);
+	List<NoticeBean> getMainList(RowBounds rowBounds);
+	
+	//Search
+	@Select("select notice_idx, notice_writer, notice_subject, notice_text, notice_file, "
+			+ "notice_date from notice where notice_subject like '%#{keyword}%' order by notice_idx desc")
+	List<NoticeBean> getSearchList(String keyword, RowBounds rowBounds);
 	
 	//Read 뷰
 	@Select("select notice_writer, notice_subject, notice_text, notice_file from notice "
@@ -45,4 +50,6 @@ public interface NoticeMapper {
 	//Page 뷰
 	@Select("select count(*) from notice")
 	int getNoticeCnt();
+	
+	
 }

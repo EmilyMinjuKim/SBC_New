@@ -391,7 +391,7 @@ body{
 
 
 
-		<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
+		<%-- <c:import url='/WEB-INF/views/include/footer_menu2.jsp' /> --%>
 
 </body>
 </html>

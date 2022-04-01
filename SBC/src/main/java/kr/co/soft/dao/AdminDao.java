@@ -2,6 +2,7 @@ package kr.co.soft.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,13 @@ public class AdminDao {
 		return adminMapper.getAdminCnt();
 	}
 	
+	public String getUser_passwordByUser_id(String user_id) {
+		return adminMapper.getUser_passwordByUser_id(user_id);
+	}
 	
+	public String getSaltByUser_id(String user_id) {
+		return adminMapper.getSaltByUser_id(user_id);
+	}
 	
 	
 	

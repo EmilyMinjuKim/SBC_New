@@ -22,104 +22,112 @@
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body>
-<c:import url='/WEB-INF/views/include/header_menu2.jsp' />
-<hr />
 
+<body>
+
+<c:import url='/WEB-INF/views/include/header_menu11.jsp' />
 
 <div class="container bootstrap snippets bootdey">
 <div class="row">
  
-  <div class="profile-info col-md-8 col-sm-offset-2">
+  <div class="profile-info col-lg-10 col-lg-offset-1">
       
       <div class="panel">
-          <div class="bio-graph-heading">
+          <div class="bio-graph-heading" style="font-size: 20px;">
               현재 [ ${loginUserBean.user_id } (관리자) ] 님이 [ ${ip } ]에서 접속 중입니다.
           </div>
           <div class="panel-body bio-graph-info">
               <h1>Site Information</h1>
-              <div class="row">
+              <div class="row" style="font-size: 20px;">
                   <div class="bio-row">
-                      <p><span>Site Name </span>: SBC DOG</p>
+                      <p><span>사이트 명 </span>: SBC DOG</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Total User </span>: ${cnt } 명</p>
+                      <p><span>총 유저 수</span>: ${cnt } 명</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Domain </span>: sbc.com</p>
+                      <p><span>대표 도메인 </span>: sbc.com</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>4</span>: +82 2 123 4567</p>
+                      <p><span>총 게시 글</span>: ${boardCurrent_cnt }</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Email </span>: sbcmailserver@gmail.com</p>
+                      <p><span>대표 이메일 </span>: sbcmailserver@gmail.com</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>6 </span>: REPUBLIC OF KOREA</p>
+                      <p><span>오늘 매출액 </span>: ${total_amount} 원</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Phone </span>: +82 2 123 4567</p>
+                      <p><span>대표 번호 </span>: +82 2 123 4567</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>8 </span>: 88 (02) 123456</p>
+                      <p><span>대표 주소 </span>: 종로구 솔데스크</p>
                   </div>
               </div>
           </div>
       </div>
       <div>
           <div class="row">
-              <div class="col-md-6">
+              <div class="col-lg-6">
                   <div class="panel">
                       <div class="panel-body">
                           <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="${totalCount }" data-fgcolor="#e06b7d" data-bgcolor="#e8e8e8" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(224, 107, 125); padding: 0px; -webkit-appearance: none; background: none;"></div>
+                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="${totalCount }" data-fgcolor="#e06b7d" data-bgcolor="#e8e8e8" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 25px; line-height: normal; font-family: Arial; text-align: center; color: rgb(224, 107, 125); padding: 0px; -webkit-appearance: none; background: none;"></div>
                           </div>
                           <div class="bio-desk">
-                              <h4 class="red">Total Visiter</h4>
-                              <p>Since : </p>
-                              <p>2010-01-01</p>
+                              <h4 class="red">전체 방문자</h4>
+                              <p style="font-size: 15px;">Since </p>
+                              <p style="font-size: 15px;">2019-05-01</p>
                           </div>
                       </div>
                   </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-lg-6">
                   <div class="panel">
                       <div class="panel-body">
                           <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="${todayCount }" data-fgcolor="#4CC5CD" data-bgcolor="#e8e8e8" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(76, 197, 205); padding: 0px; -webkit-appearance: none; background: none;"></div>
+                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="${todayCount }" data-fgcolor="#4CC5CD" data-bgcolor="#e8e8e8" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 25px; line-height: normal; font-family: Arial; text-align: center; color: rgb(76, 197, 205); padding: 0px; -webkit-appearance: none; background: none;"></div>
                           </div>
                           <div class="bio-desk">
-                              <h4 class="terques">Today Visiter </h4>                
-                              <p style="font-size: 15px;">Today : </p>
+                              <h4 class="terques">오늘의 방문자 </h4>                
+                              <p style="font-size: 15px;">Today </p>
                               <p style="font-size: 15px;"><c:out value="${today}"/></p>
                           </div>
                       </div>
                   </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-lg-6">
                   <div class="panel">
                       <div class="panel-body">
                           <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="${todaySignUp }" data-fgcolor="#96be4b" data-bgcolor="#e8e8e8" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(150, 190, 75); padding: 0px; -webkit-appearance: none; background: none;"></div>
+                              <div style="display:inline;width:100px;height:100px;">
+                              <canvas width="100" height="100px"></canvas>
+                              <input class="knob" data-width="100" data-height="100" data-displayprevious="true" 
+                              data-thickness=".2" value="${todaySignUp }" data-fgcolor="#96be4b" data-bgcolor="#e8e8e8" 
+                              style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 25px; line-height: normal; font-family: Arial; text-align: center; color: rgb(150, 190, 75); padding: 0px; -webkit-appearance: none; background: none;"></div>
                           </div>
                           <div class="bio-desk">
-                              <h4 class="green">New Sign Up</h4>
-                              <p style="font-size: 15px;">Today :</p>
-                              <p><c:out value="${today}"/></p>
+                              <h4 class="green">오늘의 새로운 회원</h4>
+                              <p style="font-size: 15px;">Today</p>
+                              <p style="font-size: 15px;"><c:out value="${today}"/></p>
                           </div>
                       </div>
                   </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-lg-6">
                   <div class="panel">
                       <div class="panel-body">
                           <div class="bio-chart">
-                              <div style="display:inline;width:100px;height:100px;"><canvas width="100" height="100px"></canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" data-thickness=".2" value="${todayOrderCount }" data-fgcolor="#cba4db" data-bgcolor="#e8e8e8" style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; line-height: normal; font-family: Arial; text-align: center; color: rgb(203, 164, 219); padding: 0px; -webkit-appearance: none; background: none;"></div>
+                              <div style="display:inline;width:100px;height:100px;">
+                              <canvas width="100" height="100px">
+                              </canvas><input class="knob" data-width="100" data-height="100" data-displayprevious="true" 
+                              data-thickness=".2" value="${todayOrderCount }" data-fgcolor="#cba4db" data-bgcolor="#e8e8e8" 
+                              style="width: 54px; height: 33px; position: absolute; vertical-align: middle; margin-top: 33px; margin-left: -77px; border: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 25px; line-height: normal; font-family: Arial; text-align: center; color: rgb(203, 164, 219); padding: 0px; -webkit-appearance: none; background: none;"></div>
                           </div>
                           <div class="bio-desk">
-                              <h4 class="purple">New Order</h4>
-                              <p style="font-size: 15px;">Today :</p>
-                              <p><c:out value="${today}"/></p>
+                              <h4 class="purple">오늘 들어온 주문</h4>
+                              <p style="font-size: 15px;">Today</p>
+                              <p style="font-size: 15px;"><c:out value="${today}"/></p>
                           </div>
                       </div>
                   </div>
@@ -130,20 +138,41 @@
 </div>
 </div>
 <!-- footer  -->
-	<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
+<c:import url='/WEB-INF/views/include/footer_menu2.jsp' />
 </body>
-
+	
 <style type="text/css">
+@font-face {
+	font-family: 'Cafe24Dongdong';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	font-family: 'Cafe24Dongdong' !important;
+}
+
 body {
     color: #797979;
-    background: #f1f2f7;
-    font-family: 'Open Sans', sans-serif;
+    background: #f5f5f5;
+    /* background: linear-gradient(to bottom, white, #FFB6C1); */
+    /* font-family: 'Open Sans', sans-serif; */
+    font-family: 'Cafe24Dongdong' !important;
     padding: 0px !important;
     margin: 0px !important;
     font-size: 13px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
+
+}
+
+
+header{
+	background: white;
 }
 
 .profile-nav, .profile-info{
@@ -292,7 +321,7 @@ body {
 }
 
 .bio-desk h4 {
-    font-size: 17px;
+    font-size: 25px;
     font-weight:400;
 }
 
@@ -510,6 +539,17 @@ ul.summary-list > li:last-child  {
 
 .activity-desk .album a:last-child{
     margin-right: 0px;
+}
+
+footer p a span {
+    color: #FF9F46;
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.gray{
+	background: gray;
 }
 </style>
 

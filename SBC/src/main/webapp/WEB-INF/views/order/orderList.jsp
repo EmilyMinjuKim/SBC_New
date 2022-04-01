@@ -23,22 +23,20 @@
 
 <style>  
 	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquareair.ttf') format('truetype');
-	}
-	@font-face {
-    font-family: 'air';
-    src: url('${root}fonts/Cafe24Ohsquare.ttf') format('truetype');
-    font-weight: bold;
+	    font-family: 'Cafe24Dongdong';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
 	}
 	*{
-	font-family: 'air';
+		font-family: 'Cafe24Dongdong';
 	}
     table {
-		width: 100%;
+		width: 80%;
 		border-top: 1px solid #808080;
     	border-collapse: collapse;
     	text-align: center;
+    	margin: 0 auto;
 	}
 
 	th, td {
@@ -86,194 +84,211 @@
 
 </style>
 
+<script>
+//장바구니 금액 계산
+$(document).ready(function() {
+	
+	var eachTotal = 0;					// 상품별 총액 
+	var totalPrice = 0;					// 상품 금액 합 
+	var delivery = 0;					// 배송비
+	var finalTotalPrice = 0; 			// 최종 가격(총 가격 + 배송비)
+	
+	for(var i=0;i<${productList.size() };i++){
+		//이름 설정 
+		var cnt = ".cnt"+i;
+		var price = ".price"+i;
+		var eachTotalSpan = ".eachTotalSpan"+i;
+		
+		//형변환 
+		var cntVal = parseInt($(cnt).text());
+		var priceVal = parseInt($(price).text());
+		
+		eachTotal = cntVal * priceVal;
+		
+		/* 화폐 단위로 변경 */
+		var eachTotalCurrency = eachTotal.toLocaleString('ko-KR');
+		
+		$(eachTotalSpan).text(eachTotalCurrency);
+		totalPrice += eachTotal;
+	}
+	
+	/* 배송비 결정 */
+	if(totalPrice >= 50000){
+		delivery = 0;
+	} else if(totalPrice == 0){
+		delivery = 0;
+	} else {
+		delivery = 3000;	
+	}
+	
+	/* 최종 가격 */
+	finalTotalPrice = totalPrice + delivery;
+	
+	/* 화폐 단위로 변경 */
+	var totalPriceCurrency = totalPrice.toLocaleString('ko-KR');
+	var deliveryCurrency = delivery.toLocaleString('ko-KR');
+	var finalTotalPriceCurrency = finalTotalPrice.toLocaleString('ko-KR');
+	
+	/* 값 삽입 */
+	// 총 가격
+	$(".totalPrice").text(totalPriceCurrency);	
+	// 배송비
+	$(".delivery").text(deliveryCurrency);	
+	// 최종 가격(총 가격 + 배송비)
+	$(".finalTotalPrice").text(finalTotalPriceCurrency);
+	
+	$('input[name=total_price]').attr('value', totalPrice);
+	$('input[name=shipping]').attr('value', delivery);
+	$('input[name=total_amount]').attr('value', finalTotalPrice);
+});
+</script>
+
 </head>    
     <body>
         <!-- Navigation-->
         <c:import url="/WEB-INF/views/include/header_menu3.jsp" />
 
         <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="justify-content-center">
-                	<table style="border: 0">
-                		<tr>
-                			<td style="text-align: left; font-weight: bold"">주문내역</td>
-                		</tr>
-                	</table>
-                	<table>
-                		<thead>
-						<tr>
-		                    <th>ITEM</th>
-		                    <th>PRICE</th>
-		                    <th>QUA</th>
-		                    <th>DELIVERY</th>
-		                    <th>TOTAL</th>
-                		</tr>
-                		</thead>
-                		<c:forEach var="list" items="${list }" varStatus="vs">
-                		<div>
-                			<input type="hidden" class="cnt${vs.index }" value="${list.quantity }" name="orderDetailList[${vs.index}].quantity" />
-                			<input type="hidden" class="price${vs.index }" value="${list.price }" name="orderDetailList[${vs.index}].price" />
-                			<input type="hidden" value="${list.product_name }" name="orderDetailList[${vs.index}].product_name" />
-                			<input type="hidden" value="${list.product_option }" name="orderDetailList[${vs.index}].product_option" />
-                			<input type="hidden" value="${list.product_id }" name="orderDetailList[${vs.index}].product_id" />
-                		</div>
-                		<tbody>
-                		<tr>
-                			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
-                			<td>${list.price }원</td>
-                			<td>${list.quantity }</td>
-                			<td><span class="delivery"></span>원</td>
-                			<td><span class="eachTotalSpan${vs.index }"></span>원</td>
-                		</tr>
-                		</c:forEach>
-                		<tr class="no-bottom-border">
-                			<td colspan="7" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계:&nbsp;&nbsp;&nbsp;<span class="finalTotalPrice" id="price1"></span>원</td>
-                		</tr>
-                		</tbody>
-					</table>
-					<br /><br />
-					
-					<table style="border: 0">
-                		<tr>
-                			<td style="text-align: left; font-weight: bold"">주문자 정보</td>
-                		</tr>
-                	</table>
-                	
-                	<table style="text-align: left">
-                		<tr>
-                			<td>주문하시는 분</td>
-                			<td><input type="text" id="order_name1" class="nullCheck" name="order_name" /></td>
-                		</tr>
-                	
-                		<tr>
-                			<td>주소</td>
-                			<td>
-                				<label for="order_postcode1" class="label_hidden">우편번호</label>
-	                			<input type="text" id="order_postcode1" class="nullCheck" name="order_postcode" readonly="readonly" /> <button type="button" class="btn btn-outline-dark" onclick="shipping1()">우편번호</button><br />
-	                			<input type="text" size="50" id="order_addr1" class="nullCheck mtop" name="order_address1" readonly="readonly" /> <label for="order_addr1" class="smallfonts">기본주소</label><br />
-	                			<input type="text" size="50" id="order_addr2" class="nullCheck mtop" name="order_address2" /> <label for="order_addr2" class="smallfonts">나머지주소</label>
-                			</td>
-                		</tr>
-                		<tr>
-                			<td>휴대전화</td>
-                			<td>
-                				<input type="hidden" name="order_phone" />
-                				<select id="tel1">
-                					<option selected="selected">010</option>
-                					<option>011</option>
-                					<option>016</option>
-                					<option>017</option>
-                					<option>018</option>
-                					<option>019</option>
-                				</select>
-                				-
-                				<input type="text" size="10" id="order_phone1" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone1" class="label_hidden">휴대전화</label>
-                				-
-                				<input type="text"  size="10" id="order_phone2" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone2" class="label_hidden">휴대전화</label>
-                			</td>
-                		</tr>
-                		<tr>
-                			<td>이메일</td>
-                			<td>
-                				<input type="hidden" name="email"/>
-                				<input type="text" id="order_email1" class="nullCheck mbottom" name="email1" /> @ <input type="text" id="order_email2" class="nullCheck mbottom" name="email2" />
-                				<label for="order_email1" class="label_hidden">이메일</label>
-                				<label for="order_email2" class="label_hidden">이메일</label>
-                				<select onchange="selectEmail(this)">
-                					<option selected="selected" value = "1">직접입력</option>
-                					<option>naver.com</option>
-                					<option>daum.net</option>
-                					<option>yahoo.com</option>
-                					<option>nate.com</option>
-                					<option>hotmail.com</option>
-                					<option>empas.com</option>
-                					<option>korea.com</option>
-                					<option>dreamwiz.com</option>
-                					<option>gmail.com</option>
-                					<option value="">-이메일 선택-</option>
-                				</select>
-                			</td>
-                		</tr>
-                	</table>
-                	<br /><br />
-                	
-                	<table style="border: 0">
-                		<tr>
-                			<td style="text-align: left; font-weight: bold">배송지 정보</td>
-                		</tr>
-                	</table>
-                	<table style="text-align: left">
-                		<tr>
-                			<td>받으시는 분</td>
-                			<td><input type="text" id="order_name2" class="nullCheck" name="shipping_name" /></td>
-                		</tr>
-                		<tr>
-                			<td>주소</td>
-                			<td>
-                				<label for="order_postcode2" class="label_hidden">우편번호</label>
-	                			<input type="text" id="order_postcode2" class="nullCheck" name="shipping_postcode" readonly="readonly" /> <button type="button" class="btn btn-outline-dark" onclick="shipping2()">우편번호</button><br />
-	                			<input type="text" size="50" id="order_addr3" class="nullCheck mtop" name="shipping_address1" readonly="readonly" /> <label for="order_addr3" class="smallfonts">기본주소</label><br />
-	                			<input type="text" size="50" id="order_addr4" class="nullCheck mtop" name="shipping_address2" /> <label for="order_addr4" class="smallfonts">나머지주소</label>
-                			</td>
-                		</tr>
-                		<tr>
-                			<td>휴대전화</td>
-                			<td>
-                			<input type="hidden" name="shipping_phone"/>
-                				<select id="tel2">
-                					<option selected="selected">010</option>
-                					<option>011</option>
-                					<option>016</option>
-                					<option>017</option>
-                					<option>018</option>
-                					<option>019</option>
-                				</select>
-                				-
-                				<input type="text" size="10" id="order_phone3" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone3" class="label_hidden">휴대전화</label>
-                				-
-                				<input type="text" size="10" id="order_phone4" class="nullCheck" maxlength="4" onchange="phoneValCheck(this.id)" /><label for="order_phone4" class="label_hidden">휴대전화</label>
-                			</td>
-                		</tr>
-                		<tr>
-                			<td>배송메세지</td>
-                			<td>
-                				<textarea rows="3" cols="80"></textarea>
-                			</td>
-                		</tr>
-                	</table>
-                	<br /><br />
-                	
-                	<table style="border: 0">
-                		<tr>
-                			<td style="text-align: left; font-weight: bold">결제 금액</td>
-                		</tr>
-                	</table>
-                	<table>
-                		<tr>
-                			<td>상품구매금액</td>
-                			<td>배송비</td>
-                			<td>총 결제예정 금액</td>
-                		</tr>
-                		<tr class="priceBottom">
-                			<td>
-                				<span class="totalPrice"></span>원
-                				<input type="hidden" name="total_price"/>
-                			</td>
-                			<td>
-	                			<span class="delivery"></span>원
-	                			<input type="hidden" name="shipping"/>
-                			</td>
-                			<td>
-	                			<span class="finalTotalPrice"></span>원
-	                			<input type="hidden" name="total_amount"/>
-                			</td>
-                		</tr>
-                	</table>
-                </div>
-            </div>
+        <section class="py-1">
+            <div class="container px-4 px-lg-5">
+            	<div class="row">
+            		<img style="margin: 0 auto; width: 800px" src="${root }images/product/배송.PNG">
+            	</div>
+            	<div class="row mb-5">
+            		<div class="col">
+            			<!-- 주문내역 -->
+	            		<table style="border: 0">
+	                		<tr>
+	                			<td style="text-align: left; font-weight: bold">주문내역</td>
+	                		</tr>
+	                	</table>
+	                	<table>
+	                		<thead>
+							<tr>
+			                    <th>ITEM</th>
+			                    <th>PRICE</th>
+			                    <th>QUA</th>
+			                    <th>DELIVERY</th>
+			                    <th>TOTAL</th>
+	                		</tr>
+	                		</thead>
+	                		<c:forEach var="list" items="${productList }" varStatus="vs">
+	                		<tbody>
+	                		<tr>
+	                			<td style="text-align: left">${list.product_name } [${list.product_option }]</td>
+	                			<td><span class="price${vs.index }">${list.price }</span>원</td>
+	                			<td><span class="cnt${vs.index }">${list.quantity}</span></td>
+	                			<td><span class="delivery"></span>원</td>
+	                			<td><span class="eachTotalSpan${vs.index }"></span>원</td>
+	                		</tr>
+	                		</c:forEach>
+	                		<tr class="no-bottom-border">
+	                			<td colspan="5" style="text-align: right">상품구매금액 <span class="totalPrice"></span> + 배송 <span class="delivery"></span> = 합계:&nbsp;&nbsp;&nbsp;<span class="finalTotalPrice" id="price1"></span>원</td>
+	                		</tr>
+	                		</tbody>
+						</table>
+            		</div>
+            		<div class="col">
+            			<!-- 주문자정보 -->
+						<table style="border: 0">
+	                		<tr>
+	                			<td style="text-align: left; font-weight: bold">주문자 정보</td>
+	                		</tr>
+	                	</table>
+	                	
+	                	<table style="text-align: left">
+	                		<tr>
+	                			<td>주문하시는 분</td>
+	                			<td>${orderInfo.order_name}</td>
+	                		</tr>
+	                	
+	                		<tr>
+	                			<td>주소</td>
+	                			<td>
+		                			(0${orderInfo.order_postcode })<br />
+		                			${orderInfo.order_address1 } ${orderInfo.order_address2 }
+	                			</td>
+	                		</tr>
+	                		<tr>
+	                			<td>휴대전화</td>
+	                			<td>
+	                				${orderInfo.order_phone }
+	                			</td>
+	                		</tr>
+	                		<tr>
+	                			<td>이메일</td>
+	                			<td>
+	                				${orderInfo.email }
+	                			</td>
+	                		</tr>
+	                	</table>
+            		</div>
+
+            	</div>
+            	<div class="row mb-5">
+            		<div class="col">
+						<!-- 결제금액 -->
+	                	<table style="border: 0">
+	                		<tr>
+	                			<td style="text-align: left; font-weight: bold">결제 금액</td>
+	                		</tr>
+	                	</table>
+	                	<table>
+	                		<tr>
+	                			<td>상품구매금액</td>
+	                			<td>배송비</td>
+	                			<td>총 결제금액</td>
+	                		</tr>
+	                		<tr class="priceBottom">
+	                			<td>
+	                				<span class="totalPrice"></span>원
+	                				<input type="hidden" name="total_price"/>
+	                			</td>
+	                			<td>
+		                			<span class="delivery"></span>원
+		                			<input type="hidden" name="shipping"/>
+	                			</td>
+	                			<td>
+		                			<span class="finalTotalPrice"></span>원
+		                			<input type="hidden" name="total_amount"/>
+	                			</td>
+	                		</tr>
+	                	</table>
+            		</div>
+            		
+            		<div class="col">
+	            		<!-- 배송지정보 -->
+	                	<table style="border: 0">
+	                		<tr>
+	                			<td style="text-align: left; font-weight: bold">배송지 정보</td>
+	                		</tr>
+	                	</table>
+	                	<table style="text-align: left">
+	                		<tr>
+	                			<td>받으시는 분</td>
+	                			<td>${orderInfo.shipping_name }</td>
+	                		</tr>
+	                		<tr>
+	                			<td>주소</td>
+	                			<td>
+	                				(0${orderInfo.shipping_postcode })<br />
+		                			${orderInfo.shipping_address1 } ${orderInfo.shipping_address2 }
+	                			</td>
+	                		</tr>
+	                		<tr>
+	                			<td>휴대전화</td>
+	                			<td>${orderInfo.shipping_phone}</td>
+	                		</tr>
+	                	</table>
+            		</div>
+            	</div>
+
+        	</div>
+
         </section>
         
+    <!-- footer-->
+    <c:import url="/WEB-INF/views/include/footer_menu.jsp" />
         
         <!-- 부트스트랩 기본 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
